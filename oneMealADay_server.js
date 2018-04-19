@@ -154,17 +154,6 @@ app.post('/auth/login', passport.authenticate(
     failureFlash: false
   }));
 
-//facebook
-app.get('/auth/facebook', passport.authenticate(
-  'facebook', {
-    scope: 'email'
-  }
-));
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', {
-    successRedirect: '/welcome',
-    failureRedirect: '/auth/login'
-  }));
 app.post('/auth/register', function(req, res) {
   hasher({
     password: req.body.password
@@ -193,42 +182,9 @@ app.post('/auth/register', function(req, res) {
 });
 
 app.get('/auth/register', function(req, res) {
-  var output = `
-    <h1>Register</h1>
-    <form action="/auth/register" method="post">
-      <p>
-        <input type="text" name="username" placeholder="ID">
-      </p>
-      <p>
-        <input type="password" name="password" placeholder="password">
-      </p>
-      <p>
-        <input type="text" name="displayName" placeholder="Store">
-      </p>
-      <p>
-        <input type="submit">
-      </p>
-    </form>
-    `;
-  res.send(output);
+  res.render('signup_owner');
 });
 app.get('/auth/login', function(req, res) {
-  // var output = `
-  //   <h1>Login</h1>
-  //   <form action="/auth/login" method="post">
-  //     <p>
-  //       <input type="text" name="username" placeholder="username">
-  //     </p>
-  //     <p>
-  //       <input type="password" name="password" placeholder="password">
-  //     </p>
-  //     <p>
-  //       <input type="submit">
-  //     </p>
-  //   </form>
-  //   <a href="/auth/facebook">facebook</a>
-  //   `;
-  // res.send(output);
   res.render('login_owner');
 });
 //DELETE all sessions

@@ -132,12 +132,12 @@
 </head>
 
 <body>
-  <form action="/auth/login" method="post">
+  <form action="/auth/register" method="post">
     <table>
       <tbody>
         <tr class="banner">
           <td>
-            <h4>삼시한끼</h4>
+            <h4>회원가입</h4>
           </td>
         </tr>
         <tr>
@@ -159,7 +159,15 @@
         <tr>
           <td>
             <div class="floating-input">
-              <input required id='store' type="text" name="store" />
+              <input required id='connfirm_password' type="password" name="connfirm_password" />
+              <label for="connfirm_password">Connfirm Password</label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="floating-input">
+              <input required id='store' type="text" name="displayName" />
               <label for="store">Store Name</label>
             </div>
           </td>
@@ -167,19 +175,13 @@
         <tr class="row">
           <td>
             <div class="input-button">
-              <input type="submit" value="Log In" />
-              <div class="ripple-container"></div>
+              <input type="submit" value="Sign Up" />
             </div>
           </td>
         </tr>
       </tbody>
     </table>
   </form>
-  <script type="text/javascript">
-    function registerPageMove() {
-      location.href = "/auth/register";
-    }
-  </script>
 </body>
 
 </html>
