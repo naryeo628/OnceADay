@@ -54,10 +54,11 @@ app.get('/auth/logout', function(req, res) {
 });
 app.get('/welcome', function(req, res) {
   if (req.user && req.user.store) {
-    res.send(`
-      <h1>Hello, ${req.user.store}</h1>
-      <a href="/auth/logout">logout</a>
-    `);
+    // res.send(`
+    //   <h1>Hello, ${req.user.store}</h1>
+    //   <a href="/auth/logout">logout</a>
+    // `);
+    res.render('contents_owner');
   } else {
     res.render('welcome');
   }
@@ -108,41 +109,6 @@ passport.use(new LocalStrategy(
           done(null, false);
         }
       });
-    });
-  }
-));
-//facebook login function
-passport.use(new FacebookStrategy({
-    clientID: '158535638148302',
-    clientSecret: '96fb5a70da2400f078c780e6b096185c',
-    callbackURL: "/auth/facebook/callback",
-    profileFields: ['id', 'email', 'gender', 'link', 'locale',
-      'name', 'timezone', 'update_time', 'verified', 'displayName'
-    ]
-  },
-  function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-    var authId = 'facebook:' + profile.id;
-    var sql = 'SELECT * FROM owner WHERE authId=?';
-    conn.query(sql, [authId], function(err, results) {
-      if (results.length > 0) {
-        done(null, results[0]);
-      } else {
-        var newuser = {
-          'authId': authId,
-          'displayName': profile.displayName,
-          'email': profile.emails[0].value
-        };
-        var sql = 'INSERT INTO owner SET ?'
-        conn.query(sql, [], function(err, results) {
-          if (err) {
-            console.log(err);
-            done('Error');
-          } else {
-            done(null, newuser);
-          }
-        })
-      }
     });
   }
 ));

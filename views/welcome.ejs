@@ -40,6 +40,18 @@
       font-size: 30px;
     }
 
+    .red {
+      background-color: #E74C3C;
+      border-bottom: 5px solid #BD3E31;
+      text-shadow: 0px -2px #BD3E31;
+    }
+
+    .green {
+      background-color: #82BF56;
+      border-bottom: 5px solid #669644;
+      text-shadow: 0px -2px #669644;
+    }
+
     .action-button:active {
       transform: translate(0px, 5px);
       -webkit-transform: translate(0px, 5px);
@@ -50,9 +62,9 @@
 
 <body>
   <div><a href="/auth/login" class="action-button shadow animate blue">Welcome!</a></div>
-  <!-- <a href="#" class="action-button shadow animate red">How</a>
-  <a href="#" class="action-button shadow animate green"></a> -->
   <div><a href="/auth/login" class="action-button shadow animate yellow">Well, You Owner?</a></div>
+  <div><a href="/auth/dusers" class="action-button shadow animate red">DELETE FROM owner</a></div>
+  <div><a href="/auth/dsessions" class="action-button shadow animate red">DELETE FROM sessions</a><div>
 </body>
 
 </html>

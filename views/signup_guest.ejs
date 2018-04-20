@@ -132,12 +132,12 @@
 </head>
 
 <body>
-  <form action="/auth/login" method="post">
+  <form action="/auth/register" method="post">
     <table>
       <tbody>
         <tr class="banner">
           <td>
-            <h4>사장님으로 로그인</h4>
+            <h4>회원가입</h4>
           </td>
         </tr>
         <tr>
@@ -156,29 +156,32 @@
             </div>
           </td>
         </tr>
-        <tr class="row">
+        <tr>
           <td>
-            <div class="input-button">
-              <input type="submit" value="Log In" />
-              <div class="ripple-container"></div>
+            <div class="floating-input">
+              <input required id='connfirm_password' type="password" name="connfirm_password" />
+              <label for="connfirm_password">Connfirm Password</label>
             </div>
           </td>
         </tr>
-        <tr class="row-signin">
+        <tr>
           <td>
-            <div class="div-register-button">
-              <button class="btn-register" onclick="registerPageMove()">Sign In</button>
+            <div class="floating-input">
+              <input required id='store' type="text" name="displayName" />
+              <label for="store">Store Name</label>
+            </div>
+          </td>
+        </tr>
+        <tr class="row">
+          <td>
+            <div class="input-button">
+              <input type="submit" value="Sign Up" />
             </div>
           </td>
         </tr>
       </tbody>
     </table>
   </form>
-  <script type="text/javascript">
-    function registerPageMove() {
-      location.href = "/auth/register";
-    }
-  </script>
 </body>
 
 </html>
