@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var bkfd2Password = require("pbkdf2-password");
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
 var hasher = bkfd2Password();
 
 var mysql = require('mysql');
@@ -13,7 +12,7 @@ var conn = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '111111',
-  database: 'test'
+  database: 'o2'
 });
 conn.connect();
 
@@ -33,7 +32,7 @@ app.use(session({
     port: 3306,
     user: 'root',
     password: '111111',
-    database: 'test'
+    database: 'o2'
   })
 }));
 
@@ -179,6 +178,21 @@ app.get('/auth/dusers', function(req, res) {
     }
   });
 });
+
+//Review page
+app.get('/page/review', function(req, res) {
+  var sql = 'SELECT good FROM review WHERE owner_id=?';
+ // conn.query(sql, function(err, results))
+  res.send(`
+
+    `);
+});
+
+
+
+
+
+
 app.listen(80, function() {
   console.log('Connected 80 port!!!');
 });
