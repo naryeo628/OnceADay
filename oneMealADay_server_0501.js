@@ -3,7 +3,7 @@ var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 var bodyParser = require('body-parser');
 var bkfd2Password = require("pbkdf2-password");
-var passport = require('passport');
+var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
 var hasher = bkfd2Password();
 
@@ -52,15 +52,15 @@ app.get('/auth/logout', function(req, res) {
   res.redirect('/welcome');
 });
 app.get('/welcome', function(req, res) {
-  // if (req.user && req.user.store) {
-  //   // res.send(`
-  //   //   <h1>Hello, ${req.user.store}</h1>
-  //   //   <a href="/auth/logout">logout</a>
-  //   // `);
-  //   res.render('contents_owner');
-  // } else {
-  res.render('welcome');
-  //}
+  if (req.user && req.user.store) {
+    // res.send(`
+    //   <h1>Hello, ${req.user.store}</h1>
+    //   <a href="/auth/logout">logout</a>
+    // `);
+    res.render('contents_owner');
+  } else {
+    res.render('welcome');
+  }
 });
 
 passport.serializeUser(function(user, done) {
@@ -69,7 +69,7 @@ passport.serializeUser(function(user, done) {
 });
 passport.deserializeUser(function(id, done) {
   console.log('deserializeUser', id);
-  var sql = 'SELECT * FROM owner WHERE authId=?';
+  var sql = 'SELECT * FROM owner, user_info WHERE authId=?';
   conn.query(sql, [id], function(err, results) {
     console.log(sql, err, results);
     if (err) {
@@ -86,7 +86,7 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
     var uname = username;
     var pwd = password;
-    var sql = 'SELECT * FROM owner WHERE authId=?';
+    var sql = 'SELECT * FROM owner, user_info WHERE authId=?';
     conn.query(sql, ['local:' + uname], function(err, results) {
       console.log(results);
       if (err) {
@@ -118,6 +118,10 @@ app.post('/auth/owner/login', passport.authenticate(
     failureRedirect: '/auth/owner/login',
     failureFlash: false
   }));
+  app.get('/auth/owner/login', function(req, res) {
+    res.render('login_owner');
+  });
+
 
 app.post('/auth/owner/register', function(req, res) {
   hasher({
@@ -149,9 +153,72 @@ app.post('/auth/owner/register', function(req, res) {
 app.get('/auth/owner/register', function(req, res) {
   res.render('signup_owner');
 });
-app.get('/auth/owner/login', function(req, res) {
-  res.render('login_owner');
+
+
+
+
+app.post('/auth/login/guest', passport.authenticate(
+  'local', {
+    successRedirect: '/welcome',
+    failureRedirect: '/auth/login/guest',
+    failureFlash: false
+  }));
+  app.get('/auth/login/guest', function(req, res) {
+    res.render('login_guest');
+  });
+
+
+app.post('/auth/register/guest', function(req, res) {
+  hasher({
+    password: req.body.password
+  }, function(err, pass, salt, hash) {
+    var user = {
+      authId: 'local:' + req.body.username,
+      user_id: req.body.username,
+      user_password: hash,
+      salt: salt,
+    };
+    var sql = 'INSERT INTO user_info SET ?';
+    conn.query(sql, user, function(err, results) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        req.login(user, function(err) {
+          req.session.save(function() {
+            res.redirect('/welcome');
+          });
+        });
+      }
+    });
+  });
 });
+app.get('/auth/register/guest', function(req, res) {
+  res.render('signup_guest');
+});
+
+
+
+
+
+//Review page
+app.get('/page/review', function(req, res) {
+  var sql = 'SELECT good FROM review WHERE owner_id=?';
+ // conn.query(sql, function(err, results))
+  res.send(`
+
+    `);
+});
+
+
+
+
+
+
+
+
+
+
 //DELETE all sessions
 app.get('/auth/dsessions', function(req, res) {
   var sql = 'DELETE FROM sessions';
@@ -163,7 +230,6 @@ app.get('/auth/dsessions', function(req, res) {
       console.log(sql);
       res.redirect('/welcome');
     }
-    select
   });
 });
 //DELETE all users
@@ -180,40 +246,6 @@ app.get('/auth/dusers', function(req, res) {
   });
 });
 
-//Review List Page
-app.get('/review/list', function(req, res) {
-  res.render('reviews');
-});
-app.get('/review/container', function(req, res) {
-  var sql1 = 'SELECT owner.store, review.owner_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_id='
-  var sql2 = 'and review.owner_id='
-  var query = conn.query(sql1 + mysql.escape(req.user.owner_id) + sql2 + mysql.escape(req.user.owner_id), function(err, results, fields) {
-    if (err) throw err;
-
-    res.json(results);
-    console.log(results[0].good);
-    var html = "";
-    //res.send(`${results[0].good}`);
-    for (var i = 0; i < results.length; i++) {
-      html = html + i;
-    }
-    //res.send(`${html}`);
-  });
-  //res.send(`aaa`);
-});
-
-//Review page
-app.get('/review', function(req, res) {
-  var owid = 'wook';
-  var textGood = 'SELECT good FROM review WHERE owner_id=?';
-  var textBad = 'SELECT bad FROM review WHERE owner_id=?';
-  var query = conn.query(textGood, owid, function(err, results) {
-    console.log(results);
-    res.json(results);
-  });
-  console.log(query);
-  //res.send(`aaa`);
-});
 
 
 
