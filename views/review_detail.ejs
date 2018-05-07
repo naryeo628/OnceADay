@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%=store%>에 작성한
+      <%=user_id%>의 리뷰
+        <%=score%>
+  </title>
+  <style>
+    html,
+    form,
+    table,
+    tbody,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    td,
+    h1,
+    h2,
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
+
+    .title {
+      background-color: #e3afed;
+      color: #000000;
+      text-align: center;
+
+    }
+
+    .store {
+      text-align: center;
+      border-bottom: 1px solid BLACK;
+    }
+    img{
+      width: 100%;
+      height: auto;
+    }
+  </style>
+
+  <script type="text/javascript">
+    onload = function() {
+      var starContainer = document.getElementById('starContainer');
+      for (var j = 0; j < <%=score%>; j++) {
+        var starTag = document.createElement('span');
+        var starText = document.createTextNode("★");
+        starTag.style = 'color: #777';
+        starContainer.appendChild(starTag).appendChild(starText);
+      }
+      for (var j = 5; j > <%=score%>; j--) {
+        var starTag = document.createElement('span');
+        var starText = document.createTextNode("★");
+        starTag.style = 'color: #ccc';
+        starContainer.appendChild(starTag).appendChild(starText);
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <table>
+    <tr style="height : 10% ">
+      <td class="title ">
+        <h1>REVIEW</h1>
+      </td>
+    </tr>
+    <tr style="height : 5% ">
+      <td class="store ">
+        <h4><%=store%></h4>
+      </td>
+    </tr>
+    <tr style="height : 10% ">
+      <td>
+        <h2><%=user_id%></h2></td>
+    </tr>
+    <tr style="height : 5%">
+      <td id="starContainer">
+      </td>
+    </tr>
+    <tr style="height : 20%;">
+      <td>
+        <div style="height: 100%; overflow:scroll;">
+          장점 : <%=good%><br>
+          단점 : <%=bad%>
+        </div>
+      </td>
+    </tr>
+    <tr class="image" style="height : 40%; background-color : red;">
+      <td><img href="<%=reviewImg%>"></td>
+    </tr>
+    <tr class="hashTag" style="height : 10%; background-color : red;">
+      <td></td>
+    </tr>
+  </table>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="Stylesheet" type="text/css" href="reviewpage.css">
+
+  <title>
+    <%=owner_id%>
+  </title>
+  <style>
+    html,
+    form,
+    table,
+    tbody,
+    body,
+    iframe {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    td,
+    h1,
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
+
+    .title {
+      background-color: #e3afed;
+      color: #000000;
+      text-align: center;
+    }
+
+    .store {
+      text-align: center;
+      border-bottom: 1px solid BLACK;
+    }
+  </style>
+  <script type="text/javascript">
+    function change_parent_url(url) {
+      document.location = url;
+    }
+  </script>
+</head>
+
+<body>
+  <table>
+    <tr style="height : 10%">
+      <td class="title">
+        <h1>REVIEW</h1>
+      </td>
+    </tr>
+    <tr style="height : 5%">
+      <td class="store">
+        <h4><%=store%></h4>
+      </td>
+    </tr>
+    <tr style="height : 5%">
+      <td>
+        <input type="button" onclick="aaa()" value="리뷰 작성하기">
+        <script>
+          function aaa() {
+            location.href = 'reviewpage.ejs'
+          }
+        </script>
+      </td>
+    </tr>
+    <tr style="height : 79%">
+      <td>
+        <iframe src="/review/container/<%=owner_id%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
+      </td>
+    </tr>
+  </table>
+
+</body>
+
+</html>

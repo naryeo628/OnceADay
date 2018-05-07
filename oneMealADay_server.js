@@ -181,30 +181,87 @@ app.get('/auth/dusers', function(req, res) {
 });
 
 //Review List Page
-app.get('/review/list', function(req, res) {
-  res.render('reviews');
+app.get('/review/list/:owner_id', function(req, res) {
+  res.render('reviews', {
+    owner_id: "req.params.owner_id"
+  });
 });
-app.get('/review/container', function(req, res) {
-  var sql1 = 'SELECT owner.store, review.owner_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_id='
+//Reviews Container
+app.get('/review/container/:owner_id', function(req, res) {
+  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_id='
   var sql2 = 'and review.owner_id='
-  var query = conn.query(sql1 + mysql.escape(req.user.owner_id) + sql2 + mysql.escape(req.user.owner_id), function(err, results, fields) {
+  var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
     if (err) throw err;
 
-    res.json(results);
+    //res.json(results);
     console.log(results[0].good);
-    var html = "";
-    //res.send(`${results[0].good}`);
+    var html = `
+      <!DOCTYPE html>
+      <html>
+
+      <head>
+        <meta charset="utf-8">
+        <title>${results[0].store}</title>
+        <style>
+          html,
+          form,
+          table,
+          tbody,
+          body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+          }
+        </style>
+      </head>
+
+      <body>
+        <table>
+    `;
+
+    //별점 넣기
+    //<span class="star#" style="color:#ccc;">★</span> : 옅은 별
+    //<span class="star#" style="color:#777;">★</span> : 짙은 별
     for (var i = 0; i < results.length; i++) {
-      html = html + i;
+      //여기에 리뷰 클릭시 이동할 url입력.
+      var reviewRow = `
+          <tr onclick="parent.change_parent_url('/dummy/reviewDetail/${req.params.owner_id}/${results[i].user_id}');">
+            <td>${results[i].user_id}</td>
+            <td>
+      `;
+      var stars = ``;
+      for (var j = 0; j < results[i].score; j++) {
+        stars += `
+              <span class="star#" style="color:#777;">★</span>
+        `;
+      }
+      for (var j = 5; j > results[i].score; j--) {
+        stars += `
+              <span class="star#" style="color:#ccc;">★</span>
+        `;
+      }
+
+      var reviewRow2 = `
+            </td>
+            <td><div>장점-${results[i].good}</div><div>단점-${results[i].bad}</div></td>
+          </tr>
+      `;
+      html += reviewRow + stars + reviewRow2;
     }
-    //res.send(`${html}`);
+
+    var htmlFooter = `
+        </table>
+      </body>
+      </html>
+    `;
+    html = html + htmlFooter;
+    res.send(html);
   });
-  //res.send(`aaa`);
 });
 
 //Review page
-app.get('/review', function(req, res) {
-  var owid = 'wook';
+app.get('/review/:owner_id', function(req, res) {
+  var owid = req.params.owner_id;
   var textGood = 'SELECT good FROM review WHERE owner_id=?';
   var textBad = 'SELECT bad FROM review WHERE owner_id=?';
   var query = conn.query(textGood, owid, function(err, results) {
@@ -216,8 +273,31 @@ app.get('/review', function(req, res) {
 });
 
 
-
-
+app.get('/dummy/reviewList/:owner_id', function(req, res) {
+  var query = conn.query('SELECT store FROM owner WHERE owner_id=' + mysql.escape(req.params.owner_id), function(err, results) {
+    res.render('review_reviewList', {
+      owner_id: req.params.owner_id,
+      user_id: req.params.user_id,
+      store: results[0].store
+    });
+  });
+})
+app.get('/dummy/reviewDetail/:owner_id/:user_id', function(req, res) {
+  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad, review.url FROM review, owner WHERE owner.owner_id='
+  var sql2 = 'and review.owner_id='
+  var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
+    if (err) throw err;
+    res.render('review_detail', {
+      owner_id: req.params.owner_id,
+      user_id: req.params.user_id,
+      store: results[0].store,
+      score: results[0].score,
+      good: results[0].good,
+      bad: results[0].bad,
+      reviewImg: results[0].url
+    });
+  });
+});
 
 
 app.listen(80, function() {
