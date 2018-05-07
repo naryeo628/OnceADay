@@ -222,10 +222,10 @@ app.get('/review/container/:owner_id', function(req, res) {
     //별점 넣기
     //<span class="star#" style="color:#ccc;">★</span> : 옅은 별
     //<span class="star#" style="color:#777;">★</span> : 짙은 별
-    for (var i = 0; i < results.length; i++) {
+    for (var i = 0; i < results.length; i++) {//results[i].user_id
       //여기에 리뷰 클릭시 이동할 url입력.
       var reviewRow = `
-          <tr onclick="parent.change_parent_url('/dummy/reviewDetail/${req.params.owner_id}/${results[i].user_id}');">
+          <tr onclick="parent.change_parent_url('/dummy/reviewDetail/${req.params.owner_id}/${i}');">
             <td>${results[i].user_id}</td>
             <td>
       `;
@@ -282,19 +282,19 @@ app.get('/dummy/reviewList/:owner_id', function(req, res) {
     });
   });
 })
-app.get('/dummy/reviewDetail/:owner_id/:user_id', function(req, res) {
+app.get('/dummy/reviewDetail/:owner_id/:number', function(req, res) {
   var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad, review.url FROM review, owner WHERE owner.owner_id='
   var sql2 = 'and review.owner_id='
   var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
     if (err) throw err;
     res.render('review_detail', {
       owner_id: req.params.owner_id,
-      user_id: req.params.user_id,
-      store: results[0].store,
-      score: results[0].score,
-      good: results[0].good,
-      bad: results[0].bad,
-      reviewImg: results[0].url
+      user_id: results[req.params.number].user_id,
+      store: results[req.params.number].store,
+      score: results[req.params.number].score,
+      good: results[req.params.number].good,
+      bad: results[req.params.number].bad,
+      reviewImg: results[req.params.number].url
     });
   });
 });
