@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="storemain.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+
+	<title>StoreMainPage</title>
+</head>
+
+<body>
+	<div class="storename">
+		<%=store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='/sale' id="sale"></span></div>
+	<div class="container">
+		<img src="http://cfile29.uf.tistory.com/image/2511784058CD4BA12AC7AE" width="100" height="100" alt="프로필 사진" id='profimage' />
+		<div>
+			<button onclick=location.href='/follow'>팔로워리스트</button>
+			<button onclick=location.href='/review'>리뷰</button>
+		</div>
+
+	</div>
+
+	<!-- 가게 정보 -->
+	<div class="prof">
+		<p onclick="hideshow()">프로필</p>
+		<div id="profile">
+			<!--가게 프로필-->
+			주소 :
+			<%=address1%>
+				<%=address2 %>
+					<%=address3%> <br> 전화번호 :
+						<%=tel%><br> 영업시간:
+							<%=storeTime%>
+		</div>
+	</div>
+	<script>
+		function hideshow() {
+			var x = document.getElementById("profile");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+	</script>
+
+	<!--여기에 게시글 -->
+	<div class="grid-container">
+		<!--contentList는 서버에서 넘길 때 받는 값-->
+		<div>
+			<iframe src="/storeMain/container/<%=owner_id%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
+		</div>
+	</div>
+
+	<span id="plus" class="glyphicon glyphicon-plus-sign" aria-hidden="true" onclick="upload()"></span>
+	<script type="text/javascript">
+		function upload() {
+			location.href = "/contentUpload"
+		}
+	</script>
+
+</body>
+
+</html>

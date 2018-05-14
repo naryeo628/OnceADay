@@ -179,125 +179,108 @@ app.get('/auth/dusers', function(req, res) {
     }
   });
 });
-
-//Review List Page
-app.get('/review/list/:owner_id', function(req, res) {
-  res.render('reviews', {
-    owner_id: "req.params.owner_id"
-  });
-});
-//Reviews Container
-app.get('/review/container/:owner_id', function(req, res) {
-  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_id='
-  var sql2 = 'and review.owner_id='
-  var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
-    if (err) throw err;
-
-    //res.json(results);
-    console.log(results[0].good);
-    var html = `
-      <!DOCTYPE html>
-      <html>
-
-      <head>
-        <meta charset="utf-8">
-        <title>${results[0].store}</title>
-        <style>
-          html,
-          form,
-          table,
-          tbody,
-          body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-          }
-        </style>
-      </head>
-
-      <body>
-        <table>
-    `;
-
-    //별점 넣기
-    //<span class="star#" style="color:#ccc;">★</span> : 옅은 별
-    //<span class="star#" style="color:#777;">★</span> : 짙은 별
-    for (var i = 0; i < results.length; i++) {//results[i].user_id
-      //여기에 리뷰 클릭시 이동할 url입력.
-      var reviewRow = `
-          <tr onclick="parent.change_parent_url('/dummy/reviewDetail/${req.params.owner_id}/${i}');">
-            <td>${results[i].user_id}</td>
-            <td>
-      `;
-      var stars = ``;
-      for (var j = 0; j < results[i].score; j++) {
-        stars += `
-              <span class="star#" style="color:#777;">★</span>
-        `;
-      }
-      for (var j = 5; j > results[i].score; j--) {
-        stars += `
-              <span class="star#" style="color:#ccc;">★</span>
-        `;
-      }
-
-      var reviewRow2 = `
-            </td>
-            <td><div>장점-${results[i].good}</div><div>단점-${results[i].bad}</div></td>
-          </tr>
-      `;
-      html += reviewRow + stars + reviewRow2;
-    }
-
-    var htmlFooter = `
-        </table>
-      </body>
-      </html>
-    `;
-    html = html + htmlFooter;
-    res.send(html);
-  });
-});
-
-//Review page
-app.get('/review/:owner_id', function(req, res) {
-  var owid = req.params.owner_id;
-  var textGood = 'SELECT good FROM review WHERE owner_id=?';
-  var textBad = 'SELECT bad FROM review WHERE owner_id=?';
-  var query = conn.query(textGood, owid, function(err, results) {
-    console.log(results);
-    res.json(results);
-  });
-  console.log(query);
-  //res.send(`aaa`);
-});
-
-
-app.get('/dummy/reviewList/:owner_id', function(req, res) {
-  var query = conn.query('SELECT store FROM owner WHERE owner_id=' + mysql.escape(req.params.owner_id), function(err, results) {
-    res.render('review_reviewList', {
-      owner_id: req.params.owner_id,
-      user_id: req.params.user_id,
-      store: results[0].store
-    });
-  });
-})
-app.get('/dummy/reviewDetail/:owner_id/:number', function(req, res) {
-  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad, review.url FROM review, owner WHERE owner.owner_id='
-  var sql2 = 'and review.owner_id='
-  var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
-    if (err) throw err;
-    res.render('review_detail', {
-      owner_id: req.params.owner_id,
-      user_id: results[req.params.number].user_id,
-      store: results[req.params.number].store,
-      score: results[req.params.number].score,
-      good: results[req.params.number].good,
-      bad: results[req.params.number].bad,
-      reviewImg: results[req.params.number].url
-    });
-  });
-});
+//
+// //Reviews Container
+// app.get('/review/container/:owner_id', function(req, res) {
+//   var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_id='
+//   var sql2 = 'and review.owner_id='
+//   var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results, fields) {
+//     if (err) throw err;
+//
+//     //res.json(results);
+//     console.log(results[0].good);
+//     var html = `
+//       <!DOCTYPE html>
+//       <html>
+//
+//       <head>
+//         <meta charset="utf-8">
+//         <title>${results[0].store}</title>
+//         <style>
+//           html,
+//           form,
+//           table,
+//           tbody,
+//           body {
+//             height: 100%;
+//             width: 100%;
+//             margin: 0;
+//           }
+//         </style>
+//       </head>
+//
+//       <body>
+//         <table>
+//     `;
+//
+//     //별점 넣기
+//     //<span class="star#" style="color:#ccc;">★</span> : 옅은 별
+//     //<span class="star#" style="color:#777;">★</span> : 짙은 별
+//     for (var i = 0; i < results.length; i++) {//results[i].user_id
+//       //여기에 리뷰 클릭시 이동할 url입력.
+//       var reviewRow = `
+//           <tr onclick="parent.change_parent_url('/review/detail/${req.params.owner_id}/${i}');">
+//             <td>${results[i].user_id}</td>
+//             <td>
+//       `;
+//       var stars = ``;
+//       for (var j = 0; j < results[i].score; j++) {
+//         stars += `
+//               <span class="star#" style="color:#777;">★</span>
+//         `;
+//       }
+//       for (var j = 5; j > results[i].score; j--) {
+//         stars += `
+//               <span class="star#" style="color:#ccc;">★</span>
+//         `;
+//       }
+//
+//       var reviewRow2 = `
+//             </td>
+//             <td><div>장점-${results[i].good}</div><div>단점-${results[i].bad}</div></td>
+//           </tr>
+//       `;
+//       html += reviewRow + stars + reviewRow2;
+//     }
+//
+//     var htmlFooter = `
+//         </table>
+//       </body>
+//       </html>
+//     `;
+//     html = html + htmlFooter;
+//     res.send(html);
+//   });
+// });
+//
+// //Review List
+// app.get('/review/list/:owner_id', function(req, res) {
+//   var query = conn.query('SELECT store FROM owner WHERE owner_id=' + mysql.escape(req.params.owner_id), function(err, results) {
+//     res.render('review_reviewList', {
+//       owner_id: req.params.owner_id,
+//       user_id: req.params.user_id,
+//       store: results[0].store
+//     });
+//   });
+// })
+// //Review Detail
+// app.get('/review/detail/:owner_id/:number', function(req, res) {
+//   var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad, review.url FROM review, owner WHERE owner.owner_id='
+//   var sql2 = 'and review.owner_id='
+//   var query = conn.query(sql1 + mysql.escape(req.params.owner_id) + sql2 + mysql.escape(req.params.owner_id), function(err, results) {
+//     if (err) throw err;
+//     res.render('review_detail', {
+//       owner_id: req.params.owner_id,
+//       user_id: results[req.params.number].user_id,
+//       store: results[req.params.number].store,
+//       score: results[req.params.number].score,
+//       good: results[req.params.number].good,
+//       bad: results[req.params.number].bad,
+//       reviewImg: results[req.params.number].url
+//     });
+//   });
+//   console.log(query);
+// });
 
 
 app.listen(80, function() {

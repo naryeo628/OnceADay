@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
-  <title>ReviewPage</title>
+  <title>
+  </title>
   <style>
     html,
     form,
@@ -18,174 +18,65 @@
     }
 
     td,
-    h1 {
+    h1,
+    h2,
+    h4 {
       margin: 0;
       padding: 0;
     }
 
-    header {
+    .title {
       background-color: #e3afed;
       color: #000000;
-      margin: 0px;
       text-align: center;
-      padding 5px;
+
     }
 
-    .star-input>.input,
-    .star-input>.input>label:hover,
-    .star-input>.input>input:focus+label,
-    .star-input>.input>input:checked+label {
-      display: inline-block;
-      vertical-align: top;
-      background: url(stars.png) no-repeat;
+    .store {
+      text-align: center;
+      border-bottom: 1px solid BLACK;
     }
-
-    .star-input {
-      white-space: nowrap;
-    }
-
-    .star-input>.input {
-      display: inline-block;
-      width: 100px;
-      background-size: 100px;
-      height: 19px;
-      white-space: nowrap;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .star-input>.input>input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-    }
-
-    .star-input>.input.focus {
-      outline: 1px dotted #ddd;
-    }
-
-    .star-input>.input>label {
-      width: 10px;
-      height: 0;
-      padding: 19px 0 0 0;
-      overflow: hidden;
-      float: left;
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .star-input>.input>label:hover,
-    .star-input>.input>input:focus+label,
-    .star-input>.input>input:checked+label {
-      background-size: 100px;
-      background-position: 0 bottom;
-    }
-
-    .star-input>.input>label:hover~label {
-      background-image: none;
-    }
-
-    .star-input>.input>label[for="p1"] {
-      width: 10px;
-      z-index: 10;
-    }
-
-    .star-input>.input>label[for="p2"] {
-      width: 20px;
-      z-index: 9;
-    }
-
-    .star-input>.input>label[for="p3"] {
-      width: 30px;
-      z-index: 8;
-    }
-
-    .star-input>.input>label[for="p4"] {
-      width: 40px;
-      z-index: 7;
-    }
-
-    .star-input>.input>label[for="p5"] {
-      width: 50px;
-      z-index: 6;
-    }
-
-    .star-input>.input>label[for="p6"] {
-      width: 60px;
-      z-index: 5;
-    }
-
-    .star-input>.input>label[for="p7"] {
-      width: 70px;
-      z-index: 4;
-    }
-
-    .star-input>.input>label[for="p8"] {
-      width: 80px;
-      z-index: 3;
-    }
-
-    .star-input>.input>label[for="p9"] {
-      width: 90px;
-      z-index: 2;
-    }
-
-    .star-input>.input>label[for="p10"] {
-      width: 100px;
-      z-index: 1;
-    }
-
-    .star-input>output {
-      display: inline-block;
-      width: 36px;
-      text-align: right;
-    }
-
-    .star-input>output>b {
-      font: bold 18px Helvetica, Arial, sans-serif;
-      vertical-align: middle;
+    img{
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1> REVIEW</h1>
-  </header>
-
-  <div>
-    ID : <input type='text' id='userid'>
-  </div>
-  <br>
-  <span class="star-input">
-  <span class="input">
-<!--    <input type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>-->
-    <input type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
-<!--    <input type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>-->
-    <input type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
-<!--    <input type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>-->
-    <input type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
-<!--    <input type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>-->
-    <input type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
-<!--    <input type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>-->
-    <input type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
-  </span>
-  </span>
-  <form action="/review" method="post">
-
-    <div>
-      <img src="food.PNG" width="100" height="100">
-      <div>
-        <label for="msg"> 장점:</label>
-        <textarea id="msg"></textarea>
-      </div>
-      <div>
-        <label for="msg"> 단점:</label>
-        <textarea id="msg"></textarea>
-      </div>
+  <table>
+    <tr style="height : 10% ">
+      <td class="title ">
+        <h1>REVIEW</h1>
+      </td>
+    </tr>
+    <tr style="height : 5% ">
+      <td class="store ">
+        <h4><%=store%></h4>
+      </td>
+    </tr>
+    <tr style="height : 10% ">
+      <td></td>
+    </tr>
+    <tr style="height : 5%">
+      <td id="starContainer">
+      </td>
+    </tr>
+    <tr style="height : 20%;">
+      <td>
+        <div style="height: 100%; overflow:scroll;">
+          장점 : <br>
+          단점 :
+        </div>
+      </td>
+    </tr>
+    <tr class="image" style="height : 40%;">
+      <td><img href=""></td>
+    </tr>
+    <tr class="hashTag" style="height : 10%;">
+      <td></td>
+    </tr>
+  </table>
 </body>
 
 </html>
