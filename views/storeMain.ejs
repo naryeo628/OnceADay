@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <title>StoreMainPage</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-template-rows: auto;
+            grid-gap: 10px;
+            padding: 10px;
+        }
+
+        .grid-container>div {
+            border: 1px solid black;
+            text-align: center;
+            font-size: 30px;
+            width: 100px;
+            height;
+            100px;
+        }
+
+        .container {
+            display: grid;
+        }
+
+        p {
+            background-color: skyblue;
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: -5px;
+        }
+
+        .storename {
+            text-align: center;
+            background-color: #3498DB;
+            padding: 5px;
+            font-size: 20px;
+            color: white;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        .prof {
+            border: 1px solid skyblue;
+            width: 100%;
+        }
+
+        #review {
+            color: blue;
+            background-color: white;
+        }
+
+        #follower {
+            color: blue;
+            background-color: white;
+        }
+
+        #plus {
+            font-size: 50px;
+            color: blue;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            -webkit-transform: translateZ(0);
+        }
+
+        #sale {
+            font-size: 20px;
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+	<div class="storename">
+		<%=store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='/sale' id="sale"></span></div>
+	<div class="container">
+		<img src="http://cfile29.uf.tistory.com/image/2511784058CD4BA12AC7AE" width="100" height="100" alt="프로필 사진" id='profimage' />
+		<div>
+			<button onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
+			<button onclick=location.href='<%=reviewUrl%>'>리뷰</button>
+		</div>
+	</div>
+
+	<!-- 가게 정보 -->
+	<div class="prof">
+		<p onclick="hideshow()">프로필</p>
+		<div id="profile">
+			<!--가게 프로필-->
+			주소 : <%=address1%> <%=address2%> <%=address3%> <%=address4%> <br>
+			전화번호 : <%=tel%><br>
+			영업시간: <%=storeTime%>
+		</div>
+	</div>
+	<script>
+		function hideshow() {
+			var x = document.getElementById("profile");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+			} else {
+				x.style.display = "none";
+			}
+		}
+	</script>
+
+	<!--여기에 게시글 -->
+	<div class="grid-container">
+		<!--contentList는 서버에서 넘길 때 받는 값-->
+		<div>
+			<iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
+		</div>
+	</div>
+
+	<span id="plus" class="glyphicon glyphicon-plus-sign" aria-hidden="true" onclick="upload()"></span>
+	<script type="text/javascript">
+		function upload() {
+			location.href = "<%=contentUploadUrl%>"
+		}
+	</script>
+
+</body>
+
+</html>
