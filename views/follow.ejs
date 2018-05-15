@@ -1,31 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="follow.css">
-<script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-<title>FollowerView</title>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<title>FollowerView</title>
+	<style>
+		p {
+			background-color: #3499DB;
+			padding: 5px;
+			font-size: 20px;
+			color: white;
+			font-family: sans-serif;
+			font-weight: bold;
+		}
+
+		table {
+			background-color: skyblue;
+			width: 100%;
+		}
+
+		td {
+			border: 1px solid blue;
+		}
+
+		#back {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+		}
+	</style>
 </head>
+
 <body>
-<div><p><span class="glyphicon glyphicon-chevron-left" aria-hidden="true" onclick=location.href="/storeMain" ></span>   팔로워 리스트</p> </div>
-        <div>
+	<div>
+		<p><span class="glyphicon glyphicon-chevron-left" aria-hidden="true" onclick=location.href="/storeMain"></span> 팔로워 리스트</p>
+	</div>
+	<div>
 		<table>
-		<tbody>
-		<% follow.forEach(function(flist){ %>
-		<tr>
-			<td>
-	       		 <%= flist.user_id %>
-			</td>
-		</tr>
-			<% }); %>
-		</tbody>
+			<tbody>
+				<% follow.forEach(function(flist){ %>
+					<tr>
+						<td>
+							<%= flist.user_id %>
+						</td>
+					</tr>
+					<% }); %>
+			</tbody>
 		</table>
-        </div>
+	</div>
 </body>
+
 </html>

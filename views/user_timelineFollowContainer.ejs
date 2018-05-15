@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    html, form, table, tbody, body, iframe {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    td, h1, h2, h4 {
+      margin: 0;
+      padding: 0;
+    }
+    .title {
+      background-color: #e3afed;
+      color: #000000;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr style="height : 16%">
+      <td><iframe src="<%=iframeUrl%>"></iframe></td>
+    </tr>
+    <%for(var i = 0; i < %><%=contents.length%><%; i++){%>
+    <tr style="height : 8%">
+      <td><img src="<%=contents[i].image_url%>" style="height : 100%"> <%=contents[i].store%> </td>
+    </tr>
+    <tr style="height : 50%">
+      <td><img src="<%=contents[i].url%>"></td>
+    </tr>
+    <tr style="height : 25%">
+      <td></td>
+    </tr>
+    <%;}%>
+  </table>
+</body>
+
+</html>

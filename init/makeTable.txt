@@ -1,96 +1,78 @@
+DROP DATABASE o3;
 
-create table owner(
-owner_id varchar(10),
-owner_password varchar(255),
-store text,
+CREATE DATABASE o3;
+
+USE o3;
+
+CREATE TABLE owner(
+owner_auth VARCHAR(20),
+owner_id VARCHAR(10),
+owner_password VARCHAR(255),
 salt VARCHAR(255),
-authId varchar(255),
-constraint pk_owner primary key(owner_id))
-default charset=utf8;
-
-
-create table user(
-authId varchar(255),
-user_id varchar(10),
-user_password varchar(255),
-salt VARCHAR(255),
-constraint pk_user primary key(user_id))
-default charset=utf8;
-
-
-
-create table follow(
-owner_id varchar(10),
-user_id varchar(10),
-constraint fk_follow foreign key(owner_id) references owner(owner_id),
-constraint fk_follow2 foreign key(user_id) references user_info(user_id))
-default charset=utf8;
-
-
-
-create table store_info(
-owner_id varchar(10),
-store text,
-address1 text,
-address2 text,
-address3 text,
-tel varchar(15),
+store VARCHAR(100),
+address1 VARCHAR(10),
+address2 VARCHAR(10),
+address3 VARCHAR(10),
+address4 VARCHAR(100),
+tel varchar(20),
 time text,
-constraint fk_store foreign key(owner_id) references owner(owner_id))
+image_url text, 
+constraint pk_store primary key(owner_auth))
+default charset=utf8;
+
+CREATE TABLE user(
+user_auth VARCHAR(20),
+user_id VARCHAR(10),
+user_password VARCHAR(255),
+salt VARCHAR(255),
+name VARCHAR(50),
+address1 VARCHAR(10),
+address2 VARCHAR(10),
+address3 VARCHAR(10),
+address4 VARCHAR(100),
+constraint pk_user primary key(user_auth))
 default charset=utf8;
 
 
 
-create table product_info(
-owner_id varchar(10),
+CREATE TABLE follow(
+owner_auth varchar(20),
+user_auth varchar(20),
+constraint pk_follow primary key(owner_auth, user_auth),
+constraint fk_follow foreign key(owner_auth) references owner(owner_auth),
+constraint fk_follow2 foreign key(user_auth) references user(user_auth))
+default charset=utf8;
+
+
+CREATE TABLE product_info(
+owner_auth varchar(20),
 product varchar(15),
 price long,
 sale text,
-constraint fk_product foreign key(owner_id) references owner(owner_id),
-constraint pk_product primary key(product))
+constraint fk_product foreign key(owner_auth) references owner(owner_auth),
+constraint pk_product primary key(owner_auth, product))
 default charset=utf8;
 
 
 
-create table content_list(
-owner_id varchar(10),
-no varchar(10),
+CREATE TABLE content_list(
+owner_auth varchar(20),
+number int,
 content text,
-date datetime,
+date int,
 url text,
-constraint fk_content foreign key(owner_id) references owner(owner_id))
+constraint pk_content primary key(owner_auth, number),
+constraint fk_content foreign key(owner_auth) references owner(owner_auth))
 default charset=utf8;
 
 
-
-create table review(
-owner_id varchar(10),
-user_id varchar(10),
+CREATE TABLE review(
+owner_auth varchar(20),
+user_auth varchar(20),
 score int,
 good text,
 bad text,
-constraint fk_review foreign key(owner_id) references owner(owner_id),
-constraint fk_reivew2 foreign key(user_id) references user(user_id))
+constraint pk_review primary key(owner_auth, user_auth),
+constraint fk_review foreign key(owner_auth) references owner(owner_auth),
+constraint fk_reivew2 foreign key(user_auth) references user(user_auth))
 default charset=utf8;
-
-
-
-create table location(
-user_id varchar(10),
-address1 text,
-address2 text,
-address3 text,
-constraint fk_location foreign key(user_id) references user_info(user_id))
-default charset=utf8;
-
-
-
-/*create table comment_list(
-owner_id varchar(10),
-no varchar(10),
-user_id varchar(10),
-comment text,
-constraint fk_comment foreign key(owner_id) references owner(owner_id),
-constraint fk_comment2 foreign key(no) references content_list(no),
-constraint fk_comment3 foreign key(user_id) references user_info(user_id))
-default charset=utf8;*/

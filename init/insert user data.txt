@@ -1,0 +1,16 @@
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son1', '111111', 'g2', 'local:son1', '손님1');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son2', '111111', 'g2', 'local:son2', '손님2');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son3', '111111', 'g2', 'local:son3', '손님3');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son4', '111111', 'g2', 'local:son4', '손님4');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son5', '111111', 'g2', 'local:son5', '손님5');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son6', '111111', 'g2', 'local:son6', '손님6');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son7', '111111', 'g2', 'local:son7', '손님7');
+INSERT INTO user (user_id, user_password, salt, user_auth, name)
+values('son8', '111111', 'g2', 'local:son8', '손님8');

@@ -1,0 +1,17 @@
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son2', 2, 'g2', 'b2');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son3', 3, 'g3', 'b3');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son4', 4, 'g4', 'b4');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son5', 5, 'g5', 'b5');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son6', 1, 'g6', 'b6');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son7', 2, 'g7', 'b7');
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:wook', 'local:son8', 3, 'g8', 'b8');
+
+INSERT INTO review (owner_auth, user_auth, score, good, bad)
+values('local:jeong', 'local:son', 2, '가성비 좋다', '불친절하다');

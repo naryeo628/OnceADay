@@ -1,0 +1,12 @@
+mysql -uroot -p
+password : 111111
+
+ALTER TABLE owner ADD authId VARCHAR(255);
+ALTER TABLE owner ADD salt VARCHAR(255);
+ALTER TABLE owner MODIFY COLUMN authId varchar(255) FIRST;
+ALTER TABLE owner ALTER COLUMN owner_password varchar(255);
+ALTER TABLE user ADD authId VARCHAR(255);
+ALTER TABLE user ADD salt VARCHAR(255);
+ALTER TABLE user MODIFY COLUMN authId varchar(255) FIRST;
+ALTER TABLE user ALTER COLUMN owner_password varchar(255);
+ALTER TABLE owner ADD image_url text;

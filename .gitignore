@@ -21,5 +21,6 @@
 #dummy folder
 dummyContents/
 dummy/
+backup/
 
 *.swp

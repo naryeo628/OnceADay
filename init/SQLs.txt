@@ -1,0 +1,8 @@
+ALTER TABLE `store_info` CHANGE `pwd` `owner_password` text;
+ALTER TABLE `store_info` CHANGE `owner_password` `owner_password` varchar(255);
+
+ALTER TABLE `store_info` ADD `owner_password` varchar(255);
+ALTER TABLE `store_info` ADD `salt` varchar(255);
+
+DELETE FROM sessions;
+DELETE FROM owner;
