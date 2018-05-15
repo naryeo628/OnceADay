@@ -194,6 +194,11 @@ router.get('/contentUpload', function(req, res) {
   res.render('contentUpload');
 });
 
+router.get('/sale', function(req, res) {
+  console.log('1, sale');
+  res.render('sale');
+});
+/*
 Upload = require('../s3upload/uploadservice'),
   router.post('/upload', function(req, res) {
     console.log('1, upload');
@@ -222,11 +227,6 @@ Upload = require('../s3upload/uploadservice'),
       }
     });
   });
-
-router.get('/sale', function(req, res) {
-  console.log('1, sale');
-  res.render('sale');
-});
 
 Upload = require('../s3upload/uploadservice'),
   router.post('/saleProduct', function(req, res) {
@@ -259,7 +259,7 @@ Upload = require('../s3upload/uploadservice'),
     });
 
   });
-
+*/
 //Review List
 router.get('/owner/review/list/:owner_id', function(req, res) {
   console.log('1, reviewList');
