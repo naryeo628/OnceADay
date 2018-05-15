@@ -10,15 +10,42 @@
   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
+
+<style>
+	.top{
+  background-color:skyblue;
+  font-size: 20px;
+  color:white;
+  text-align:center;
+}
+.menu{
+  border-right:1px solid;
+  text-align:center;
+  width:200%;
+}
+p{
+  font-size:15px;
+  
+}
+{
+  height:100%;
+  width:100%;
+}
+</style>
+
 <title>UserMainPage</title>
 </head>
 <body>
-   	<div><div class="title">삼시한끼</div>
-		<div>
-   		<a onclick="search()"><div><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 검색</div></a>
-   		<a onclick="followstore()"><div>관심 가게</div></a>
-		</div>  
+	<div class="top"><div>삼시한끼</div>
+      <table>
+		<tr>
+      <td>
+   		<a onclick="search()"><div class="menu"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> 검색</div></a></td>
+   		<td> <a onclick="followstore()"> <div class="menu">관심 가게</div></td>
+		</tr>  
+      </table>
  	</div>
+
 
 	<p>할인 가게 목록</p>
 	<!-- if(follower.owner_id !=null?) -->

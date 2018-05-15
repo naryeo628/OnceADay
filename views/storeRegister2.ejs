@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta name ="viewprt" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type ="text/css" href="login.css"/>
+        <link rel ="stylesheet" type="text/css" href="register.css"/>
+     <link href="storeinfo.css" type="text/css" rel="stylesheet" />
+     <meta charset= "UTF-8">
+      <title> storeRegisterForm </title>
+</head>
+<body>
+        <form action="/storeRegister" method="post">
+                <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <h3> 회원가입</h3>
+                            </td>
+                          </tr>
+                          <tr>
+                          <td>
+                            <div class="floating-input">
+                              <input required id ='id' type="text" name="owner_id">
+                              <label for ="id">ID</label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class ="floating-input">
+                              <input required id='password' type="password" name="owner_pw">
+                              <label for ="password">PW</label>
+                            </div>
+                          </td>
+                          <tr>
+                            <td>
+                              <div class ="floating-input">
+                                <input required id="name" type="text" name="owner_name">
+                                <label for="name">NAME </label>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <h4>기본정보입력</h4>
+                           </td>
+                          </tr>
+                                <tr >
+                                 <td>
+                                        <div class="floating-input">
+                                        <input required id='address1' type="text" name="address1" />
+                                        <label for="address1">시/도</label>
+                                        </div>
+                                 </td>
+                               </tr>
+                               <tr>
+
+                                 <td>
+                                        <div class="floating-input">
+                                          <input required id='address2' type="text" name="address2" />
+                                                      <label for="address2">시/군/구</label>
+                                                      </div>
+                                               </td>
+                                             </tr>
+                                             <tr>
+                                               <td>
+                                                      <div class="floating-input">
+                                                      <input required id='address3' type="text" name="address3" />
+                                                      <label for="address3">읍/면/동</label>
+                                                      </div>
+
+                                               </td>
+                                             </tr>
+                                             <tr >
+                                               <td>
+                                                      <div class="floating-input">
+                                                      <input required id='address4' type="text" name="address4" />
+                                                      <label for="address4">상세주소</label>
+                                                      </div>
+                                               </td>
+
+
+                                              </tr>
+                                      </tbody>
+                              <tbody>
+                    <tr>
+                     <td>
+                            <div class="floating-input">
+                            <input required id='tel' type="text" name="tel" />
+                            <label for="tel">전화번호</label>
+                            </div>
+                     </td>
+                    </tr>
+                    <tr>
+                     <td>
+                            <div class="floating-input">
+                            <input required id='time' type="text" name="time" />
+                            <label for="time">영업시간</label>
+                            </div>
+                     </td>
+                    </tr>
+                    <tr class="row">
+                     <td>
+                    <div class="input-button">
+                <input  type="submit" value="Register" >
+                    </div>
+             </td>
+           </tr>
+                        </tbody>
+                </table>
+
+        </form>
+</body>
+</html>
+
