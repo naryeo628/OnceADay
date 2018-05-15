@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<title>Search2</title>
+<style>
+header{
+text-align:left;
+background-color:#3498DB;
+padding:5px;
+font-size:20px;
+color:white;
+font-family:sans-serif;
+font-weight:bold;
+margin-bottom:10px;
+}
+</style>
+</head>
+<body>
+<header>
+<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+지역 검색
+</header>	
+<form action="/searchInfo" method="post">
+	<select name="address1">
+		<option value="서울특별시">서울</option>
+	</select>
+	<select name="address2" >
+		<option value="성북구">성북구</option>
+	</select>
+	<select name="address3">
+		<option value='' selected > </option>
+		<option value="성북동">성북동</option>
+		<option value="동선동">동선동</option>
+		<option value="돈암제1동">돈암제1 동</option>
+		<option value="돈암제2동">돈암제2 동</option>
+		<option value="안암동">안암동</option>
+                <option value="보문동">보문동</option>
+                <option value="정릉제1 동">정릉제1 동</option>
+                <option value="정릉제2 동">정릉제2 동</option>
+		<option value="정릉제3 동">정릉제3 동</option>
+                <option value="정릉제4 동">정릉제4 동</option>
+                <option value="길음제1 동">길음제1 동</option>
+                <option value="길음제2 동">길음제2 동</option>
+		<option value="종암동">종암동</option>
+                <option value="월곡제1 동">월곡제1동</option>
+                <option value="월곡제2 동">월곡제2 동</option>
+                <option value="장위제1 동">장위제1 동</option>
+		<option value="장위제2 동">장위제2 동</option>
+                <option value="장위제3 동">장위제3 동</option>
+                <option value="석관동">석관동</option>
+	</select>
+	<input type="submit" value="확인">
+</form>
+
+
+</body>
+</html>
