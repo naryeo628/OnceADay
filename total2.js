@@ -32,18 +32,18 @@ router.get('/storeMain', function(req, res) {
     console.log('3, before render');
     res.render('storeMain', {
       address1: '서울시',
-      address2: '성북구', 
-      address3: '삼선동', 
-      address4: '한성대학교', 
-      tel: '010-7577-4937', 
-      storeTime: '09:00~18:00', 
-      followerListUrl: '/follow', 
+      address2: '성북구',
+      address3: '삼선동',
+      address4: '한성대학교',
+      tel: '010-7577-4937',
+      storeTime: '09:00~18:00',
+      followerListUrl: '/follow',
       image: results,
       owner_id: results[0],
-      store: '팥고당', 
+      store: '팥고당',
       storeinfo: results[0],
-      reviewUrl: '/owner/review/list/' + params, 
-      contentUploadUrl: '/contentUpload', 
+      reviewUrl: '/owner/review/list/' + params,
+      contentUploadUrl: '/contentUpload',
       iframeUrl: '/owner/storeMain/container/' + params
     });
     console.log('4, after render');
@@ -56,22 +56,22 @@ router.get('/storeMain/:owner_id', function(req, res) {
   console.log('1, storeMain');
   var sql = 'SELECT * FROM store_info WHERE owner_id=';
   const ownerId = req.params.owner_id;
-  console.log('1.1, ' + ownerId);
+  console.log('1.1, storeMain/' + ownerId);
   connection.query(sql + mysql.escape(ownerId), function(err, results) {
     console.log(results);
-    console.log('2');
-    if(err) return done(err);
+    console.log('2, storeMain query start');
+    if (err) return done(err);
     const info = results[0];
     //storeMainFix -> storeMain
-    console.log('3, before render');
+    console.log('3, storeMain before render');
     res.render('storeMain', {
       owner_id: ownerId,
       store: info.store,
       address1: info.address1,
       address2: info.address2,
-      address3: info.address3, 
+      address3: info.address3,
       address4: info.address4,
-      tel: info.tel, 
+      tel: info.tel,
       storeTime: info.time,
       /*
       store: results[0].store,
@@ -87,17 +87,20 @@ router.get('/storeMain/:owner_id', function(req, res) {
       contentUploadUrl: '/contentUpload',
       iframeUrl: '/owner/storeMain/container/' + req.params.owner_id
     });
-    console.log('4, after render');
+    console.log('4, storeMain after render');
     return;
   });
-  console.log('5, after query');
+  console.log('5, storeMain after query');
   return;
 });
 
 router.get('/owner/storeMain/container/:owner_id', function(req, res) {
   console.log('1, storeMainContainer');
+  const ownerId = req.params.owner_id;
+  console.log('1.1, storeMain/container/' + ownerId);
   var sql = 'SELECT * FROM content_list WHERE owner_id=';
-  connection.query(sql + mysql.escape(req.params.owner_id), function(err, results) {
+  connection.query(sql + mysql.escape(ownerId), function(err, results) {
+    console.log('2, storeMainContainer query start');
     console.log(results);
     var html = `
       <!DOCTYPE html>
@@ -133,12 +136,12 @@ router.get('/owner/storeMain/container/:owner_id', function(req, res) {
       if (results.length - i <= 3) {
         for (var j = 0; j < results.length % 3; j++) {
           content += `
-            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}"></span></td>`;
+            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}" onclick="location.href='/contentDetail/${ownerId}'"></span></td>`;
         }
       } else {
         for (var j = 0; j < 3; j++) {
           content += `
-            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}"></span></td>`;
+            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}" onclick="location.href='/contentDetail/${ownerId}'"></span></td>`;
         }
       }
       content += `
@@ -148,7 +151,41 @@ router.get('/owner/storeMain/container/:owner_id', function(req, res) {
         </table>
       </body>
       </html>`;
+    console.log('3, storeMainContainer before render');
     res.send(html);
+    console.log('4, storeMainContainer after render');
+  });
+  console.log('5, storeMainContainer after query');
+});
+
+router.get('/contentDetail/:owner_id', function(req, res) {
+  console.log('1, contentDetail');
+  const ownerId = req.params.owner_id;
+  console.log('1.1, contentDetail/' + ownerId);
+  const sql = 'select * from content_list where owner_id=';
+  connection.query(sql + mysql.escape(ownerId), function(err, results, field) {
+    console.log('2, contentDetail query start');
+    console.log(results);
+    console.log('3, contentDetail before render');
+    res.render('contentDetail', {
+      url: results[0].url,
+      owner_id: results[0].owner_id,
+      content: results[4].content,
+      date: results[0].date
+    });
+    console.log('4, contentDetail after render');
+  });
+  console.log('5, contentDetail after query');
+});
+
+router.get('/follow', function(req, res) {
+  console.log('1, follow');
+  const sql = 'select * from follow';
+  connection.query(sql, function(err, results, field) {
+    console.log(results);
+    res.render('follow', {
+      follow: results
+    });
   });
 });
 
@@ -159,7 +196,7 @@ router.get('/contentUpload', function(req, res) {
 
 Upload = require('../s3upload/uploadservice'),
   router.post('/upload', function(req, res) {
-  console.log('1, upload');
+    console.log('1, upload');
     var tasks = [
       function(callback) {
         Upload.formidable(req, function(err, files, field) {
@@ -186,32 +223,6 @@ Upload = require('../s3upload/uploadservice'),
     });
   });
 
-router.get('/follow', function(req, res) {
-  console.log('1, follow');
-  const sql = 'select * from follow';
-  connection.query(sql, function(err, results, field) {
-    console.log(results);
-    res.render('follow', {
-      follow: results
-    });
-  });
-});
-
-router.get('/contentDetail', function(req, res) {
-  console.log('1, contentDetail');
-  const sql = 'select * from content_list where owner_id=?';
-  params = ["hyk1031"];
-  connection.query(sql, params, function(err, results, field) {
-    console.log(results);
-    res.render('contentDetail', {
-      url: results[0].url,
-      owner_id: results[0].owner_id,
-      content: results[4].content,
-      date: results[0].date
-    });
-  });
-});
-
 router.get('/sale', function(req, res) {
   console.log('1, sale');
   res.render('sale');
@@ -219,7 +230,7 @@ router.get('/sale', function(req, res) {
 
 Upload = require('../s3upload/uploadservice'),
   router.post('/saleProduct', function(req, res) {
-  console.log('1, saleProduct');
+    console.log('1, saleProduct');
     var tasks = [
       function(callback) {
         Upload.formidable(req, function(err, files, field) {
