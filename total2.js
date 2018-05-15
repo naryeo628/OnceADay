@@ -2,6 +2,13 @@ var express = require('express');
 var router = express();
 var mysql = require('mysql');
 var async = require('async');
+var bodyParser = require('body-parser');
+var bkfd2Password = require("pbkdf2-password");
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+var LocalStrategy = require('passport-local').Strategy;
+var hasher = bkfd2Password();
+var passport = require('passport');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -20,84 +27,199 @@ connection.connect(function(err) {
 
 router.set('view engine', 'ejs');
 router.use(express.static('./views'));
+router.locals.pretty = true;
 
-/*
-router.get('/storeMain', function(req, res) {
-  console.log('1');
-  const sql = 'select * from store_info,content_list where store_info.owner_id=content_list.owner_id and content_list.owner_id=?';
-  params = ["hyk1031"];
-  connection.query(sql, params, function(err, results, field) {
-    console.log(results);
-    console.log('2');
-    console.log('3, before render');
-    res.render('storeMain', {
-      address1: '서울시',
-      address2: '성북구', 
-      address3: '삼선동', 
-      address4: '한성대학교', 
-      tel: '010-7577-4937', 
-      storeTime: '09:00~18:00', 
-      followerListUrl: '/follow', 
-      image: results,
-      owner_id: results[0],
-      store: '팥고당', 
-      storeinfo: results[0],
-      reviewUrl: '/owner/review/list/' + params, 
-      contentUploadUrl: '/contentUpload', 
-      iframeUrl: '/owner/storeMain/container/' + params
-    });
-    console.log('4, after render');
-  });
-  console.log('5, after query');
+router.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+router.use(session({
+  secret: '1234DSFs@adf1234!@#$asd',
+  resave: false,
+  saveUninitialized: true,
+  store: new MySQLStore({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '111111',
+    database: 'o2'
+  })
+}));
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+router.get('/count', function(req, res) {
+  if (req.session.count) {
+    req.session.count++;
+  } else {
+    req.session.count = 1;
+  }
+  res.send('count : ' + req.session.count);
 });
-*/
+
+passport.serializeUser(function(user, done) {
+  console.log('serializeUser', user);
+  done(null, user.authId);
+});
+passport.deserializeUser(function(id, done) {
+  console.log('deserializeUser', id);
+  var sql = 'SELECT * FROM owner WHERE authId=?';
+  connection.query(sql, [id], function(err, results) {
+    console.log(sql, err, results);
+    if (err) {
+      console.log(err);
+      done('There is no user.');
+    } else {
+      done(null, results[0]);
+    }
+  });
+});
+
+//local login function
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    var uname = username;
+    var pwd = password;
+    var sql = 'SELECT * FROM owner WHERE authId=?';
+    connection.query(sql, ['local:' + uname], function(err, results) {
+      console.log(results);
+      if (err) {
+        return done('There is no user.');
+      }
+      var user = results[0];
+      return hasher({
+        password: pwd,
+        salt: user.salt
+      }, function(err, pass, salt, hash) {
+        if (hash === user.owner_password) {
+          console.log('LocalStrategy', user);
+          console.log('login success');
+          done(null, user);
+        } else {
+          console.log('incorrect password');
+          console.log(hash);
+          console.log(user.owner_password);
+          done(null, false);
+        }
+      });
+    });
+  }
+));
+
+router.get('/owner/login', function(req, res) {
+  res.render('storeLogin', {
+    storeRegisterUrl: '/owner/register'
+  });
+});
+router.get('/auth/logout', function(req, res) {
+  req.logout();
+  res.redirect('/storeLogin');
+});
+router.post('/owner/login', passport.authenticate(
+  'local', {
+    successRedirect: '/storeMain',
+    failureRedirect: '/owner/login',
+    failureFlash: false
+  }
+));
+router.get('/owner/register', function(req, res) {
+  res.render('storeRegister', {
+    registerUrl: '/owner/register'
+  });
+});
+router.post('/owner/register', function(req, res) {
+  hasher({
+    password: req.body.owner_pw
+  }, function(err, pass, salt, hash) {
+    var user = {
+      authId: 'local:' + req.body.owner_id,
+      owner_id: req.body.owner_id,
+      owner_password: hash,
+      salt: salt,
+      store: req.body.owner_name
+    };
+    var sql = 'INSERT INTO owner SET ?';
+    connection.query(sql, user, function(err, results) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        req.login(user, function(err) {
+          req.session.save(function() {
+            res.redirect('/storeInfo');
+          });
+        });
+      }
+    });
+  });
+});
+
+router.get('/storeInfo', function(req, res) {
+  res.render('storeInfo');
+});
+
+router.post('/insertInfo', function(req, res) {
+
+  var address1 = req.body.address1;
+  var address2 = req.body.address2;
+  var address3 = req.body.address3;
+  var address4 = req.body.address4;
+  var tel = req.body.tel;
+  var time = req.body.time;
+
+  var sql = 'INSERT INTO store_info(address1,address2,address3,address4,tel,time)VALUES(?,?,?,?,?,?,?) ';
+
+  connection.query(sql, [id, address1, address2, address3, address4, tel, time], function(err, result, fields) {
+    if (err) {
+      console.log(err);
+      res.status(500);
+    } else {
+      res.redirect('/storeLogin');
+    }
+  });
+});
 
 router.get('/storeMain/:owner_id', function(req, res) {
   console.log('1, storeMain');
   var sql = 'SELECT * FROM store_info WHERE owner_id=';
   const ownerId = req.params.owner_id;
-  console.log('1.1, ' + ownerId);
+  console.log('1.1, storeMain/' + ownerId);
   connection.query(sql + mysql.escape(ownerId), function(err, results) {
     console.log(results);
-    console.log('2');
-    if(err) return done(err);
+    console.log('2, storeMain query start');
+    if (err) return done(err);
     const info = results[0];
     //storeMainFix -> storeMain
-    console.log('3, before render');
+    console.log('3, storeMain before render');
     res.render('storeMain', {
       owner_id: ownerId,
       store: info.store,
       address1: info.address1,
       address2: info.address2,
-      address3: info.address3, 
+      address3: info.address3,
       address4: info.address4,
-      tel: info.tel, 
+      tel: info.tel,
       storeTime: info.time,
-      /*
-      store: results[0].store,
-      address1: results[0].address1,
-      address2: results[0].address2,
-      address3: results[0].address3,
-      address4: results[0].address4,
-      tel: results[0].tel,
-      storeTime: results[0].time,
-      */
       followerListUrl: '/follow',
       reviewUrl: '/owner/review/list/' + req.params.owner_id,
       contentUploadUrl: '/contentUpload',
       iframeUrl: '/owner/storeMain/container/' + req.params.owner_id
     });
-    console.log('4, after render');
+    console.log('4, storeMain after render');
     return;
   });
-  console.log('5, after query');
+  console.log('5, storeMain after query');
   return;
 });
 
 router.get('/owner/storeMain/container/:owner_id', function(req, res) {
   console.log('1, storeMainContainer');
+  const ownerId = req.params.owner_id;
+  console.log('1.1, storeMain/container/' + ownerId);
   var sql = 'SELECT * FROM content_list WHERE owner_id=';
-  connection.query(sql + mysql.escape(req.params.owner_id), function(err, results) {
+  connection.query(sql + mysql.escape(ownerId), function(err, results) {
+    console.log('2, storeMainContainer query start');
     console.log(results);
     var html = `
       <!DOCTYPE html>
@@ -133,12 +255,12 @@ router.get('/owner/storeMain/container/:owner_id', function(req, res) {
       if (results.length - i <= 3) {
         for (var j = 0; j < results.length % 3; j++) {
           content += `
-            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}"></span></td>`;
+            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}" onclick="location.href='/contentDetail/${ownerId}'"></span></td>`;
         }
       } else {
         for (var j = 0; j < 3; j++) {
           content += `
-            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}"></span></td>`;
+            <td><span><img src=" ${results[i + j].url} " alt="${results[i + j].content}" onclick="location.href='/contentDetail/${ownerId}'"></span></td>`;
         }
       }
       content += `
@@ -148,43 +270,32 @@ router.get('/owner/storeMain/container/:owner_id', function(req, res) {
         </table>
       </body>
       </html>`;
+    console.log('3, storeMainContainer before render');
     res.send(html);
+    console.log('4, storeMainContainer after render');
   });
+  console.log('5, storeMainContainer after query');
 });
 
-router.get('/contentUpload', function(req, res) {
-  console.log('1, contentUpload');
-  res.render('contentUpload');
-});
-
-Upload = require('../s3upload/uploadservice'),
-  router.post('/upload', function(req, res) {
-  console.log('1, upload');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        })
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          callback(err, files);
-        });
-      }
-    ];
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect('/storeMain');
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
+router.get('/contentDetail/:owner_id', function(req, res) {
+  console.log('1, contentDetail');
+  const ownerId = req.params.owner_id;
+  console.log('1.1, contentDetail/' + ownerId);
+  const sql = 'select * from content_list where owner_id=';
+  connection.query(sql + mysql.escape(ownerId), function(err, results, field) {
+    console.log('2, contentDetail query start');
+    console.log(results);
+    console.log('3, contentDetail before render');
+    res.render('contentDetail', {
+      url: results[0].url,
+      owner_id: results[0].owner_id,
+      content: results[4].content,
+      date: results[0].date
     });
+    console.log('4, contentDetail after render');
   });
+  console.log('5, contentDetail after query');
+});
 
 router.get('/follow', function(req, res) {
   console.log('1, follow');
@@ -197,57 +308,15 @@ router.get('/follow', function(req, res) {
   });
 });
 
-router.get('/contentDetail', function(req, res) {
-  console.log('1, contentDetail');
-  const sql = 'select * from content_list where owner_id=?';
-  params = ["hyk1031"];
-  connection.query(sql, params, function(err, results, field) {
-    console.log(results);
-    res.render('contentDetail', {
-      url: results[0].url,
-      owner_id: results[0].owner_id,
-      content: results[4].content,
-      date: results[0].date
-    });
-  });
+router.get('/contentUpload', function(req, res) {
+  console.log('1, contentUpload');
+  res.render('contentUpload');
 });
 
 router.get('/sale', function(req, res) {
   console.log('1, sale');
   res.render('sale');
 });
-
-Upload = require('../s3upload/uploadservice'),
-  router.post('/saleProduct', function(req, res) {
-  console.log('1, saleProduct');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        })
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          callback(err, files);
-        });
-      }
-    ];
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        res.json({
-          success: true,
-          msg: '업로드 성공'
-        })
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
-
-  });
 
 //Review List
 router.get('/owner/review/list/:owner_id', function(req, res) {
@@ -355,6 +424,69 @@ router.get('/owner/review/detail/:owner_id/:number', function(req, res) {
   });
   console.log('4, review detail after callback');
 });
+
+/*
+Upload = require('../s3upload/uploadservice'),
+  router.post('/upload', function(req, res) {
+    console.log('1, upload');
+    var tasks = [
+      function(callback) {
+        Upload.formidable(req, function(err, files, field) {
+          callback(err, files);
+        })
+      },
+      function(files, callback) {
+        Upload.s3(files, function(err, result) {
+          callback(err, files);
+        });
+      }
+    ];
+    async.waterfall(tasks, function(err, result) {
+      if (!err) {
+        //res.json({success:true, msg:'업로드 성공'})
+        return res.redirect('/storeMain');
+      } else {
+        res.json({
+          success: false,
+          msg: '실패',
+          err: err
+        })
+      }
+    });
+  });
+
+Upload = require('../s3upload/uploadservice'),
+  router.post('/saleProduct', function(req, res) {
+    console.log('1, saleProduct');
+    var tasks = [
+      function(callback) {
+        Upload.formidable(req, function(err, files, field) {
+          callback(err, files);
+        })
+      },
+      function(files, callback) {
+        Upload.s3(files, function(err, result) {
+          callback(err, files);
+        });
+      }
+    ];
+    async.waterfall(tasks, function(err, result) {
+      if (!err) {
+        res.json({
+          success: true,
+          msg: '업로드 성공'
+        })
+      } else {
+        res.json({
+          success: false,
+          msg: '실패',
+          err: err
+        })
+      }
+    });
+
+  });
+*/
 /*
 module.exports = router;
 */

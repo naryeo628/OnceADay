@@ -1,0 +1,96 @@
+
+create table owner(
+owner_id varchar(10),
+owner_password varchar(255),
+store text,
+salt VARCHAR(255),
+authId varchar(255),
+constraint pk_owner primary key(owner_id))
+default charset=utf8;
+
+
+create table user(
+authId varchar(255),
+user_id varchar(10),
+user_password varchar(255),
+salt VARCHAR(255),
+constraint pk_user primary key(user_id))
+default charset=utf8;
+
+
+
+create table follow(
+owner_id varchar(10),
+user_id varchar(10),
+constraint fk_follow foreign key(owner_id) references owner(owner_id),
+constraint fk_follow2 foreign key(user_id) references user_info(user_id))
+default charset=utf8;
+
+
+
+create table store_info(
+owner_id varchar(10),
+store text,
+address1 text,
+address2 text,
+address3 text,
+tel varchar(15),
+time text,
+constraint fk_store foreign key(owner_id) references owner(owner_id))
+default charset=utf8;
+
+
+
+create table product_info(
+owner_id varchar(10),
+product varchar(15),
+price long,
+sale text,
+constraint fk_product foreign key(owner_id) references owner(owner_id),
+constraint pk_product primary key(product))
+default charset=utf8;
+
+
+
+create table content_list(
+owner_id varchar(10),
+no varchar(10),
+content text,
+date datetime,
+url text,
+constraint fk_content foreign key(owner_id) references owner(owner_id))
+default charset=utf8;
+
+
+
+create table review(
+owner_id varchar(10),
+user_id varchar(10),
+score int,
+good text,
+bad text,
+constraint fk_review foreign key(owner_id) references owner(owner_id),
+constraint fk_reivew2 foreign key(user_id) references user(user_id))
+default charset=utf8;
+
+
+
+create table location(
+user_id varchar(10),
+address1 text,
+address2 text,
+address3 text,
+constraint fk_location foreign key(user_id) references user_info(user_id))
+default charset=utf8;
+
+
+
+/*create table comment_list(
+owner_id varchar(10),
+no varchar(10),
+user_id varchar(10),
+comment text,
+constraint fk_comment foreign key(owner_id) references owner(owner_id),
+constraint fk_comment2 foreign key(no) references content_list(no),
+constraint fk_comment3 foreign key(user_id) references user_info(user_id))
+default charset=utf8;*/

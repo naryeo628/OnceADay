@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="login.css" />
-<link rel="stylesheet" type="text/css" href="register.css" />
-<meta charset="UTF-8">
-<title>storeRegisterForm</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="login.css" />
+	<link rel="stylesheet" type="text/css" href="register.css" />
+	<meta charset="UTF-8">
+	<title>storeRegisterForm</title>
 </head>
+
 <body>
 	<div>
-	<form action="/storeRegisterInfo" method="post">
-		<table>
-			<tbody>
-			<tr>
-				<td>
-				   <h3>회원가입</h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				   <div class="floating-input">
-			<input required id='id' type="text" name="owner_id" ><label for="id">ID</label>
-				   </div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				   <div class="floating-input">
-	<input required id='password' type="password" name="owner_pw" ><label for="password">PW</label>
-				   </div>	
-				</td>
-			</tr>
-			<tr>
-				<td>
-				   <div class="floating-input">
-		<input required id="name" type="text" name="owner_name"><label for="name">NAME</label>
-				   </div>		
-				</td>
-			</tr>
-			<tr>
-				<td>
-                        	   <div class="input-button">
-                           		 <input type="submit" value="Register">
-				   </div>
-				</td>
-			</tr>
-			</tbody>
-		</table>	
-        </form>
-    </div>
+		<form action="/storeRegister" method="post">
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<h3>회원가입</h3>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="floating-input">
+								<input required id='id' type="text" name="owner_id"><label for="id">ID</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="floating-input">
+								<input required id='password' type="password" name="owner_pw"><label for="password">PW</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="floating-input">
+								<input required id="name" type="text" name="owner_name"><label for="name">NAME</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="input-button">
+								<input type="submit" value="Register">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
 </body>
-</html>
 
+</html>
