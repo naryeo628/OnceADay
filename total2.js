@@ -159,8 +159,7 @@ router.get('/contentUpload', function(req, res) {
 
 Upload = require('../s3upload/uploadservice'),
  router.post('/upload', function(req, res) {
-	var content=req.body.content;
-	console.log(content);
+	//var content=req.body.content;
 
   console.log('1, upload');
     var tasks = [
@@ -174,9 +173,10 @@ Upload = require('../s3upload/uploadservice'),
           console.log(result);
 	  callback(err, files);
 	
-	var sql='insert into content_list (owner_id, url, content) values ("hyk1031",?,?)';
+	//var sql='insert into content_list (owner_id, url, content) values ("hyk1031",?,?)';
+	var sql='insert into content_list(owner_id, url) values ("hyk1031",?)';
 	var params=result;
-	connection.query(sql,[params.Location,content],function(err, rows, fields) {
+	connection.query(sql,[params.Location],function(err, rows, fields) {
 	   console.log(rows);
 	  if(err){
 	   console.log(err);

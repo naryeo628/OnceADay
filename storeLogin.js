@@ -38,15 +38,18 @@ app.post('/insertInfo',function(req, res){
         var address2=req.body.address2;
         var address3=req.body.address3;
 	 var address4=req.body.address4;
-	 var tel =req.body.tel;
+	var tel = req.body.tel;
+	var owner_id =req.body.owner_id;
         var time=req.body.time;
+	var store =req.body.owner_name;
+	var pwd =req.body.owner_pw;
        /* var sql2= 'select owner_id from owner';
 var sql3 = 'select store from owner';*/
 
-var sql = 'INSERT INTO store_info(address1,address2,address3,address4,tel,time)VALUES(?,?,?,?,?,?) ';
+var sql = 'INSERT INTO store_info(owner_id,store,pwd,address1,address2,address3,address4,tel,time)VALUES(?,?,?,?,?,?,?,?,?) ';
 
 
-conn.query(sql, [address1,address2,address3,address4,tel,time], function(err, result, fields) {
+conn.query(sql, [owner_id,store,pwd,address1,address2,address3,address4,tel,time], function(err, result, fields) {
   if (err) {
         console.log(err);
         res.status(500);
