@@ -32,18 +32,18 @@ router.get('/storeMain', function(req, res) {
     console.log('3, before render');
     res.render('storeMain', {
       address1: '서울시',
-      address2: '성북구',
-      address3: '삼선동',
-      address4: '한성대학교',
-      tel: '010-7577-4937',
-      storeTime: '09:00~18:00',
-      followerListUrl: '/follow',
+      address2: '성북구', 
+      address3: '삼선동', 
+      address4: '한성대학교', 
+      tel: '010-7577-4937', 
+      storeTime: '09:00~18:00', 
+      followerListUrl: '/follow', 
       image: results,
       owner_id: results[0],
-      store: '팥고당',
+      store: '팥고당', 
       storeinfo: results[0],
-      reviewUrl: '/owner/review/list/' + params,
-      contentUploadUrl: '/contentUpload',
+      reviewUrl: '/owner/review/list/' + params, 
+      contentUploadUrl: '/contentUpload', 
       iframeUrl: '/owner/storeMain/container/' + params
     });
     console.log('4, after render');
@@ -69,9 +69,9 @@ router.get('/storeMain/:owner_id', function(req, res) {
       store: info.store,
       address1: info.address1,
       address2: info.address2,
-      address3: info.address3,
+      address3: info.address3, 
       address4: info.address4,
-      tel: info.tel,
+      tel: info.tel, 
       storeTime: info.time,
       /*
       store: results[0].store,
