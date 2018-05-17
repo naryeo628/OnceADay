@@ -58,7 +58,7 @@ const timelineSaleContainerView = `user_timelineSaleContainer`;
 
 
 
-/*
+
 router.use(session({
   secret: '1234DSFs@adf1234!@#$asd',
   resave: false,
@@ -99,7 +99,7 @@ passport.serializeUser(function(user, done) {
 });
 passport.deserializeUser(function(id, done) {
   console.log('deserializeUser', id);
-  var sql = 'SELECT * FROM user WHERE user_auth=?';http://192.168.40.128:3000/owner/storeMain/local:wook
+  var sql = 'SELECT * FROM user WHERE user_auth=?';
   connection.query(sql, [id], function(err, results) {
     console.log(sql, err, results);
     if (err) {
@@ -146,12 +146,12 @@ router.post(loginUrl, passport.authenticate('local', {
   failureRedirect: loginUrl
 }), function(req, res) {
   console.log(req.session.passport.user);
-  res.redirect(storeMainUrl + '/' + req.session.passport.user);
+  res.redirect(timelineUrl + '/' + req.session.passport.user);
 });
 router.get(registerUrl, function(req, res) {
   console.log('1, ' + registerUrl + 'get callback start');
   res.render('storeRegister', {
-    storeRegisterPostUrl: registerUrl
+    registerPostUrl: registerUrl
   });
 });
 router.post(registerUrl, function(req, res) {
@@ -182,14 +182,14 @@ router.post(registerUrl, function(req, res) {
     });
   });
 });
-*/
+
 
 router.get(timelineUrl + '/:user_auth', function(req, res) {
   console.log('1, ' + timelineUrl + ' get callback start');
   const userAuth = req.params.user_auth;
   console.log('1.1, ' + timelineUrl + '/' + userAuth);
   res.render(timelineView, {
-    iframeUrl: timelineFollowContainerUrl + '/userAuth'
+    iframeUrl: timelineFollowContainerUrl + '/' + userAuth
   });
 });
 
@@ -201,8 +201,11 @@ router.get(timelineFollowContainerUrl + '/:user_auth', function(req, res) {
   connection.query(sql1, function(err, results) {
     if (err) return done(err);
     console.log(results);
-    let sql2 = `SELECT content_list.*, owner.store, owner.image_url FROM content_list, owner WHERE `;
+    let sql2 = `SELECT content_list.*, owner.store, owner.image_url FROM content_list, owner`;
     for (var i = 0; i < results.length; i++) {
+      if(results.length > 0){
+        sql2 += ` WHERE `;
+      }
       sql2 += `content_list.owner_auth=` + mysql.escape(results[i].owner_auth);
       if (i < results.length - 1) {
         sql2 += ' or ';
@@ -210,7 +213,7 @@ router.get(timelineFollowContainerUrl + '/:user_auth', function(req, res) {
     }
     sql2 += ` ORDER BY date ASC`;
     console.log(sql2);
-    connection.query(sql2, function(err, results2){
+    connection.query(sql2, function(err, results2) {
       res.render(timelineFollowContainerView, {
         contents: results2,
         iframeUrl: timelineSaleContainerUrl
@@ -219,10 +222,10 @@ router.get(timelineFollowContainerUrl + '/:user_auth', function(req, res) {
   });
 });
 
-router.get(timelineSaleContainerUrl, function(req, res){
+router.get(timelineSaleContainerUrl, function(req, res) {
   console.log('1, ' + timelineSaleContainerUrl + ' get callback start');
   const sql1 = `SELECT product_info.owner_auth, product_info.product, owner.image_url FROM product_info, owner WHERE product_info.sale is not NULL`;
-  connection.query(sql1, function(err, results){
+  connection.query(sql1, function(err, results) {
     res.render(timelineSaleContainerView, {
       contents: results
     });

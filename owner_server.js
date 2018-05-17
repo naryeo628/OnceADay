@@ -51,8 +51,7 @@ router.get('/count', function(req, res) {
 });
 
 
-
-
+//URLs
 const loginUrl = `/owner/login`;
 const logoutUrl = `/owner/logout`;
 const registerUrl = `/owner/register`;
@@ -68,9 +67,19 @@ const reviewDetailUrl = `/owner/storeMain/review/detail`;
 const uploadUrl = `/upload`;
 
 
-
-
-
+//Views
+const loginView = `storeLogin`;
+const registerView = `storeRegister`;
+const logoutView = ``;
+const storeMainView = `storeMain`;
+const storeMainContentContainerView = ``;
+const storeMainContentDetailView = `contentDetail`;
+const storeMainContentUploadView = `contentUpload`;
+const storeMainFollowerView = `follow`;
+const storeMainSaleView = `sale`;
+const reviewListView = `review_reviewList`;
+const reviewListContainerView = ``;
+const reviewDetailView = `review_reviewDetail`;
 
 
 router.get(logoutUrl, function(req, res) {
@@ -78,7 +87,7 @@ router.get(logoutUrl, function(req, res) {
   res.redirect(loginUrl);
 });
 router.get(loginUrl, function(req, res) {
-  res.render('storeLogin', {
+  res.render(loginView, {
     storeRegisterUrl: registerUrl,
     storeloginPostUrl: loginUrl
   });
@@ -90,8 +99,8 @@ passport.serializeUser(function(user, done) {
 });
 passport.deserializeUser(function(id, done) {
   console.log('deserializeUser', id);
-  var sql = 'SELECT * FROM owner WHERE owner_auth=?';
-  connection.query(sql, [id], function(err, results) {
+  var sql = 'SELECT * FROM owner WHERE owner_auth=';
+  connection.query(sql + mysql.escape(id), function(err, results) {
     console.log(sql, err, results);
     if (err) {
       console.log(err);
@@ -107,8 +116,8 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
     var uname = username;
     var pwd = password;
-    var sql = 'SELECT * FROM owner WHERE owner_auth=?';
-    connection.query(sql, ['local:' + uname], function(err, results) {
+    var sql = 'SELECT * FROM owner WHERE owner_auth=';
+    connection.query(sql + mysql.escape('local:' + uname), function(err, results) {
       console.log(results);
       if (err) {
         return done('There is no user.');
@@ -141,7 +150,7 @@ router.post(loginUrl, passport.authenticate('local', {
 });
 router.get(registerUrl, function(req, res) {
   console.log('1, ' + registerUrl + 'get callback start');
-  res.render('storeRegister', {
+  res.render(registerView, {
     storeRegisterPostUrl: registerUrl
   });
 });
@@ -191,7 +200,7 @@ router.get(storeMainUrl + '/:owner_auth', function(req, res) {
     if (err) return done(err);
     const info = results[0];
     console.log('3, before render');
-    res.render('storeMain', {
+    res.render(storeMainView, {
       owner_auth: ownerAuth,
       store: info.store,
       address1: info.address1,
@@ -276,7 +285,7 @@ router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res
   const sql2 = 'and number='
   connection.query(sql1 + mysql.escape(req.params.owner_auth) + sql2 + mysql.escape(req.params.number), function(err, results) {
     console.log(results);
-    res.render('contentDetail', {
+    res.render(storeMainContentDetailView, {
       url: results[0].url,
       owner_auth: results[0].owner_auth,
       content: results[0].content,
@@ -287,7 +296,7 @@ router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res
 
 router.get(storeMainContentUploadUrl, function(req, res) {
   console.log('1, contentUpload');
-  res.render('contentUpload', {
+  res.render(storeMainContentUploadView, {
     uploadUrl: uploadUrl,
     storeMainUrl: storeMainUrl
   });
@@ -298,7 +307,7 @@ router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
   const sql = 'SELECT * FROM follow WHERE owner_auth=';
   connection.query(sql + mysql.escape(req.params.owner_auth), function(err, results) {
     console.log(results);
-    res.render('follow', {
+    res.render(storeMainFollowerView, {
       follow: results
     });
   });
@@ -307,7 +316,7 @@ router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
 
 router.get(storeMainSaleUrl, function(req, res) {
   console.log('1, sale');
-  res.render('sale');
+  res.render(storeMainSaleView);
 });
 
 //Review List
@@ -318,7 +327,7 @@ router.get(reviewListUrl + '/:owner_auth', function(req, res) {
   var query = connection.query('SELECT store FROM owner WHERE owner_auth=' + mysql.escape(ownerAuth), function(err, results) {
     console.log(results);
     console.log('2, review list before render');
-    res.render('review_reviewList', {
+    res.render(reviewListView, {
       owner_auth: ownerAuth,
       store: results[0].store,
       iframeUrl: reviewListContainerUrl + '/' + ownerAuth
@@ -406,7 +415,7 @@ router.get(reviewDetailUrl + '/:owner_auth/:number', function(req, res) {
     if (err) throw err;
     console.log(results);
     console.log('2, review detail before render');
-    res.render('review_reviewDetail', {
+    res.render(reviewDetailView, {
       owner_auth: ownerAuth,
       user_name: results[reviewNumber].user_auth,
       store: results[reviewNumber].store,

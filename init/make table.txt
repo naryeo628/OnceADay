@@ -16,7 +16,7 @@ address3 VARCHAR(10),
 address4 VARCHAR(100),
 tel varchar(20),
 time text,
-image_url text, 
+image_url text,
 constraint pk_store primary key(owner_auth))
 default charset=utf8;
 
