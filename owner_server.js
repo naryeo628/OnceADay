@@ -81,16 +81,13 @@ const reviewListView = `review_reviewList`;
 const reviewListContainerView = ``;
 const reviewDetailView = `review_reviewDetail`;
 
+router.get('/', function(req, res) {
+  res.redirect(loginUrl);
+});
 
 router.get(logoutUrl, function(req, res) {
   req.logout();
   res.redirect(loginUrl);
-});
-router.get(loginUrl, function(req, res) {
-  res.render(loginView, {
-    storeRegisterUrl: registerUrl,
-    storeloginPostUrl: loginUrl
-  });
 });
 
 passport.serializeUser(function(user, done) {
@@ -117,6 +114,7 @@ passport.use(new LocalStrategy({
     passwordField: 'owner_password'
   },
   function(owner_id, owner_password, done) {
+    console.log('start login function');
     var uname = owner_id;
     var pwd = owner_password;
     var sql = 'SELECT * FROM owner WHERE owner_auth=';
@@ -145,11 +143,19 @@ passport.use(new LocalStrategy({
   }
 ));
 
+router.get(loginUrl, function(req, res) {
+  res.render(loginView, {
+    storeRegisterUrl: registerUrl,
+    storeloginPostUrl: loginUrl,
+    idBoxName: 'owner_id',
+    passwordBoxName: 'owner_password'
+  });
+});
 router.post(loginUrl, passport.authenticate('local', {
   failureRedirect: loginUrl
 }), function(req, res) {
   console.log(req.session.passport.user);
-  res.redirect(storeMainUrl + '/' + req.session.passport.user);
+  res.redirect(storeMainUrl);
 });
 router.get(registerUrl, function(req, res) {
   console.log('1, ' + registerUrl + 'get callback start');
@@ -192,10 +198,10 @@ router.post(registerUrl, function(req, res) {
   });
 });
 
-router.get(storeMainUrl + '/:owner_auth', function(req, res) {
+router.get(storeMainUrl, function(req, res) {
   console.log('1, storeMain');
   var sql = 'SELECT * FROM owner WHERE owner_auth=';
-  const ownerAuth = req.params.owner_auth;
+  const ownerAuth = req.session.passport.user;
   console.log('1.1, ' + ownerAuth);
   connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
     console.log(results);
@@ -204,18 +210,12 @@ router.get(storeMainUrl + '/:owner_auth', function(req, res) {
     const info = results[0];
     console.log('3, before render');
     res.render(storeMainView, {
-      owner_auth: ownerAuth,
-      store: info.store,
-      address1: info.address1,
-      address2: info.address2,
-      address3: info.address3,
-      address4: info.address4,
-      tel: info.tel,
-      storeTime: info.time,
-      followerListUrl: storeMainFollowerUrl + '/' + ownerAuth,
-      reviewUrl: reviewListUrl + '/' + ownerAuth,
+      contents: results[0],
+      saleUrl: storeMainSaleUrl,
+      followerListUrl: storeMainFollowerUrl,
+      reviewUrl: reviewListUrl,
       contentUploadUrl: storeMainContentUploadUrl,
-      iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
+      iframeUrl: storeMainContentContainerUrl
     });
     console.log('4, after render');
     return;
@@ -224,10 +224,10 @@ router.get(storeMainUrl + '/:owner_auth', function(req, res) {
   return;
 });
 
-router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {
+router.get(storeMainContentContainerUrl, function(req, res) {
   console.log('1, storeMainContainer');
   var sql = 'SELECT * FROM content_list WHERE owner_auth=';
-  connection.query(sql + mysql.escape(req.params.owner_auth), function(err, results) {
+  connection.query(sql + mysql.escape(req.session.passport.user), function(err, results) {
     console.log(results);
     var html = `
       <!DOCTYPE html>
@@ -282,11 +282,11 @@ router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {
   });
 });
 
-router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res) {
+router.get(storeMainContentDetailUrl + '/:number', function(req, res) {
   console.log('1, contentDetail');
   const sql1 = 'select * from content_list where owner_auth=';
   const sql2 = 'and number='
-  connection.query(sql1 + mysql.escape(req.params.owner_auth) + sql2 + mysql.escape(req.params.number), function(err, results) {
+  connection.query(sql1 + mysql.escape(req.session.passport.user) + sql2 + mysql.escape(req.params.number), function(err, results) {
     console.log(results);
     res.render(storeMainContentDetailView, {
       url: results[0].url,
@@ -305,10 +305,10 @@ router.get(storeMainContentUploadUrl, function(req, res) {
   });
 });
 
-router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
+router.get(storeMainFollowerUrl, function(req, res) {
   console.log('1, follow');
   const sql = 'SELECT * FROM follow WHERE owner_auth=';
-  connection.query(sql + mysql.escape(req.params.owner_auth), function(err, results) {
+  connection.query(sql + mysql.escape(req.session.passport.user), function(err, results) {
     console.log(results);
     res.render(storeMainFollowerView, {
       follow: results
@@ -323,9 +323,9 @@ router.get(storeMainSaleUrl, function(req, res) {
 });
 
 //Review List
-router.get(reviewListUrl + '/:owner_auth', function(req, res) {
+router.get(reviewListUrl, function(req, res) {
   console.log('1, reviewList');
-  const ownerAuth = req.params.owner_auth;
+  const ownerAuth = req.session.passport.user;
   console.log('1.1, ' + ownerAuth);
   var query = connection.query('SELECT store FROM owner WHERE owner_auth=' + mysql.escape(ownerAuth), function(err, results) {
     console.log(results);
@@ -333,7 +333,7 @@ router.get(reviewListUrl + '/:owner_auth', function(req, res) {
     res.render(reviewListView, {
       owner_auth: ownerAuth,
       store: results[0].store,
-      iframeUrl: reviewListContainerUrl + '/' + ownerAuth
+      iframeUrl: reviewListContainerUrl
     });
     console.log('3, review list after render');
   });
@@ -341,9 +341,9 @@ router.get(reviewListUrl + '/:owner_auth', function(req, res) {
 });
 
 //Reviews Container
-router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
+router.get(reviewListContainerUrl, function(req, res) {
   console.log('1, reviewContainer');
-  const ownerAuth = req.params.owner_auth;
+  const ownerAuth = req.session.passport.user;
   console.log('1.1, reviewContainer/' + ownerAuth);
   const sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
   const sql2 = 'and review.owner_auth=';
@@ -373,7 +373,7 @@ router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
     for (var i = 0; i < results.length; i++) { //results[i].user_id
       //여기에 리뷰 클릭시 이동할 url입력.
       var reviewRow = `
-          <tr onclick="parent.change_parent_url('${reviewDetailUrl}/${ownerAuth}/${i}');">
+          <tr onclick="parent.change_parent_url('${reviewDetailUrl}/${i}');">
             <td>${results[i].user_auth}</td>
             <td>`;
       var stars = ``;
@@ -403,9 +403,9 @@ router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
 });
 
 //Review Detail
-router.get(reviewDetailUrl + '/:owner_auth/:number', function(req, res) {
+router.get(reviewDetailUrl + '/:number', function(req, res) {
   console.log('1, reviewDetail');
-  const ownerAuth = req.params.owner_auth;
+  const ownerAuth = req.session.passport.user;
   const reviewNumber = req.params.number;
   console.log('1.1, review/detail/' + ownerAuth + '/' + reviewNumber);
   var sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';

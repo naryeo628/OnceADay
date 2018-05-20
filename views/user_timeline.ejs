@@ -50,7 +50,7 @@
       //body.removeChild(trash);
       trash.parentNode.removeChild(trash);
       clearTimeout();
-    }, 500);
+    }, 10);
 
     function setSize() {
       var header = document.getElementById('header');
@@ -68,26 +68,41 @@
       setSize();
       window.addEventListener('resize', setSize);
     }
+
+    function homeFrame() {
+      var frame = document.getElementById('timelineBigFrame');
+      frame.src = "<%=iframeUrl%>";
+    }
+
+    function searchFrame() {
+      var frame = document.getElementById('timelineBigFrame');
+      frame.src = "<%=searchUrl%>";
+    }
+
+    function followsFrame() {
+      var frame = document.getElementById('timelineBigFrame');
+      frame.src = "<%=followsUrl%>";
+    }
   </script>
 </head>
 
 <body id="body">
-  <table>
+  <table style="border-collapse: collapse;">
     <tr id="header" style="">
       <td class="title" colspan="3">삼시한끼</td>
     </tr>
     <tr id="timeline">
-      <td colspan="3"><iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe></td>
+      <td colspan="3"><iframe id='timelineBigFrame' src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe></td>
     </tr>
     <tr id="footer">
-      <td>
-        <img id="img1" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-home-6.png" onload="setSize();">
+      <td style="border-top: 1px solid black;">
+        <img id="img1" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-home-6.png" onload="setSize();" onclick="homeFrame();">
       </td>
-      <td>
-        <img id="img2" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-magnifier-1.png" onload="setSize();">
+      <td style="border-top: 1px solid black;">
+        <img id="img2" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-magnifier-1.png" onload="setSize();" onclick="searchFrame();">
       </td>
-      <td>
-        <img id="img3" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-favorite-3.png" onload="setSize();">
+      <td style="border-top: 1px solid black;">
+        <img id="img3" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-favorite-3.png" onload="setSize();" onclick="followsFrame();">
       </td>
     </tr>
   </table>

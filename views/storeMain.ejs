@@ -16,7 +16,7 @@
             grid-gap: 10px;
             padding: 10px;
         }
-        
+
         .grid-container>div {
             border: 1px solid black;
             text-align: center;
@@ -25,18 +25,18 @@
             height;
             100px;
         }
-        
+
         .container {
             display: grid;
         }
-        
+
         p {
             background-color: skyblue;
             text-align: center;
             margin-top: 0;
             padding-bottom: -5px;
         }
-        
+
         .storename {
             text-align: center;
             background-color: #3498DB;
@@ -46,22 +46,22 @@
             font-family: sans-serif;
             font-weight: bold;
         }
-        
+
         .prof {
             border: 1px solid skyblue;
             width: 100%;
         }
-        
+
         #review {
             color: blue;
             background-color: white;
         }
-        
+
         #follower {
             color: blue;
             background-color: white;
         }
-        
+
         #plus {
             font-size: 50px;
             color: blue;
@@ -70,7 +70,7 @@
             right: 0;
             -webkit-transform: translateZ(0);
         }
-        
+
         #sale {
             font-size: 20px;
             position: absolute;
@@ -79,21 +79,21 @@
             color: white;
         }
 	.btn{
-	font-size: 12px; 
-        color: white; 
-        text-align: center; 
-        line-height: 2em; 
-        border-radius: 4px; 
+	font-size: 12px;
+        color: white;
+        text-align: center;
+        line-height: 2em;
+        border-radius: 4px;
         background-color: rgb(94, 94, 94);
-	}	
-	
+	}
+
     </style>
 </head>
 <body>
 	<div class="storename">
-		<%=store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='/sale' id="sale"></span></div>
+		<%=contents.store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='<%=saleUrl%>' id="sale"></span></div>
 	<div class="container">
-		<img src="http://cfile29.uf.tistory.com/image/2511784058CD4BA12AC7AE" width="100" height="100" alt="프로필 사진" id='profimage' />
+		<img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage' />
 		<div>
 			<button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
 			<button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
@@ -105,9 +105,9 @@
 		<p onclick="hideshow()">프로필</p>
 		<div id="profile">
 			<!--가게 프로필-->
-			주소 : <%=address1%> <%=address2%> <%=address3%> <%=address4%> <br>
-			전화번호 : <%=tel%><br>
-			영업시간: <%=storeTime%>
+			주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%> <br>
+			전화번호 : <%=contents.tel%><br>
+			영업시간: <%=contents.time%>
 		</div>
 	</div>
 	<script>
