@@ -4,16 +4,26 @@
 <head>
   <meta charset="utf-8">
   <style>
-    html, form, table, tbody, body, iframe {
+    html,
+    form,
+    table,
+    tbody,
+    body,
+    iframe {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
     }
-    td, h1, h2, h4 {
+
+    td,
+    h1,
+    h2,
+    h4 {
       margin: 0;
       padding: 0;
     }
+
     .title {
       background-color: #e3afed;
       color: #000000;
@@ -23,7 +33,15 @@
 </head>
 
 <body>
-
+  <table>
+    <tr>
+    <%for(var i = 0; i < contents.length; i++){%>
+      <td><img src="<%=contents[i].image_url%>" style="height : 100%">
+        <%=contents[i].store%>
+      </td>
+    <%}%>
+    </tr>
+  </table>
 </body>
 
 </html>

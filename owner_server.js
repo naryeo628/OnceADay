@@ -112,10 +112,13 @@ passport.deserializeUser(function(id, done) {
 });
 
 //local login function
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    var uname = username;
-    var pwd = password;
+passport.use(new LocalStrategy({
+    usernameField: 'owner_id',
+    passwordField: 'owner_password'
+  },
+  function(owner_id, owner_password, done) {
+    var uname = owner_id;
+    var pwd = owner_password;
     var sql = 'SELECT * FROM owner WHERE owner_auth=';
     connection.query(sql + mysql.escape('local:' + uname), function(err, results) {
       console.log(results);
@@ -342,7 +345,6 @@ router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
   console.log('1, reviewContainer');
   const ownerAuth = req.params.owner_auth;
   console.log('1.1, reviewContainer/' + ownerAuth);
-  //  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad FROM review, owner WHERE owner.owner_auth=';
   const sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
   const sql2 = 'and review.owner_auth=';
   var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {
@@ -406,9 +408,6 @@ router.get(reviewDetailUrl + '/:owner_auth/:number', function(req, res) {
   const ownerAuth = req.params.owner_auth;
   const reviewNumber = req.params.number;
   console.log('1.1, review/detail/' + ownerAuth + '/' + reviewNumber);
-  /*
-  var sql1 = 'SELECT owner.store, review.user_id, review.score, review.good, review.bad, review.image FROM review, owner WHERE owner.owner_auth=';
-  */
   var sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
   var sql2 = 'and review.owner_auth=';
   var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {

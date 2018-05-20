@@ -51,6 +51,7 @@ const uploadUrl = `/upload`;
 
 //Views
 const loginView = `user_login`;
+const registerView = `user_register`;
 const timelineView = `user_timeline`;
 const timelineFollowContainerView = `user_timelineFollowContainer`;
 const timelineSaleContainerView = `user_timelineSaleContainer`;
@@ -86,12 +87,6 @@ router.get(logoutUrl, function(req, res) {
   req.logout();
   res.redirect(loginUrl);
 });
-router.get(loginUrl, function(req, res) {
-  res.render(loginView, {
-    storeRegisterUrl: registerUrl,
-    storeloginPostUrl: loginUrl
-  });
-});
 
 passport.serializeUser(function(user, done) {
   console.log('serializeUser', user);
@@ -101,7 +96,7 @@ passport.deserializeUser(function(id, done) {
   console.log('deserializeUser', id);
   var sql = 'SELECT * FROM user WHERE user_auth=?';
   connection.query(sql, [id], function(err, results) {
-    console.log(sql, err, results);
+    console.log(sql, 'err:' + err, results);
     if (err) {
       console.log(err);
       done('There is no user.');
@@ -112,10 +107,14 @@ passport.deserializeUser(function(id, done) {
 });
 
 //local login function
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    var uname = username;
-    var pwd = password;
+passport.use(new LocalStrategy({
+    usernameField: 'user_id',
+    passwordField: 'user_password'
+  },
+  function(user_id, user_password, done) {
+    console.log('login function start');
+    var uname = user_id;
+    var pwd = user_password;
     var sql = 'SELECT * FROM user WHERE user_auth=?';
     connection.query(sql, ['local:' + uname], function(err, results) {
       console.log(results);
@@ -141,23 +140,34 @@ passport.use(new LocalStrategy(
     });
   }
 ));
-
+router.get(loginUrl, function(req, res) {
+  res.render(loginView, {
+    idBoxName: 'user_id',
+    passwordBoxName: 'user_password',
+    loginPostUrl: loginUrl,
+    registerUrl: registerUrl
+  });
+});
 router.post(loginUrl, passport.authenticate('local', {
   failureRedirect: loginUrl
 }), function(req, res) {
+  console.log('loginPostFunction');
   console.log(req.session.passport.user);
-  res.redirect(timelineUrl + '/' + req.session.passport.user);
+  res.redirect(timelineUrl);
 });
 router.get(registerUrl, function(req, res) {
   console.log('1, ' + registerUrl + 'get callback start');
-  res.render('storeRegister', {
+  res.render(registerView, {
+    idBoxName: 'user_id',
+    passwordBoxName: 'user_password',
+    nameBoxName: 'user_name',
     registerPostUrl: registerUrl
   });
 });
 router.post(registerUrl, function(req, res) {
   console.log('1, ' + registerUrl + 'post callback start');
   hasher({
-    password: req.body.user_pw
+    password: req.body.user_password
   }, function(err, pass, salt, hash) {
     var user = {
       user_auth: 'local:' + req.body.user_id,
@@ -183,19 +193,18 @@ router.post(registerUrl, function(req, res) {
   });
 });
 
-
-router.get(timelineUrl + '/:user_auth', function(req, res) {
+router.get(timelineUrl, function(req, res) {
   console.log('1, ' + timelineUrl + ' get callback start');
-  const userAuth = req.params.user_auth;
+  const userAuth = req.session.passport.user;
   console.log('1.1, ' + timelineUrl + '/' + userAuth);
   res.render(timelineView, {
-    iframeUrl: timelineFollowContainerUrl + '/' + userAuth
+    iframeUrl: timelineFollowContainerUrl
   });
 });
 
-router.get(timelineFollowContainerUrl + '/:user_auth', function(req, res) {
+router.get(timelineFollowContainerUrl, function(req, res) {
   console.log('1, ' + timelineFollowContainerUrl + ' get callback start');
-  const userAuth = req.params.user_auth;
+  const userAuth = req.session.passport.user;
   console.log('1.1, ' + timelineFollowContainerUrl + '/' + userAuth);
   const sql1 = `SELECT owner_auth FROM follow WHERE user_auth=` + mysql.escape(userAuth);
   connection.query(sql1, function(err, results) {
@@ -203,7 +212,7 @@ router.get(timelineFollowContainerUrl + '/:user_auth', function(req, res) {
     console.log(results);
     let sql2 = `SELECT content_list.*, owner.store, owner.image_url FROM content_list, owner`;
     for (var i = 0; i < results.length; i++) {
-      if(results.length > 0){
+      if (results.length > 0) {
         sql2 += ` WHERE `;
       }
       sql2 += `content_list.owner_auth=` + mysql.escape(results[i].owner_auth);
