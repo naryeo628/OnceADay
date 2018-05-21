@@ -143,6 +143,9 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+router.get('/',function(req,res){
+  res.redirect(loginUrl);
+});
 router.get(loginUrl, function(req, res) {
   res.render(loginView, {
     idBoxName: 'user_id',
