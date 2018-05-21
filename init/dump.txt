@@ -3,3 +3,6 @@ mysqldump -h localhost -u root -p o3 > \o3.sql
 
 mysql -h localhost -u root -p o3 < /home/ejungwook/capstoneDesign/dev/OnceADay/init/o3.sql
 111111
+
+mysql -h localhost -u root -p o3 < /home/ubuntu/o3.sql
+111111

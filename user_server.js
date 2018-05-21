@@ -9,6 +9,7 @@ var bkfd2Password = require("pbkdf2-password");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var hasher = bkfd2Password();
+var FacebookStrategy = require('passport-facebook').Strategy;
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -31,6 +32,7 @@ router.use(bodyParser.urlencoded({
 
 //URLs
 const loginUrl = `/user/login`;
+const facebookLoginUrl = `/user/facebook/login`;
 const logoutUrl = `/user/logout`;
 const registerUrl = `/user/register`;
 const mainUrl = `/user/main`;
@@ -38,6 +40,7 @@ const mainTimelineUrl = `/user/main/timeline`;
 const mainBargainsUrl = `/user/main/sale`;
 const mainSearchUrl = `/user/main/search`;
 const mainFollowsUrl = `/user/main/follows`;
+const mainStoreUrl = `/user/main/store`;
 
 /*
 const storeMainContentContainerUrl = `/user/storeMain/container`;
@@ -108,7 +111,39 @@ passport.deserializeUser(function(id, done) {
     }
   });
 });
-
+var FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: '236726423560804',
+    clientSecret: '92125918173fe7cc55b7212bf2a9f135',
+    callbackURL: "/user/facebook/login",
+    profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified', 'displayName']
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+    var userAuth = 'facebook:' + profile.id;
+    var sql = 'SELECT * FROM user WHERE user_auth=' + mysql.escape(userAuth);
+    conn.query(sql, function(err, results) {
+      if (results.length > 0) {
+        done(null, results[0]);
+      } else {
+        var newuser = {
+          'user_auth': authId,
+          'user_id': profile.id,
+          'name': profile.displayName
+        };
+        var sql = 'INSERT INTO users SET ?'
+        conn.query(sql, newuser, function(err, results) {
+          if (err) {
+            console.log(err);
+            done('Error');
+          } else {
+            done(null, newuser);
+          }
+        })
+      }
+    });
+  }
+));
 //local login function
 passport.use(new LocalStrategy({
     usernameField: 'user_id',
@@ -143,7 +178,7 @@ passport.use(new LocalStrategy({
     });
   }
 ));
-router.get('/',function(req,res){
+router.get('/', function(req, res) {
   res.redirect(loginUrl);
 });
 router.get(loginUrl, function(req, res) {
@@ -237,10 +272,15 @@ router.get(mainTimelineUrl, function(req, res) {
       console.log(results2);
       res.render(timelineFollowContainerView, {
         contents: results2,
-        iframeUrl: mainBargainsUrl
+        iframeUrl: mainBargainsUrl,
+        storeUrl: mainStoreUrl
       });
     });
   });
+});
+
+router.get(mainStoreUrl + '/:owner_auth', function(req, res){
+  
 });
 
 router.get(mainBargainsUrl, function(req, res) {
@@ -264,7 +304,7 @@ router.post(mainSearchUrl, function(req, res) {
   var address2 = req.body.address2;
   var address3 = req.body.address3;
   var sql = `SELECT store from owner where address1 = ?, address2 = ?, address3 = ? `
-  connect.query(sql, [address1, address2, address3], function(err, results){
+  connect.query(sql, [address1, address2, address3], function(err, results) {
     res.render(searchResultView, {
       contents: results
     });

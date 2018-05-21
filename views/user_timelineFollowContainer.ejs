@@ -48,14 +48,14 @@
       <td style="border-bottom: 1px solid black;"><iframe src="<%=iframeUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="height: 100%; width: 100%"></iframe></td>
     </tr>
     <%for(var i = 0; i < contents.length; i++){%>
-      <tr id="store_head">
-        <td><img id="store_icon" src="<%=contents[i].image_url%>" style="height : 50px">
-          <%=contents[i].store%>
-        </td>
-      </tr>
-      <tr id="content">
-        <td><img id="content_img" src="<%=contents[i].url%>"></td>
-      </tr>
+        <tr id="store_head" onclick="location.href='<%=storeUrl%>/<%=contents[i].owner_auth%>'">
+          <td><img id="store_icon" src="<%=contents[i].image_url%>" style="width: 50px; border: 1px solid gold; border-radius: 100px; -moz-border-radius: 100px; -khtml-border-radius: 100px; -webkit-border-radius: 100px; ">
+            <%=contents[i].store%>
+          </td>
+        </tr>
+        <tr id="content ">
+          <td><img id="content_img " src="<%=contents[i].url%>" style="width: 100%;"></td>
+        </tr>
       <tr id="content_text">
         <td>
           <span><%=contents[i].content%></span>

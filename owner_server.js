@@ -262,7 +262,7 @@ router.get(storeMainContentContainerUrl, function(req, res) {
       `;
       if (results.length - i <= 3) {
         var temp = `
-            <td><span><img src="${results[i + j].url}" alt="${results[i + j].content}" onclick = "location.href = '${storeMainContentDetailUrl} + '/' + ${results[i + j].owner_auth} + '/' + ${results[i + j].number}'"></span></td>`;
+            <td><span><img src="${results[i + j].url}" alt="${results[i + j].content}" onclick = "location.href = '${storeMainContentDetailUrl} + '/' + ${results[i + j].number}'"></span></td>`;
         for (var j = 0; j < results.length % 3; j++) {
           content += temp;
         }
@@ -463,6 +463,7 @@ Upload = require('../s3upload/uploadservice'),
         });
       }
     ];
+    //사용자에게 알려줌
     async.waterfall(tasks, function(err, result) {
       if (!err) {
         //res.json({success:true, msg:'업로드 성공'})
