@@ -280,7 +280,7 @@ router.get(mainTimelineUrl, function(req, res) {
 });
 
 router.get(mainStoreUrl + '/:owner_auth', function(req, res){
-  
+
 });
 
 router.get(mainBargainsUrl, function(req, res) {
