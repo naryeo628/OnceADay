@@ -2,145 +2,191 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <title>StoreMainPage</title>
-    <style>
-        .grid-container {
-            grid-gap: 10px;
-            padding: 10px;
-        }
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <title>StoreMainPage</title>
+  <style>
+    html,
+    form,
+    table,
+    tbody,
+    body,
+    iframe {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-        .grid-container>div {
-            border: 1px solid black;
-            text-align: center;
-            font-size: 30px;
-            width: 100px;
-            height;
-            100px;
-        }
+    td,
+    h1,
+    h2,
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            display: grid;
-        }
+    .grid-container {
+      grid-gap: 10px;
+      padding: 10px;
+    }
 
-        p {
-            background-color: skyblue;
-            text-align: center;
-            margin-top: 0;
-            padding-bottom: -5px;
-        }
+    .grid-container>div {
+      border: 1px solid black;
+      text-align: center;
+      font-size: 30px;
+      width: 100px;
+      height;
+      100px;
+    }
 
-        .storename {
-            text-align: center;
-            background-color: #3498DB;
-            padding: 5px;
-            font-size: 20px;
-            color: white;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
+    .container {
+      display: grid;
+    }
 
-        .prof {
-            border: 1px solid skyblue;
-            width: 100%;
-        }
+    p {
+      background-color: skyblue;
+      text-align: center;
+      margin-top: 0;
+      padding-bottom: -5px;
+    }
 
-        #review {
-            color: blue;
-            background-color: white;
-        }
+    .storename {
+      text-align: center;
+      background-color: #3498DB;
+      padding: 5px;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
 
-        #follower {
-            color: blue;
-            background-color: white;
-        }
+    .prof {
+      border: 1px solid skyblue;
+      width: 100%;
+    }
 
-        #plus {
-            font-size: 50px;
-            color: skyblue;
-            position: fixed;
-            top:400px;
-            right: 10px;
-            -webkit-transform: translateZ(0);
-        }
+    #review {
+      color: blue;
+      background-color: white;
+    }
 
-        #sale {
-            font-size: 20px;
-            position: absolute;
-            left: 5px;
-            top: 10px;
-            color: white;
-        }
-	.btn{
-	font-size: 12px;
-        color: white;
-        text-align: center;
-        line-height: 2em;
-        border-radius: 4px;
-        background-color: rgb(94, 94, 94);
-	}
+    #follower {
+      color: blue;
+      background-color: white;
+    }
 
-    </style>
+    #plus {
+      font-size: 50px;
+      color: skyblue;
+      position: fixed;
+      top: 400px;
+      right: 10px;
+      -webkit-transform: translateZ(0);
+    }
+
+    #sale {
+      font-size: 20px;
+      position: absolute;
+      left: 5px;
+      top: 10px;
+      color: white;
+    }
+
+    .btn {
+      font-size: 12px;
+      color: white;
+      text-align: center;
+      line-height: 2em;
+      border-radius: 4px;
+      background-color: rgb(94, 94, 94);
+    }
+  </style>
 </head>
-<body>
-	<div class="storename">
-		<%=contents.store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='<%=saleUrl%>' id="sale"></span></div>
-	<div class="container">
-                <table>
-                <tr>
-                <td>
-       <img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage'/>
-                </td>
-                <td><br>
-        <button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
-                        <br>
-                        <button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
 
-                        <button class="btn" onclick=location.href='/changeInfo'>프로필 수정</button>
-                </td>
-                </tr>
-                </table>
+<body>
+  <table>
+    <tr class="storename" style="height: 8%;">
+      <td>
+        <div>
+          <%=contents.store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='<%=saleUrl%>' id="sale"></span></div>
+        <div class="container">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage' />
+            </td>
+            <td><br>
+              <button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
+              <br>
+              <button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
+
+              <button class="btn" onclick=location.href='/changeInfo'>프로필 수정</button>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!-- 가게 정보 -->
+        <div class="prof">
+          <p onclick="hideshow()">프로필</p>
+          <div id="profile">
+            <!--가게 프로필-->
+            주소 :
+            <%=contents.address1%>
+              <%=contents.address2%>
+                <%=contents.address3%>
+                  <%=contents.address4%> <br> 전화번호 :
+                    <%=contents.tel%><br> 영업시간:
+                      <%=contents.time%>
+          </div>
+        </div>
+        <script>
+          function hideshow() {
+            var x = document.getElementById("profile");
+            if (x.style.display === "none") {
+              x.style.display = "block";
+            } else {
+              x.style.display = "none";
+            }
+          }
+        </script>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!--여기에 게시글 -->
+        <div class="grid-container">
+          <!--contentList는 서버에서 넘길 때 받는 값-->
+          <div>
+            <iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
+          </div>
         </div>
 
-	<!-- 가게 정보 -->
-	<div class="prof">
-		<p onclick="hideshow()">프로필</p>
-		<div id="profile">
-			<!--가게 프로필-->
-			주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%> <br>
-			전화번호 : <%=contents.tel%><br>
-			영업시간: <%=contents.time%>
-		</div>
-	</div>
-	<script>
-		function hideshow() {
-			var x = document.getElementById("profile");
-			if (x.style.display === "none") {
-				x.style.display = "block";
-			} else {
-				x.style.display = "none";
-			}
-		}
-	</script>
+        <span id="plus" class="glyphicon glyphicon-plus-sign" aria-hidden="true" onclick="upload()"></span>
+        <script type="text/javascript">
+          function upload() {
+            location.href = "<%=contentUploadUrl%>"
+          }
+        </script>
+      </td>
+    </tr>
+  </table>
 
-	<!--여기에 게시글 -->
-	<div class="grid-container">
-		<!--contentList는 서버에서 넘길 때 받는 값-->
-		<div>
-			<iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
-		</div>
-	</div>
+  </div>
 
-	<span id="plus" class="glyphicon glyphicon-plus-sign" aria-hidden="true" onclick="upload()"></span>
-	<script type="text/javascript">
-		function upload() {
-			location.href = "<%=contentUploadUrl%>"
-		}
-	</script>
+
+
+
 
 </body>
 

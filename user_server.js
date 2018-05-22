@@ -41,18 +41,20 @@ const mainBargainsUrl = `/user/main/sale`;
 const mainSearchUrl = `/user/main/search`;
 const mainFollowsUrl = `/user/main/follows`;
 const mainStoreUrl = `/user/main/store`;
+const mainUserInfoUrl = `/user/main/userInfo`;
+const successUrl = `/success`;
 
-/*
-const storeMainContentContainerUrl = `/user/storeMain/container`;
-const storeMainContentDetailUrl = `/user/storeMain/container/detail`;
-const storeMainContentUploadUrl = `/user/storeMain/upload/content`;
-const storeMainFollowerUrl = `/user/storeMain/follower`;
-const storeMainSaleUrl = `/user/storeMain/sale`;
-const reviewListUrl = `/user/storeMain/review/list`;
-const reviewListContainerUrl = `/user/storeMain/review/list/container`;
-const reviewDetailUrl = `/user/storeMain/review/detail`;
+const storeMainUrl = `/owner/storeMain`;
+const storeMainContentContainerUrl = `/owner/storeMain/container`;
+const storeMainContentDetailUrl = `/owner/storeMain/container/detail`;
+const storeMainContentUploadUrl = `/owner/storeMain/upload/content`;
+const storeMainFollowerUrl = `/owner/storeMain/follower`;
+const storeMainSaleUrl = `/owner/storeMain/sale`;
+const reviewListUrl = `/owner/storeMain/review/list`;
+const reviewListContainerUrl = `/owner/storeMain/review/list/container`;
+const reviewDetailUrl = `/owner/storeMain/review/detail`;
 const uploadUrl = `/upload`;
-*/
+const writeReviewUrl = `/owner/storeMain/review/write`;
 
 //Views
 const loginView = `user_login`;
@@ -61,8 +63,20 @@ const timelineView = `user_timeline`;
 const timelineFollowContainerView = `user_timelineFollowContainer`;
 const timelineSaleContainerView = `user_timelineSaleContainer`;
 const mainSearchView = `search2`;
+const mainUserInfoView = `user_userInformation`;
 const searchResultView = ``;
 
+const storeMainView = `user_storeMain`;
+const storeMainContentContainerView = `user_storeMainContentContainer`;
+const storeMainContentDetailView = `contentDetail`;
+const storeMainContentUploadView = `contentUpload`;
+const storeMainFollowerView = `follow`;
+const storeMainSaleView = `sale`;
+const reviewListView = `review_reviewList`;
+const reviewListContainerView = ``;
+const reviewDetailView = `review_reviewDetail`;
+const writeReviewView = `user_review_write`;
+const successView = `success`;
 
 
 
@@ -90,8 +104,10 @@ router.get('/count', function(req, res) {
 });
 
 router.get(logoutUrl, function(req, res) {
-  req.logout();
-  res.redirect(loginUrl);
+  delete req.session.passport.user; //세션 삭제
+  req.session.save(function() { //데이터 저장이 끝났을때 호출됨 안전하게 redirect하기 위함
+    res.redirect('/');
+  });
 });
 
 passport.serializeUser(function(user, done) {
@@ -182,12 +198,15 @@ router.get('/', function(req, res) {
   res.redirect(loginUrl);
 });
 router.get(loginUrl, function(req, res) {
-  res.render(loginView, {
-    idBoxName: 'user_id',
-    passwordBoxName: 'user_password',
-    loginPostUrl: loginUrl,
-    registerUrl: registerUrl
-  });
+  if (req.session.passport.user)
+    res.redirect(mainUrl);
+  else
+    res.render(loginView, {
+      idBoxName: 'user_id',
+      passwordBoxName: 'user_password',
+      loginPostUrl: loginUrl,
+      registerUrl: registerUrl
+    });
 });
 router.post(loginUrl, passport.authenticate('local', {
   failureRedirect: loginUrl
@@ -241,7 +260,8 @@ router.get(mainUrl, function(req, res) {
   res.render(timelineView, {
     iframeUrl: mainTimelineUrl,
     searchUrl: mainSearchUrl,
-    followsUrl: mainFollowsUrl
+    followsUrl: mainFollowsUrl,
+    userInfoUrl: mainUserInfoUrl
   });
 });
 
@@ -252,35 +272,41 @@ router.get(mainTimelineUrl, function(req, res) {
   const sql1 = `SELECT owner_auth FROM follow WHERE user_auth=` + mysql.escape(userAuth);
   connection.query(sql1, function(err, results) {
     if (err) return done(err);
-    console.log(results);
-    let sql2 = `
+    console.log('results1 : ', results);
+    console.log('sql1 : ', sql1);
+    if (results.length != 0) {
+      let sql2 = `
     SELECT DISTINCT content_list.*, owner.store, owner.image_url
     FROM content_list, owner
     `;
-    for (var i = 0; i < results.length; i++) {
-      if (results.length > 0 && i == 0) {
-        sql2 += ` WHERE `;
+      console.log(results.length);
+      for (var i = 0; i < results.length; i++) {
+        if (results.length > 0 && i == 0) {
+          sql2 += ` WHERE `;
+        }
+        sql2 += `(content_list.owner_auth=` + mysql.escape(results[i].owner_auth) + ` and owner.owner_auth=` + mysql.escape(results[i].owner_auth) + ')';
+        if (i < results.length - 1) {
+          sql2 += ' or ';
+        }
       }
-      sql2 += `(content_list.owner_auth=` + mysql.escape(results[i].owner_auth) + ` and owner.owner_auth=` + mysql.escape(results[i].owner_auth) + ')';
-      if (i < results.length - 1) {
-        sql2 += ' or ';
-      }
-    }
-    sql2 += ` ORDER BY content_list.date ASC`;
-    console.log(sql2);
-    connection.query(sql2, function(err, results2) {
-      console.log(results2);
+      sql2 += ` ORDER BY content_list.date ASC`;
+      console.log(sql2);
+      connection.query(sql2, function(err, results2) {
+        //console.log(results2);
+        res.render(timelineFollowContainerView, {
+          contents: results2,
+          iframeUrl: mainBargainsUrl,
+          storeUrl: mainStoreUrl
+        });
+      });
+    } else {
       res.render(timelineFollowContainerView, {
-        contents: results2,
+        contents: null,
         iframeUrl: mainBargainsUrl,
         storeUrl: mainStoreUrl
       });
-    });
+    }
   });
-});
-
-router.get(mainStoreUrl + '/:owner_auth', function(req, res){
-  
 });
 
 router.get(mainBargainsUrl, function(req, res) {
@@ -304,13 +330,356 @@ router.post(mainSearchUrl, function(req, res) {
   var address2 = req.body.address2;
   var address3 = req.body.address3;
   var sql = `SELECT store from owner where address1 = ?, address2 = ?, address3 = ? `
-  connect.query(sql, [address1, address2, address3], function(err, results) {
+  connection.query(sql, [address1, address2, address3], function(err, results) {
     res.render(searchResultView, {
       contents: results
     });
   });
 });
+router.get(mainUserInfoUrl, function(req, res) {
+  var userAuth = req.session.passport.user;
+  var sql = `SELECT name, address1, address2, address3, address4 FROM user WHERE user_auth=` + mysql.escape(userAuth);
+  connection.query(sql, function(err, results) {
+    //console.log('results : ',results);
+    res.render(mainUserInfoView, {
+      contents: results,
+      userInfoPostUrl: mainUserInfoUrl
+    });
+  });
+});
+router.post(mainUserInfoUrl, function(req, res) {
+  var userAuth = req.session.passport.user;
+  var user = {
+    name: req.body.name,
+    address1: req.body.address1,
+    address2: req.body.address2,
+    address3: req.body.address3,
+    address4: req.body.address4,
+  };
+  var sql = `UPDATE user SET ? WHERE user_auth=` + mysql.escape(req.session.passport.user);
+  connection.query(sql, user, function(err, results) {
+    res.redirect(mainUserInfoUrl);
+  });
+});
 
+
+
+
+
+
+
+
+
+router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
+  console.log('1, storeMain');
+  var sql = 'SELECT * FROM owner WHERE owner_auth=';
+  const ownerAuth = req.params.owner_auth;
+  console.log('1.1, ' + ownerAuth);
+  connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
+    console.log(results);
+    console.log('2');
+    if (err) return done(err);
+    const info = results[0];
+    console.log('3, before render');
+    res.render(storeMainView, {
+      contents: results[0],
+      saleUrl: storeMainSaleUrl + '/' + ownerAuth,
+      followerListUrl: storeMainFollowerUrl + '/' + ownerAuth,
+      reviewUrl: reviewListUrl + '/' + ownerAuth,
+      contentUploadUrl: storeMainContentUploadUrl + '/' + ownerAuth,
+      iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
+    });
+    console.log('4, after render');
+  });
+  console.log('5, after query');
+});
+
+router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {
+  console.log('1, storeMainContainer');
+  const ownerAuth = req.params.owner_auth;
+  var sql = 'SELECT * FROM content_list WHERE owner_auth=';
+  connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
+    //console.log(results);
+    res.render(storeMainContentContainerView, {
+      owner_auth: ownerAuth,
+      contents: results,
+      storeMainContentDetailUrl: storeMainContentDetailUrl + ownerAuth
+    });
+  });
+});
+
+router.get(storeMainContentDetailUrl + '/:owner_auth' + '/:number', function(req, res) {
+  console.log('1, contentDetail');
+  const ownerAuth = req.params.owner_auth;
+  const sql1 = 'select * from content_list where owner_auth=';
+  const sql2 = 'and number='
+  connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(req.params.number), function(err, results) {
+    console.log(results);
+    res.render(storeMainContentDetailView, {
+      url: results[0].url,
+      owner_auth: results[0].owner_auth,
+      content: results[0].content,
+      date: results[0].date
+    });
+  });
+});
+
+router.get(storeMainContentUploadUrl + '/:owner_auth', function(req, res) {
+  console.log('1, contentUpload');
+  const ownerAuth = req.params.owner_auth;
+  res.render(storeMainContentUploadView, {
+    uploadUrl: uploadUrl + '/' + ownerAuth,
+    storeMainUrl: storeMainUrl + '/' + ownerAuth
+  });
+});
+
+router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
+  console.log('1, follow');
+  const ownerAuth = req.params.owner_auth;
+  const sql = 'SELECT * FROM follow WHERE owner_auth=';
+  connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
+    console.log(results);
+    res.render(storeMainFollowerView, {
+      contents: results
+    });
+  });
+});
+
+
+router.get(storeMainSaleUrl + '/:owner_auth', function(req, res) {
+  console.log('1, sale');
+  const ownerAuth = req.params.owner_auth;
+  res.render(storeMainSaleView);
+});
+
+//Review List
+router.get(reviewListUrl + '/:owner_auth', function(req, res) {
+  console.log('1, reviewList');
+  const ownerAuth = req.params.owner_auth;
+  console.log('1.1, ' + ownerAuth);
+  var query = connection.query('SELECT store FROM owner WHERE owner_auth=' + mysql.escape(ownerAuth), function(err, results) {
+    console.log(results);
+    console.log('2, review list before render');
+    res.render(reviewListView, {
+      owner_auth: ownerAuth,
+      store: results[0].store,
+      iframeUrl: reviewListContainerUrl + '/' + ownerAuth,
+      isUser: 1,
+      writeReviewUrl: writeReviewUrl
+    });
+    console.log('3, review list after render');
+  });
+  console.log('4, review list after callback');
+});
+
+//Reviews Container
+router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
+  console.log('1, reviewContainer');
+  const ownerAuth = req.params.owner_auth;
+  console.log('1.1, reviewContainer/' + ownerAuth);
+  const sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
+  const sql2 = 'and review.owner_auth=';
+  var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {
+    if (err) throw err;
+    console.log(results);
+    console.log('2, review container before render');
+    var html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style>
+          html, form, table, tbody, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+          }
+        </style>
+      </head>
+      <body>
+        <table>`;
+    //별점 넣기
+    //<span class="star#" style="color:#ccc;">★</span> : 옅은 별
+    //<span class="star#" style="color:#777;">★</span> : 짙은 별
+    for (var i = 0; i < results.length; i++) { //results[i].user_id
+      //여기에 리뷰 클릭시 이동할 url입력.
+      var reviewRow = `
+          <tr onclick="parent.change_parent_url('${reviewDetailUrl}/${ownerAuth}/${i}');">
+            <td>${results[i].user_auth}</td>
+            <td style="text-align: center">`;
+      var stars = ``;
+      for (var j = 0; j < results[i].score; j++) {
+        stars += `
+              <span style="color:yellow;">★</span>`;
+      }
+      for (var j = 5; j > results[i].score; j--) {
+        stars += `
+              <span style="color:#ccc;">★</span>`;
+      }
+      var reviewRow2 = `
+            </td>
+            <td><div>장점-${results[i].good}</div><div>단점-${results[i].bad}</div></td>
+          </tr>`;
+      html += reviewRow + stars + reviewRow2;
+    }
+    var htmlFooter = `
+        </table>
+      </body>
+      </html>`;
+    html = html + htmlFooter;
+    res.send(html);
+    console.log('3, review container after render');
+  });
+  console.log('4, review container after callback');
+});
+
+//Review Detail
+router.get(reviewDetailUrl + '/:owner_auth' + '/:number', function(req, res) {
+  console.log('1, reviewDetail');
+  const ownerAuth = req.params.owner_auth;
+  const reviewNumber = req.params.number;
+  console.log('1.1, review/detail/' + ownerAuth + '/' + reviewNumber);
+  var sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
+  var sql2 = 'and review.owner_auth=';
+  var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {
+    if (err) throw err;
+    console.log(results);
+    console.log('2, review detail before render');
+    res.render(reviewDetailView, {
+      owner_auth: ownerAuth,
+      user_name: results[reviewNumber].user_auth,
+      store: results[reviewNumber].store,
+      score: results[reviewNumber].score,
+      good: results[reviewNumber].good,
+      bad: results[reviewNumber].bad,
+      reviewImg: results[reviewNumber].image
+    });
+    console.log('3, review detail after render');
+  });
+  console.log('4, review detail after callback');
+});
+router.get(writeReviewUrl + '/:owner_auth', function(req, res) {
+  const ownerAuth = req.params.owner_auth;
+  var sql = `SELECT store FROM owner WHERE owner_auth=` + mysql.escape(ownerAuth);
+  connection.query(sql, function(err, results) {
+    res.render(writeReviewView, {
+      store: results[0].store,
+      writeReviewPostUrl: writeReviewUrl + '/' + ownerAuth
+    });
+  });
+});
+router.post(writeReviewUrl + '/:owner_auth', function(req, res) {
+  const ownerAuth = req.params.owner_auth;
+  const userAuth = req.session.passport.user;
+  var review = {
+    owner_auth: ownerAuth,
+    user_auth: userAuth,
+    good: req.body.good,
+    bad: req.body.bad,
+    score: req.body.rating
+  };
+  var sql1 = `SELECT * FROM review WHERE owner_auth=` + mysql.escape(ownerAuth) + ` and user_auth=` + mysql.escape(userAuth);
+  connection.query(sql1, function(err, results1) {
+    //console.log('results1 : ', results1, typeof results1, !results1, results1=='');
+    if (results1 == '') {
+      var sql = `INSERT INTO review SET ?`;
+    }
+    else{
+      var sql = `UPDATE review SET ? WHERE owner_auth=` + mysql.escape(ownerAuth) + ` and user_auth=` + mysql.escape(userAuth);
+    }
+    connection.query(sql, review, function(err, results2) {
+      res.render(successView, {
+        success: reviewListUrl + '/' + ownerAuth
+      });
+    });
+  });
+});
+router.get(successUrl, function(req, res) {
+  res.render(successView, {
+    success: successUrl
+  });
+});
+
+
+////////////
+Upload = require('./s3upload/uploadservice'),
+  router.post(uploadUrl, function(req, res) {
+    //var content=req.body.content;
+
+    console.log('1, upload');
+    var tasks = [
+      function(callback) {
+        Upload.formidable(req, function(err, files, field) {
+          callback(err, files);
+        })
+      },
+      function(files, callback) {
+        Upload.s3(files, function(err, result) {
+          console.log(result);
+          callback(err, files);
+
+          //var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
+          var sql = 'insert into content_list(owner_auth, url) values ("hyk1031",?)';
+          var params = result;
+          connection.query(sql, [params.Location], function(err, rows, fields) {
+            console.log(rows);
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(rows);
+            }
+          });
+
+        });
+      }
+    ];
+    //사용자에게 알려줌
+    async.waterfall(tasks, function(err, result) {
+      if (!err) {
+        //res.json({success:true, msg:'업로드 성공'})
+        return res.redirect('/storeMain');
+      } else {
+        res.json({
+          success: false,
+          msg: '실패',
+          err: err
+        })
+      }
+    });
+  });
+
+Upload = require('./s3upload/uploadservice'),
+  router.post('/saleProduct', function(req, res) {
+    console.log('1, saleProduct');
+    var tasks = [
+      function(callback) {
+        Upload.formidable(req, function(err, files, field) {
+          callback(err, files);
+        })
+      },
+      function(files, callback) {
+        Upload.s3(files, function(err, result) {
+          callback(err, files);
+        });
+      }
+    ];
+    async.waterfall(tasks, function(err, result) {
+      if (!err) {
+        res.json({
+          success: true,
+          msg: '업로드 성공'
+        })
+      } else {
+        res.json({
+          success: false,
+          msg: '실패',
+          err: err
+        })
+      }
+    });
+
+  });
 router.listen(80, function() {
   console.log('connect 80 port user server');
 });
