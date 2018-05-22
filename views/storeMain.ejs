@@ -10,9 +10,6 @@
     <title>StoreMainPage</title>
     <style>
         .grid-container {
-            display: grid;
-            grid-template-columns: auto auto auto;
-            grid-template-rows: auto;
             grid-gap: 10px;
             padding: 10px;
         }
@@ -64,10 +61,10 @@
 
         #plus {
             font-size: 50px;
-            color: blue;
+            color: skyblue;
             position: fixed;
-            bottom: 0;
-            right: 0;
+            top:400px;
+            right: 10px;
             -webkit-transform: translateZ(0);
         }
 
@@ -93,12 +90,21 @@
 	<div class="storename">
 		<%=contents.store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='<%=saleUrl%>' id="sale"></span></div>
 	<div class="container">
-		<img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage' />
-		<div>
-			<button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
-			<button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
-		</div>
-	</div>
+                <table>
+                <tr>
+                <td>
+       <img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage'/>
+                </td>
+                <td><br>
+        <button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
+                        <br>
+                        <button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
+
+                        <button class="btn" onclick=location.href='/changeInfo'>프로필 수정</button>
+                </td>
+                </tr>
+                </table>
+        </div>
 
 	<!-- 가게 정보 -->
 	<div class="prof">
