@@ -2,35 +2,29 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
   <style>
-    html {
-      height: 100%;
-      width: 100%;
-    }
-
+    html,
+    form,
+    table,
+    tbody,
     body {
-      //background-color: #F1F1F1;
       height: 100%;
       width: 100%;
       margin: 0;
-    }
-
-    form {
-      height: 100%;
-      width: 100%;
-    }
-
-    table {
-      height: 100%;
-      width: 100%;
-    }
-
-    tbody {
-      height: 100%;
-      width: 100%;
+      padding: 0;
     }
 
     td {
+      margin: 0;
+      padding: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-align: center;
+      margin: 0;
       padding: 0;
     }
 
@@ -49,7 +43,6 @@
     }
 
     .floating-input {
-      //padding: 10px;
       display: block;
       width: 300px;
       margin: 30px auto;
@@ -193,57 +186,62 @@
       font-size: 25px;
     }
   </style>
-  <title>user_login</title>
+
+  <title>user_user information</title>
 </head>
 
 <body>
-  <form action="<%=loginPostUrl%>" method="post">
+  <form action="<%=userInfoPostUrl%>" method="post">
     <table>
-      <tbody>
-        <tr class="banner" style="height: 50%;">
-          <td>
-            <h3><img src="/OnceADayLogo.png" style="width: 60%;"></h3>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="floating-input">
-              <input required id='id' type="text" name="<%=idBoxName%>" />
-              <label for="id">아이디</label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="floating-input">
-              <input required id='password' type="password" name="<%=passwordBoxName%>" />
-              <label for="password">비밀번호</label>
-            </div>
-          </td>
-        </tr>
-        <tr class="row">
-          <td>
-            <div class="input-button">
-              <input type="submit" value="로그인" />
-              <div class="ripple-container"></div>
-            </div>
-          </td>
-        </tr>
-        <tr class="row-signin">
-          <td>
-            <div class="div-register-button">
-              <button class="btn-register" onclick="registerPageMove()">회원가입</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      <tr>
+        <td>
+          <div class="floating-input">
+            <input required id="name" type="text" name="name" value="<%=contents[0].name%>" />
+            <label for="name">이름</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="floating-input">
+            <input id="address1" type="text" name="address1" value="<%=contents[0].address1%>" />
+            <label for="address1">시/도</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="floating-input">
+            <input id='address2' type="text" name="address2" value="<%=contents[0].address2%>" />
+            <label for="address2">시/군/구</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="floating-input">
+            <input id='address3' type="text" name="address3" value="<%=contents[0].address3%>" />
+            <label for="address3">읍/면/동</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="floating-input">
+            <input id='address4' type="text" name="address4" value="<%=contents[0].address4%>" />
+            <label for="address4">상세주소</label>
+          </div>
+        </td>
+      </tr>
+      <tr class="row">
+        <td>
+          <div class="input-button">
+            <input type="submit" value="저장">
+          </div>
+        </td>
+      </tr>
     </table>
   </form>
-  <script type="text/javascript">
-    function registerPageMove() {
-      location.href = '<%=registerUrl%>';
-    }
-  </script>
 </body>
 
 </html>

@@ -8,18 +8,22 @@
     form,
     table,
     tbody,
-    body,
-    iframe {
+    body {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
     }
 
-    td,
+    td {
+      margin: 0;
+      padding: 0;
+    }
+
     h1,
     h2,
-    h4 {
+    h3 {
+      text-align: center;
       margin: 0;
       padding: 0;
     }
@@ -30,32 +34,25 @@
       text-align: center;
     }
   </style>
-  <script>
-    function setSize() {
-      var bargains = document.getElementById('bargains');
-      bargains.style.height = window.innerHeight * 0.16 + 'px';
-    }
-    window.onload = function() {
-      setSize();
-      window.addEventListener('resize', setSize);
-    }
-  </script>
 </head>
 
 <body>
   <table>
     <tr id="bargains">
-      <td style="border-bottom: 1px solid black;"><iframe src="<%=iframeUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="height: 100%; width: 100%"></iframe></td>
+      <td>
+        <iframe id="bargains" src="<%=iframeUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="height: 16%; width: 100%; border-bottom: 1px solid black;"></iframe>
+      </td>
     </tr>
-    <%for(var i = 0; i < contents.length; i++){%>
-        <tr id="store_head" onclick="location.href='<%=storeUrl%>/<%=contents[i].owner_auth%>'">
-          <td><img id="store_icon" src="<%=contents[i].image_url%>" style="width: 50px; border: 1px solid gold; border-radius: 100px; -moz-border-radius: 100px; -khtml-border-radius: 100px; -webkit-border-radius: 100px; ">
-            <%=contents[i].store%>
-          </td>
-        </tr>
-        <tr id="content ">
-          <td><img id="content_img " src="<%=contents[i].url%>" style="width: 100%;"></td>
-        </tr>
+    <%if(contents != null) {
+      for(var i = 0; i < contents.length; i++) {%>
+      <tr id="store_head" onclick="location.href='<%=storeUrl%>/<%=contents[i].owner_auth%>'">
+        <td><img id="store_icon" src="<%=contents[i].image_url%>" style="width: 50px; border: 1px solid gold; border-radius: 100px; -moz-border-radius: 100px; -khtml-border-radius: 100px; -webkit-border-radius: 100px; ">
+          <%=contents[i].store%>
+        </td>
+      </tr>
+      <tr id="content ">
+        <td><img id="content_img " src="<%=contents[i].url%>" style="width: 100%;"></td>
+      </tr>
       <tr id="content_text">
         <td>
           <span><%=contents[i].content%></span>
@@ -64,7 +61,23 @@
       <tr style="height: 50px">
         <td></td>
       </tr>
-      <%}%>
+      <%}
+    }
+    else {%>
+        <tr>
+          <td>
+            <h2>팔로우 한 가게가 없으시네요!</h2>
+            <h3>가게를 검색해서 자주가는 가게를 팔로우 해 보세요!</h3>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <h1>↓</h1></td>
+        </tr>
+        <%}%>
   </table>
 </body>
 

@@ -33,7 +33,7 @@
     #imgDiv1 {}
 
     #footer>td {
-      width: 33%;
+      width: 25%;
       text-align: center;
     }
 
@@ -53,16 +53,16 @@
     }, 10);
 
     function setSize() {
-      var header = document.getElementById('header');
-      header.style.height = window.innerHeight * 0.08 + 'px';
-      var footer = document.getElementById('footer');
-      footer.style.height = window.innerHeight * 0.08 + 'px';
       var img1 = document.getElementById('img1');
       img1.style.height = window.innerHeight * 0.08 + 'px';
       var img2 = document.getElementById('img2');
       img2.style.height = window.innerHeight * 0.08 + 'px';
       var img3 = document.getElementById('img3');
       img3.style.height = window.innerHeight * 0.08 + 'px';
+      var img4 = document.getElementById('img4');
+      img4.style.height = window.innerHeight * 0.08 + 'px';
+      var logo = document.getElementById('logo');
+      logo.style.height = window.innerHeight * 0.06 + 'px';
     }
     window.onload = function() {
       setSize();
@@ -83,18 +83,25 @@
       var frame = document.getElementById('timelineBigFrame');
       frame.src = "<%=followsUrl%>";
     }
+
+    function userInfoFrame() {
+      var frame = document.getElementById('timelineBigFrame');
+      frame.src = "<%=userInfoUrl%>";
+    }
   </script>
 </head>
 
 <body id="body">
   <table style="border-collapse: collapse;">
-    <tr id="header" style="">
-      <td class="title" colspan="3">삼시한끼</td>
+    <tr id="header" style="height: 8%;">
+      <td class="title" colspan="4">
+        <img id="logo" src="/OnceADayLogo.png" style="">
+      </td>
     </tr>
     <tr id="timeline">
-      <td colspan="3"><iframe id='timelineBigFrame' src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe></td>
+      <td colspan="4"><iframe id='timelineBigFrame' src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe></td>
     </tr>
-    <tr id="footer">
+    <tr id="footer" style="height: 8%;">
       <td style="border-top: 1px solid black;">
         <img id="img1" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-home-6.png" onload="setSize();" onclick="homeFrame();">
       </td>
@@ -103,6 +110,9 @@
       </td>
       <td style="border-top: 1px solid black;">
         <img id="img3" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-favorite-3.png" onload="setSize();" onclick="followsFrame();">
+      </td>
+      <td style="border-top: 1px solid black;">
+        <img id="img4" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-user-20.png" onload="setSize();" onclick="userInfoFrame();">
       </td>
     </tr>
   </table>

@@ -4,28 +4,46 @@
 <head>
   <meta charset="utf-8">
   <style>
-    html, form, table, tbody, body {
+    html,
+    form,
+    body,
+      {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
     }
-    td, h1, h2, h4 {
+
+    table,
+    tr,
+    tbody,
+    div {
+      width: 100%;
+    }
+
+    td {
       margin: 0;
       padding: 0;
     }
-    .title {
-      background-color: #3498DB;
-      color: #000000;
-      text-align: center;
-    }
+
     .store {
       text-align: center;
       border-bottom: 1px solid BLACK;
     }
-    img{
+
+    img {
       width: 100%;
       height: auto;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+      height: 8%;
     }
   </style>
 
@@ -35,7 +53,7 @@
       for (var j = 0; j < <%=score%>; j++) {
         var starTag = document.createElement('span');
         var starText = document.createTextNode("★");
-        starTag.style = 'color: #777';
+        starTag.style = 'color: yellow';
         starContainer.appendChild(starTag).appendChild(starText);
       }
       for (var j = 5; j > <%=score%>; j--) {
@@ -50,14 +68,14 @@
 
 <body>
   <table>
-    <tr style="height : 10%">
+    <tr class="header">
       <td class="title ">
-        <h1>리 뷰</h1>
+        <%=store%>
       </td>
     </tr>
     <tr style="height : 5% ">
       <td class="store ">
-        <h4><%=store%></h4>
+        리뷰
       </td>
     </tr>
     <tr style="height : 10% ">
@@ -71,8 +89,9 @@
     <tr style="height : 20%;">
       <td>
         <div style="height: 100%; overflow:scroll;">
-          장점 : <%=good%><br>
-          단점 : <%=bad%>
+          장점 :
+          <%=good%><br> 단점 :
+            <%=bad%>
         </div>
       </td>
     </tr>

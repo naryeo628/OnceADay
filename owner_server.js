@@ -218,10 +218,8 @@ router.get(storeMainUrl, function(req, res) {
       iframeUrl: storeMainContentContainerUrl
     });
     console.log('4, after render');
-    return;
   });
   console.log('5, after query');
-  return;
 });
 
 router.get(storeMainContentContainerUrl, function(req, res) {

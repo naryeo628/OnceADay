@@ -2,64 +2,123 @@
 <html>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
   <style>
     html,
     form,
-    table,
-    tbody,
     body,
-    iframe {
+      {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
     }
 
-    td,
-    h1,
-    h4 {
-      margin: 0;
-      padding: 0;
+    table,
+    tr,
+    tbody,
+    div {
+      width: 100%;
     }
 
-    .title {
-      background-color: #3498DB;
-      color: #000000;
-      text-align: center;
+    td {
+      margin: 0;
+      padding: 0;
     }
 
     .store {
       text-align: center;
       border-bottom: 1px solid BLACK;
     }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+      height: 8%;
+    }
+
+    div {
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .db-btn {
+      display: inline-block;
+      padding: 0em 2.8em;
+      border-radius: .25em;
+      background: transparent;
+      outline: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      box-shadow: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.4px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .db-btn.h48 {
+      height: 48px;
+    }
+
+    .db-btn.blue {
+      background-color: #049bfa;
+    }
+
+    .db-btn.blue:hover {
+      background-color: #028cf5;
+    }
+
+    .db-btn.blue:active {
+      background-color: #0260a8;
+    }
+
+    .db-btn.round {
+      border-radius: 21px;
+    }
   </style>
   <script type="text/javascript">
     function change_parent_url(url) {
       document.location = url;
+    }
+
+    function writeReview() {
+      location.href = writeReviewUrl + '/' + owner_auth;
     }
   </script>
 </head>
 
 <body>
   <table>
-    <tr style="height : 10%">
-      <td class="title">
-        <h1>REVIEW</h1>
+    <tr class="header">
+      <td>
+        <%=store%>
       </td>
     </tr>
     <tr style="height : 5%">
-      <td class="store">
-        <h4><%=store%></h4>
-      </td>
+      <td class="store">리뷰</td>
     </tr>
-    <tr>
-      <td>
-        <iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
-      </td>
-    </tr>
+    <%if(isUser == 1){%>
+      <tr>
+        <td>
+          <button class="db-btn blue round h48" onclick=location.href='<%=writeReviewUrl%>/<%=owner_auth%>'>리뷰 작성하기</button>
+        </td>
+      </tr>
+      <%}%>
   </table>
+  <div style="height: 75%">
+    <iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
+  </div>
 </body>
 
 </html>
