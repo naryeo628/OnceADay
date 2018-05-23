@@ -429,11 +429,13 @@ router.get(reviewDetailUrl + '/:number', function(req, res) {
 
 
 ////////////
-/*
-Upload = require('../s3upload/uploadservice'),
+router.get(uploadUrl, function(req, res) {
+  res.render(storeMainContentUploadView);
+});
+Upload = require('./s3upload/uploadservice'),
   router.post(uploadUrl, function(req, res) {
     //var content=req.body.content;
-
+    var ownerAuth = req.session.passport.user;
     console.log('1, upload');
     var tasks = [
       function(callback) {
@@ -447,9 +449,9 @@ Upload = require('../s3upload/uploadservice'),
           callback(err, files);
 
           //var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
-          var sql = 'insert into content_list(owner_auth, url) values ("hyk1031",?)';
+          var sql = 'INSERT INTO content_list(owner_auth, url) values (?,?)';
           var params = result;
-          connection.query(sql, [params.Location], function(err, rows, fields) {
+          connection.query(sql, [ownerAuth, params.Location], function(err, rows, fields) {
             console.log(rows);
             if (err) {
               console.log(err);
@@ -465,7 +467,7 @@ Upload = require('../s3upload/uploadservice'),
     async.waterfall(tasks, function(err, result) {
       if (!err) {
         //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect('/storeMain');
+        return res.redirect(storeMainUrl);
       } else {
         res.json({
           success: false,
@@ -476,7 +478,7 @@ Upload = require('../s3upload/uploadservice'),
     });
   });
 
-Upload = require('../s3upload/uploadservice'),
+Upload = require('./s3upload/uploadservice'),
   router.post('/saleProduct', function(req, res) {
     console.log('1, saleProduct');
     var tasks = [
@@ -507,7 +509,7 @@ Upload = require('../s3upload/uploadservice'),
     });
 
   });
-*/
+
 /*
 module.exports = router;
 */
