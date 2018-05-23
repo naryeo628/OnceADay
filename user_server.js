@@ -198,15 +198,18 @@ router.get('/', function(req, res) {
   res.redirect(loginUrl);
 });
 router.get(loginUrl, function(req, res) {
-  if (req.session.passport.user)
-    res.redirect(mainUrl);
-  else
+  if (req.session.passport) {
+    if (req.session.passport.user) {
+      res.redirect(mainUrl);
+    }
+  } else {
     res.render(loginView, {
       idBoxName: 'user_id',
       passwordBoxName: 'user_password',
       loginPostUrl: loginUrl,
       registerUrl: registerUrl
     });
+  }
 });
 router.post(loginUrl, passport.authenticate('local', {
   failureRedirect: loginUrl
@@ -584,8 +587,7 @@ router.post(writeReviewUrl + '/:owner_auth', function(req, res) {
     //console.log('results1 : ', results1, typeof results1, !results1, results1=='');
     if (results1 == '') {
       var sql = `INSERT INTO review SET ?`;
-    }
-    else{
+    } else {
       var sql = `UPDATE review SET ? WHERE owner_auth=` + mysql.escape(ownerAuth) + ` and user_auth=` + mysql.escape(userAuth);
     }
     connection.query(sql, review, function(err, results2) {
