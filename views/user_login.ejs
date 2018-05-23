@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
 <head>
   <style>
@@ -224,7 +225,7 @@
         <tr class="row">
           <td>
             <div class="input-button">
-              <input type="submit" value="로그인" />
+              <input type="submit" value="로그인" onclick="popup()" />
               <div class="ripple-container"></div>
             </div>
           </td>
@@ -243,6 +244,9 @@
     function registerPageMove() {
       location.href = '<%=registerUrl%>';
     }
+	function popup(){
+		alert("welcome");
+	}
   </script>
 </body>
 
