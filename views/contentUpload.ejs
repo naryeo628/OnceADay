@@ -33,6 +33,7 @@
 		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true" onclick=location.href="<%=storeMainUrl%>"></span> 새 게시물 작성
 	</header>
 	<form action=<%=uploadUrl%> method="post" enctype="multipart/form-data" >
+
 		<input type="file" name="img_files[]", accept="image/*">
 		<input type="textarea" rows=4 name="content" required id="content">
 
