@@ -441,25 +441,29 @@ Upload = require('./s3upload/uploadservice'),
       function(callback) {
         Upload.formidable(req, function(err, files, field) {
           callback(err, files);
-        })
+        });
       },
       function(files, callback) {
         Upload.s3(files, function(err, result) {
+          console.log('upload.s3');
           console.log(result);
           callback(err, files);
 
           //var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
           var sql = 'INSERT INTO content_list(owner_auth, url) values (?,?)';
           var params = result;
-          connection.query(sql, [ownerAuth, params.Location], function(err, rows, fields) {
-            console.log(rows);
-            if (err) {
-              console.log(err);
-            } else {
+          //var sql1 = `SELECT MAX(number) FROM content_list WHERE owner_auth=` + mysql.escape(ownerAuth);
+        //  connection.query(sql1, function(err, results) {
+          //console.log(results);
+            connection.query(sql, [ownerAuth, params.Location], function(err, rows, fields) {
               console.log(rows);
-            }
-          });
-
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(rows);
+              }
+            });
+          //});
         });
       }
     ];
