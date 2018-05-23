@@ -6,3 +6,7 @@ ALTER TABLE `store_info` ADD `salt` varchar(255);
 
 DELETE FROM sessions;
 DELETE FROM owner;
+
+동대문구
+종로구
+성북구

@@ -283,7 +283,7 @@ router.get(mainTimelineUrl, function(req, res) {
     SELECT DISTINCT content_list.*, owner.store, owner.image_url
     FROM content_list, owner
     `;
-      console.log(results.length);
+      //console.log(results.length);
       for (var i = 0; i < results.length; i++) {
         if (results.length > 0 && i == 0) {
           sql2 += ` WHERE `;
@@ -294,7 +294,7 @@ router.get(mainTimelineUrl, function(req, res) {
         }
       }
       sql2 += ` ORDER BY content_list.date ASC`;
-      console.log(sql2);
+      console.log('mainTimelineUrl.sql2 :',sql2);
       connection.query(sql2, function(err, results2) {
         //console.log(results2);
         res.render(timelineFollowContainerView, {
@@ -315,10 +315,25 @@ router.get(mainTimelineUrl, function(req, res) {
 
 router.get(mainBargainsUrl, function(req, res) {
   console.log('1, ' + mainBargainsUrl + ' get callback start');
-  const sql1 = `SELECT product_info.owner_auth, product_info.product, owner.image_url FROM product_info, owner WHERE product_info.sale is not NULL`;
-  connection.query(sql1, function(err, results) {
-    res.render(timelineSaleContainerView, {
-      contents: results
+  const userAuth = req.session.passport.user;
+  const sql1 = `SELECT owner_auth FROM follow WHERE user_auth=` + mysql.escape(userAuth);
+  connection.query(sql1, function(err, results1) {
+    var sql2 = `SELECT product_info.*, owner.image_url, owner.store FROM product_info INNER JOIN owner ON product_info.owner_auth=owner.owner_auth WHERE (product_info.sale is not null) and (`;
+    for(var i = 0; i < results1.length; i++){
+      sql2 += `product_info.owner_auth=` ;
+      sql2 += mysql.escape(results1[i].owner_auth);
+      if(i < results1.length - 1){
+        sql2 += ` OR `;
+      }
+    }
+    sql2 += `)`;
+    console.log('mainBargains.results1', results1);
+    console.log('mainBargains.sql2 : ', sql2);
+    connection.query(sql2, function(err, results) {
+    console.log('mainBargains.results', results);
+      res.render(timelineSaleContainerView, {
+        contents: results
+      });
     });
   });
 });
