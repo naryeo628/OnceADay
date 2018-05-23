@@ -43,6 +43,7 @@ const mainFollowsUrl = `/user/main/follows`;
 const mainStoreUrl = `/user/main/store`;
 const mainUserInfoUrl = `/user/main/userInfo`;
 const successUrl = `/success`;
+const followUrl = `/user/main/store/follow`
 
 const storeMainUrl = `/owner/storeMain`;
 const storeMainContentContainerUrl = `/owner/storeMain/container`;
@@ -379,7 +380,7 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
   const ownerAuth = req.params.owner_auth;
   console.log('1.1, ' + ownerAuth);
   connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
-    console.log(results);
+    //console.log(results);
     console.log('2');
     if (err) return done(err);
     const info = results[0];
@@ -387,7 +388,7 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
     res.render(storeMainView, {
       contents: results[0],
       saleUrl: storeMainSaleUrl + '/' + ownerAuth,
-      followerListUrl: storeMainFollowerUrl + '/' + ownerAuth,
+      followUrl: storeMainFollowerUrl + '/' + ownerAuth,
       reviewUrl: reviewListUrl + '/' + ownerAuth,
       contentUploadUrl: storeMainContentUploadUrl + '/' + ownerAuth,
       iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
@@ -395,6 +396,16 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
     console.log('4, after render');
   });
   console.log('5, after query');
+});
+router.get(followUrl + '/:owner_auth', function(req, res) {
+  console.log('1, store follow');
+  var ownerAuth = req.params.owner_auth;
+  var userAuth = req.session.passport.user;
+  var sql = `SELECT * FROM follow WHERE user_auth=` + mysql.escape(userAuth) + ` and owner_auth=` + mysql.escape(ownerAuth);
+  connection.query(sql, function(err, results) {
+    console.log('2, store follow sql conn');
+
+  });
 });
 
 router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {

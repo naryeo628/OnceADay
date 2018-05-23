@@ -64,7 +64,8 @@ const storeMainSaleUrl = `/owner/storeMain/sale`;
 const reviewListUrl = `/owner/storeMain/review/list`;
 const reviewListContainerUrl = `/owner/storeMain/review/list/container`;
 const reviewDetailUrl = `/owner/storeMain/review/detail`;
-const uploadUrl = `/upload`;
+const writeContentUrl = `/owner/storeMain/write`;
+const uploadUrl = `/owner/storeMain/upload`;
 
 
 //Views
