@@ -109,85 +109,53 @@
 
 <body>
   <table>
-    <tr class="storename" style="height: 8%;">
-      <td>
-        <div>
-          <%=contents.store%><span class="glyphicon glyphicon-bookmark" aria-hidden="true" onclick=location.href='<%=saleUrl%>' id="sale"></span></div>
-        <div class="container">
+    <tr class="header" style="height: 8%;">
+      <th colspan="3" style="text-align: center;">
+        <%=contents.store%>
+      </th>
+    </tr>
+    <tr style="height: 15%;">
+      <td style="width: 30%; text-align: center;"><img src="<%=contents.image_url%>" height="15%" alt="프로필 사진" id='profimage' /></td>
+      <td style="width: 35%; text-align: center;">
+        <button class="btn" onclick=location.href='<%=followerListUrl%>' style="width: 100%">팔로워리스트</button>
+      </td>
+      <td style="width: 35%; text-align: center;">
+        <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 100%">리뷰</button>
+      </td>
       </td>
     </tr>
-    <tr>
-      <td>
-        <table>
-          <tr>
-            <td>
-              <img src="<%=contents.image_url%>" width="100" height="100" alt="프로필 사진" id='profimage' />
-            </td>
-            <td><br>
-              <button class="btn" onclick=location.href='<%=followerListUrl%>'>팔로워리스트</button>
-              <br>
-              <button class="btn" onclick=location.href='<%=reviewUrl%>'>리뷰</button>
-
-              <button class="btn" onclick=location.href='/changeInfo'>프로필 수정</button>
-            </td>
-          </tr>
-        </table>
+    <tr style="height: 5%;">
+      <td colspan="3">
+        <p onclick="hideshow()">프로필</p>
       </td>
     </tr>
-    <tr>
-      <td>
-        <!-- 가게 정보 -->
-        <div class="prof">
-          <p onclick="hideshow()">프로필</p>
-          <div id="profile">
-            <!--가게 프로필-->
-            주소 :
-            <%=contents.address1%>
-              <%=contents.address2%>
-                <%=contents.address3%>
-                  <%=contents.address4%> <br> 전화번호 :
-                    <%=contents.tel%><br> 영업시간:
-                      <%=contents.time%>
-          </div>
-        </div>
-        <script>
-          function hideshow() {
-            var x = document.getElementById("profile");
-            if (x.style.display === "none") {
-              x.style.display = "block";
-            } else {
-              x.style.display = "none";
-            }
-          }
-        </script>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <!--여기에 게시글 -->
-        <div class="grid-container">
-          <!--contentList는 서버에서 넘길 때 받는 값-->
-          <div>
-            <iframe src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe>
-          </div>
-        </div>
-
-        <span id="plus" class="glyphicon glyphicon-plus-sign" aria-hidden="true" onclick="upload()"></span>
-        <script type="text/javascript">
-          function upload() {
-            location.href = "<%=contentUploadUrl%>"
-          }
-        </script>
+    <tr id="profile" style="height: 20%;">
+      <td colspan="3" class="prof">
+        <!--가게 프로필-->
+        주소 :
+        <%=contents.address1%>
+          <%=contents.address2%>
+            <%=contents.address3%>
+              <%=contents.address4%> <br> 전화번호 :
+                <%=contents.tel%><br> 영업시간:
+                  <%=contents.time%>
+                    <script>
+                      function hideshow() {
+                        var x = document.getElementById("profile");
+                        if (x.style.display === "none") {
+                          x.style.display = "table-row";
+                        } else {
+                          x.style.display = "none";
+                        }
+                      }
+                    </script>
       </td>
     </tr>
   </table>
-
+  <div style="height: 50%;">
+    <td colspan="3">
+      <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe></td>
   </div>
-
-
-
-
-
 </body>
 
 </html>

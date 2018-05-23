@@ -64,7 +64,8 @@ const storeMainSaleUrl = `/owner/storeMain/sale`;
 const reviewListUrl = `/owner/storeMain/review/list`;
 const reviewListContainerUrl = `/owner/storeMain/review/list/container`;
 const reviewDetailUrl = `/owner/storeMain/review/detail`;
-const uploadUrl = `/upload`;
+const writeContentUrl = `/owner/storeMain/write`;
+const uploadUrl = `/owner/storeMain/upload`;
 
 
 //Views
@@ -449,12 +450,12 @@ Upload = require('./s3upload/uploadservice'),
           console.log(result);
           callback(err, files);
 
-          //var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
+          var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
           var sql = 'INSERT INTO content_list(owner_auth, url) values (?,?)';
           var params = result;
-          //var sql1 = `SELECT MAX(number) FROM content_list WHERE owner_auth=` + mysql.escape(ownerAuth);
-        //  connection.query(sql1, function(err, results) {
-          //console.log(results);
+          var sql1 = `SELECT MAX(number) FROM content_list WHERE owner_auth=` + mysql.escape(ownerAuth);
+          connection.query(sql1, function(err, results) {
+          console.log(results);
             connection.query(sql, [ownerAuth, params.Location], function(err, rows, fields) {
               console.log(rows);
               if (err) {
@@ -463,7 +464,7 @@ Upload = require('./s3upload/uploadservice'),
                 console.log(rows);
               }
             });
-          //});
+          });
         });
       }
     ];

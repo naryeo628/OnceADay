@@ -21,9 +21,10 @@
       padding: 0;
     }
 
-    table{
+    table {
       width: 100%;
     }
+
     td,
     h1,
     h2,
@@ -93,7 +94,8 @@
       border-radius: 4px;
       background-color: rgb(94, 94, 94);
     }
-    tr{
+
+    tr {
       display: table-row;
     }
   </style>
@@ -109,7 +111,7 @@
     <tr style="height: 15%;">
       <td style="width: 30%; text-align: center;"><img src="<%=contents.image_url%>" height="15%" alt="프로필 사진" id='profimage' /></td>
       <td style="width: 35%; text-align: center;">
-        <button class="btn" onclick=location.href='<%=followerListUrl%>' style="width: 100%">팔로워리스트</button>
+        <button class="btn" onclick=location.href='<%=followUrl%>' style="width: 100%">팔로우</button>
       </td>
       <td style="width: 35%; text-align: center;">
         <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 100%">리뷰</button>
@@ -124,26 +126,30 @@
     <tr id="profile" style="height: 20%;">
       <td colspan="3" class="prof">
         <!--가게 프로필-->
-        주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%> <br>
-        전화번호 : <%=contents.tel%><br>
-        영업시간: <%=contents.time%>
-        <script>
-          function hideshow() {
-            var x = document.getElementById("profile");
-            if (x.style.display === "none") {
-              x.style.display = "table-row";
-            } else {
-              x.style.display = "none";
-            }
-          }
-        </script>
+        주소 :
+        <%=contents.address1%>
+          <%=contents.address2%>
+            <%=contents.address3%>
+              <%=contents.address4%> <br> 전화번호 :
+                <%=contents.tel%><br> 영업시간:
+                  <%=contents.time%>
+                    <script>
+                      function hideshow() {
+                        var x = document.getElementById("profile");
+                        if (x.style.display === "none") {
+                          x.style.display = "table-row";
+                        } else {
+                          x.style.display = "none";
+                        }
+                      }
+                    </script>
       </td>
     </tr>
   </table>
-    <div style="height: 50%;">
-      <td colspan="3">
-        <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe></td>
-    </div>
+  <div style="height: 50%;">
+    <td colspan="3">
+      <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe></td>
+  </div>
 
 </body>
 
