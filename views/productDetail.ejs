@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>productDetail</title>
+  <style>
+    html,
+    form,
+    tbody,
+    body,
+    iframe {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    table,
+    div {
+      width: 100%;
+    }
+
+    tr {
+      text-align: center;
+      display: table-row;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    td {
+      margin: 0;
+      padding: 0;
+    }
+
+    .store {
+      text-align: center;
+      border-bottom: 1px solid BLACK;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      padding: 5px;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+
+    .info {
+      background-color: white;
+    }
+  </style>
+  <script>
+    function setSize(e) {
+      e.style.width = window.innerWidth + 'px';
+    }
+
+    function setSize2() {
+      var img = getElementById('img');
+      img.style.width = window.innerWidth + 'px';
+    }
+    window.onload = function() {
+      setSize2();
+      window.addEventListener('resize', setSize2);
+    }
+  </script>
+</head>
+
+<body>
+  <table>
+    <tr class="header" style="height: 8%;">
+      <th colspan="3" style="text-align: center;">
+        <%=store%>
+      </th>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <div class="store">판매품목</div>
+      </td>
+    </tr>
+  </table>
+  <div><img id="img" src='<%=contents.product_imgUrl%>' onload="setSize(this)"></div>
+  <div class="info">
+    <h2><%=contents.product%></h2>
+    <h3><%=contents.price%>원</h3>
+    <%if(contents.sale != null){%>
+    <h3>
+      Event : <%=contents.sale%>
+    </h3>
+    <%}%>
+  </div>
+</body>
+
+</html>

@@ -9,10 +9,10 @@
     table,
     tbody,
     body {
-      height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
+      text-align: center;
     }
 
     td {
@@ -185,14 +185,41 @@
       text-align: center;
       font-size: 25px;
     }
+
+    .profileContainer {
+      text-align: center;
+    }
+
+    .form-profile-image {
+      position: absolute;
+      width: 95%;
+    }
+
+    .input-file {
+      position: relative;
+      top: -52px;
+      left: 0px;
+      width: 15%;
+      height: 8%;
+      opacity: 0;
+    }
   </style>
 
   <title>user_user information</title>
 </head>
 
 <body>
-  <form action="<%=userInfoPostUrl%>" method="post">
-    <table>
+  <table>
+    <tr class="profileContainer">
+      <td class="profileContainer">
+        <img src="<%=contents[0].image_url%>" style="height: 20%; margin-top: 20px">
+        <form class="form-profile-image" action=<%=uploadUrl%> method="post" enctype="multipart/form-data" >
+          <input class="input-file" type="file" onchange="this.form.submit()" name="img_files[]" accept="image/*">
+        </form>
+        </img>
+      </td>
+    </tr>
+    <form action="<%=userInfoPostUrl%>" method="post">
       <tr>
         <td>
           <div class="floating-input">
@@ -240,8 +267,8 @@
           </div>
         </td>
       </tr>
-    </table>
-  </form>
+    </form>
+  </table>
 </body>
 
 </html>
