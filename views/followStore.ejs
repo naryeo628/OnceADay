@@ -34,23 +34,28 @@
       font-weight: bold;
                         height: 8%;
     }
+	p{
+	 border-bottom:1px solid black;
+	}
         </style>
 
 
 <title>FollowerView</title>
 </head>
 <body>
-<div class="top"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true" id="back" ></span> <p>관심 가게</p> </div>
+<div class="top"> <p>관심 가게</p> </div>
         <table>
                 <tbody>
                         <% follow.forEach(function(flist){ %>
                         <tr>
+				<!-- a href="storeMain/<%=flist.owner_id%>" -->
                             <td>
-                             <img src="<%= flist.image_url %>" alt="사진" width="100" height="100" />
+                             <img src="<%= flist.image_url %>" alt="사진" width="100" height="100" style="border-radius:50%; object-fit:cover;" />
                               </td>
                                <td>
-                                        <div>
-                                 <%= flist.owner_id %>
+                                        <div class="list">
+                                 <%= flist.owner_id %><br>
+				 <%= flist.name %>
                                 </div>
                                 </td>
                         </tr>
