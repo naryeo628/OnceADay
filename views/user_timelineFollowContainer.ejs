@@ -6,10 +6,15 @@
   <style>
     html,
     form,
-    table,
     tbody,
     body {
       height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    table {
       width: 100%;
       margin: 0;
       padding: 0;
@@ -34,16 +39,17 @@
       text-align: center;
     }
   </style>
+
 </head>
 
 <body>
   <table>
-    <tr id="bargains">
+    <tr id="bargains" style="height: 40%;">
       <td>
         <iframe id="bargains" src="<%=iframeUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="height: 40%; width: 100%; border-bottom: 1px solid black;"></iframe>
       </td>
     </tr>
-    <%if(contents != null) {
+    <%if(contents.length != 0) {
       for(var i = 0; i < contents.length; i++) {%>
       <tr id="store_head" onclick="location.href='<%=storeUrl%>/<%=contents[i].owner_auth%>'">
         <td><img id="store_icon" src="<%=contents[i].image_url%>" style="width: 50px; border: 1px solid gold; border-radius: 100px; -moz-border-radius: 100px; -khtml-border-radius: 100px; -webkit-border-radius: 100px; ">
@@ -66,7 +72,7 @@
     else {%>
         <tr>
           <td>
-            <h2>팔로우 한 가게가 없으시네요!</h2>
+            <h2>팔로우 한 가게의 게시글이 없네요</h2>
             <h3>가게를 검색해서 자주가는 가게를 팔로우 해 보세요!</h3>
           </td>
         </tr>

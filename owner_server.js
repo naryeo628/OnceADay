@@ -332,6 +332,7 @@ router.get(reviewListUrl, function(req, res) {
     res.render(reviewListView, {
       owner_auth: ownerAuth,
       store: results[0].store,
+      isUser: 0,
       iframeUrl: reviewListContainerUrl
     });
     console.log('3, review list after render');
