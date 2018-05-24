@@ -22,6 +22,8 @@
     }
 
     table {
+      margin: 0;
+      padding: 0;
       width: 100%;
     }
 
@@ -98,7 +100,18 @@
     tr {
       display: table-row;
     }
+
+    .profileImg {
+      height: 25%;
+      border: 1px solid gold;
+      border-radius: 100px;
+    }
   </style>
+  <script>
+    function setSize(e) {
+      e.style.height = window.innerHeight * 0.5 + 'px';
+    }
+  </script>
 </head>
 
 <body>
@@ -108,14 +121,32 @@
         <%=contents.store%>
       </th>
     </tr>
-    <tr style="height: 15%;">
-      <td style="width: 30%; text-align: center;"><img src="<%=contents.image_url%>" height="15%" alt="프로필 사진" id='profimage' /></td>
-      <td style="width: 35%; text-align: center;">
-        <button class="btn" onclick=location.href='<%=followUrl%>' style="width: 100%">팔로우</button>
-      </td>
-      <td style="width: 35%; text-align: center;">
-        <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 100%">리뷰</button>
-      </td>
+    <tr style="height: 25%;">
+      <td style="width: 30%; text-align: center;"><img class="profileImg" src="<%=contents.image_url%>" alt="프로필 사진" id='profimage' /></td>
+      <td style="width: 70%; text-align: center;">
+        <table style="height: 100%;">
+          <tr>
+            <td>게시물</td>
+            <td>팔로워</td>
+          </tr>
+          <tr>
+            <td style="width: 50%">
+              <%=contentCount%>
+            </td>
+            <td style="width: 50%">
+              <%=followerCount%>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <iframe src="<%=followBtnUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="width: 70%; height: 60%;"></iframe>
+              <!--<button class="btn" onclick=location.href='<%=followUrl%>' style="width: 70%; height: 20%;">팔로우</button>-->
+            </td>
+            <td>
+              <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 70%; height: 50%;">리뷰</button>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
     <tr style="height: 5%;">
@@ -146,9 +177,8 @@
       </td>
     </tr>
   </table>
-  <div style="height: 50%;">
-    <td colspan="3">
-      <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe></td>
+  <div style="height: 55%">
+    <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe>
   </div>
 
 </body>
