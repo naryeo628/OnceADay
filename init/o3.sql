@@ -16,6 +16,104 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `city`
+--
+
+DROP TABLE IF EXISTS `city`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `city` (
+  `state_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `city_name` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`state_id`,`city_id`),
+  CONSTRAINT `fk_city` FOREIGN KEY (`state_id`) REFERENCES `state` (`state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city`
+--
+
+LOCK TABLES `city` WRITE;
+/*!40000 ALTER TABLE `city` DISABLE KEYS */;
+INSERT INTO `city` VALUES
+(2,1,'종로구'),
+(2,2,'중구'),
+(2,3,'용산구'),
+(2,4,'성동구'),
+(2,5,'광진구'),
+(2,6,'동대문구'),
+(2,7,'중랑구'),
+(2,8,'성북구'),
+(2,9,'강북구'),
+(2,10,'도봉구'),
+(2,11,'노원구'),
+(2,12,'은평구'),
+(2,13,'서대문구'),
+(2,14,'마포구'),
+(2,15,'양천구'),
+(2,16,'강서구'),
+(2,17,'구로구'),
+(2,18,'금천구'),
+(2,19,'영등포구'),
+(2,20,'동작구'),
+(2,21,'관악구'),
+(2,22,'서초구'),
+(2,23,'강남구'),
+(2,24,'송파구'),
+(2,25,'강동구');
+/*!40000 ALTER TABLE `city` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_province`
+--
+
+DROP TABLE IF EXISTS `city_province`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `city_province` (
+  `state_id` int(11) NOT NULL,
+  `state_name` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_province`
+--
+
+LOCK TABLES `city_province` WRITE;
+/*!40000 ALTER TABLE `city_province` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_province` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment_list`
+--
+
+DROP TABLE IF EXISTS `comment_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment_list` (
+  `owner_auth` varchar(20) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  `user_auth` varchar(20) DEFAULT NULL,
+  `comment` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment_list`
+--
+
+LOCK TABLES `comment_list` WRITE;
+/*!40000 ALTER TABLE `comment_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `content_list`
 --
 
@@ -40,6 +138,15 @@ CREATE TABLE `content_list` (
 LOCK TABLES `content_list` WRITE;
 /*!40000 ALTER TABLE `content_list` DISABLE KEYS */;
 INSERT INTO `content_list` VALUES
+('local:dinner',1,'신메뉴',180524172145,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185017285.png'),
+('local:dinner',2,'신메뉴',180524172245,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185017550.png'),
+('local:dinner',3,'신메뉴',180524172345,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185017953.png'),
+('local:dinner',4,'신메뉴',180524172445,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185018260.png'),
+('local:dinner',5,'신메뉴',180524172545,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185018657.png'),
+('local:dinner',6,'신메뉴',180524172645,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185019142.png'),
+('local:dinner',7,'신메뉴',180524172745,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185019493.png'),
+('local:dinner',8,'신메뉴',180524172845,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185019905.png'),
+('local:dinner',9,'신메뉴',180524172945,'https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185020394.png'),
 ('local:chen0921',1,'머리고기 설농탕이에요~ 아주 진하고 맛있습니다! 해장용으로도 그만!',180511171730, 'http://postfiles.pstatic.net/20160615_124/fayry_1465978685029Jsglv_JPEG/%C0%E5%BE%C8%C1%A4_7.jpg?type=w3'),
 ('local:chen0921',2,'돈까스 모듬 정식 대표메뉴입니다!',180512171730, 'http://blogfiles1.naver.net/MjAxNzA1MjdfMTgx/MDAxNDk1ODg0Mjg0MzYz.M1ouKAkPbV-gCUcT9DBeCJTMSza0b-VrKG0jKukvEzog.aHCmh-LD47LkmdtpmlD6u_eHBY_feYf8T63DyxiDp98g.PNG.kimmeej4989/%C0%E5%BE%C8%B5%BF_%C0%E5%BE%C8%C1%A4%B5%B7%B1%EE%BD%BA__%B4%DE%C4%DE%C7%E2%B1%E2SAM_4503-9.png'),
 ('local:chen0921',3,'진한 소스의 함박스택',180513171730, 'http://postfiles.pstatic.net/20160615_173/fayry_1465978684755U9So7_JPEG/%C0%E5%BE%C8%C1%A4_6.jpg?type=w3'),
@@ -76,7 +183,8 @@ CREATE TABLE `follow` (
 
 LOCK TABLES `follow` WRITE;
 /*!40000 ALTER TABLE `follow` DISABLE KEYS */;
-INSERT INTO `follow` VALUES ('local:chen0921','local:1155'),
+INSERT INTO `follow` VALUES
+('local:chen0921','local:1155'),
 ('local:do12','local:1155'),
 ('local:dongdae1','local:1155'),
 ('local:grandma123','local:1155'),
@@ -123,33 +231,6 @@ CREATE TABLE `owner` (
 LOCK TABLES `owner` WRITE;
 /*!40000 ALTER TABLE `owner` DISABLE KEYS */;
 INSERT INTO `owner` VALUES
-('local:chen0921','chen0921','chen',NULL,'장안정','서울특별시','동대문구','장안동','334-3','02-2246-6574','24시간',
-'https://post-phinf.pstatic.net/20150522_200/gohappylife_1432253022454mFaRY_JPEG/mug_obj_201505220903431570.jpg?type=w1080'),
-('local:do12','do12','dodo12',NULL,'예지현','서울특별시','동대문구','휘경동','192-5','02-3395-8805','연중무휴',
-'http://imgnews.naver.net/image/215/2017/03/16/A201703160297_1_20170316162916651.jpg?type=w647'),
-('local:dongdae1','dongdae1','dong1',NULL,'퐈이야','서울특별시','동대문구','전농동','602-5','02-960-1541','9:30-22:30',
-'https://postfiles.pstatic.net/20140109_23/gayoun0728_1389240448458xwJX0_JPEG/20140103_195355.jpg?type=w2'),
-('local:grandma123','grandma123','grand123',NULL,'나정순할매주꾸미','서울특별시','동대문구','용신동','119-20','02-928-0231','오전9:00-오후11:00',
-'http://blogfiles2.naver.net/MjAxODAzMjJfMTgx/MDAxNTIxNjkzODE4NDQ2.4iA-mDq8ASQDkNMOjOLWC9ehWGE8Z5XM7VwTYQE4L8Yg.TS8Bvw2w4K2o6YonFr--JgxzzoQiw_RKCo6vZQK_JRsg.JPEG.a0119754/4.jpg'),
-('local:hansung','hansung1','hello',NULL,'마카나이','서울특별시','동대문구','전농동','602-11','02-969-2972','오전8:00~오후11:00',
-'https://postfiles.pstatic.net/MjAxODA0MjVfMTY1/MDAxNTI0NjM1MzQxMDgx.w-JZKSUQnDJstU5Od_hX9-fylHO6612QBSWoK-PSAE0g.fLM36a-E4JsXp4ZwQ-S7UWt0jh9fYlNH3Sa2G-a_Lqwg.JPEG.winterplay76/20180425_123748.jpg?type=w773'),
-('local:hyehwa2','hyehwa2','V3rrJhYiTiiSITL92IydDgSDEFhMucJ/tlZiXeGAFKMwYAjwCjFbv3mFtf6hU1oNFf4EoGy2wyy0F2QjUtMITdWiV1gqdE2BLKP2zPPsn687HN+0olmTIIPxEJsfnRi8mMQxmPyJTbeFOWRYuBQnpgM9h4EEZD7qi4GKrN+FthQ=','40d/yitAOCqBD8gEUn0rtLT32sqLvprZBQevsHStPMxD35eHZLBKNIYPW6Q3s0DrLMlkl1W/WrzbCUjHFX9Q2w==','정돈','서울특별시','종로구','혜화동','107지층','02-987-0924','11:30-14:00, 17:00-21:00(last order 21시 시)',
-'http://blogfiles9.naver.net/MjAxNzEyMjJfMjM3/MDAxNTEzOTQ3Mjk5MjIy.8YUVLcAEtGLCvE538plFcnZqoNdeoO4rl-SzKd__uwcg.5m6Y5KY5AY2YlCrK2wFr1X6gymGq01LCVALAFQPalIkg.JPEG.yabes0505/0_%B3%D7%B8%F0_%C6%C1_%B8%DE%C0%CE.jpg'),
-('local:kai88','kai88','kimkai88',NULL,'크치치킨','서울특별시','동대문구','제기동','122-373','02-962-9285','오후1:30-새벽2:30',
-'http://blogfiles1.naver.net/20160609_246/narae8167_1465428947313BsVaH_JPEG/%C5%A9%C4%A1%C4%A1%C5%B2_160607_%2813%29.JPG'),
-('local:korea1','korea1','korea11',NULL,'대한곱창','서울특별시','동대문구','장안동','433-20','02-2214-5207','연중무휴',
-'https://postfiles.pstatic.net/20160821_125/sny815_1471773163978GDaUr_JPEG/KakaoTalk_20160821_183142718.jpg?type=w2'),
-('local:lay4570','laylay4570','lay10',NULL,'감초식당','서울특별시','동대문구','제기동','122-373','02-962-4570','9시~23시',
-'https://post-phinf.pstatic.net/MjAxNjEyMDZfMjI0/MDAxNDgwOTkwNTE0MTQz.h8J5deaXre2yKpifJKuyqlZxdTPGRrA9Hg5i3f1tnvUg.y-VDZN4dSKzCFyhW2tj_7Cf35UJWiuBaF3UmO44rx5Ag.JPEG/mug_obj_201612061115181327.jpg?type=w1080'),
-('local:mama010','mama010','mama111',NULL,'어머니대성집','서울특별시','동대문구','용신동','754-9','02-923-1718','24시간영업','http://blogfiles1.naver.net/MjAxNzAyMDFfMTky/MDAxNDg1ODc5OTY5NDEy.ObP9rrBvhKYkS2k36FVjzcezE0fPwgyDX4Wm18mcuTUg.X5irO0u5NqLgGzguyVBG2Li1yS_FvRsr4BBddIngDS8g.JPEG.ajrtkska/20160524_223105.jpg'),
-('local:rain21','rain21','rain1031',NULL,'낙서파전','서울특별시','동대문구','휘경동','319-32','02-968-6019','pm2:00-am3:00','https://postfiles.pstatic.net/20150210_7/uule2_14235659322551tbUP_PNG/2015-02-10_19%3B52%3B36.PNG?type=w2'),
-('local:sky1004','sky1004','skysky',NULL,'은하곱창','서울특별시','동대문구','전농동','295-48','02-2247-0254','오후5:00~새벽2시','http://blogfiles14.naver.net/MjAxODA0MTNfMTkw/MDAxNTIzNTgzMjQ4MzAw.WFsXibBs2yWmHLl4FlN0BdPaGSp2TMuKIL-Vv2fJkwgg.KyQLY8-9h99TK0igcsnMtLHrmMdSkVHSgfJ8R88kNPcg.JPEG.heyey_1109/%C7%A5%C1%F62.jpg'),
-('local:suho01','suho01','suho0101',NULL,'라온9','서울특별시','동대문구','제기동','892-71','02-969-0244','24시','http://blogfiles1.naver.net/MjAxODA1MTFfMjMx/MDAxNTI1OTg4MTE4MDE2.q6hWlKe3NviEMFrYpeARVNqbmkhjBp0s6VDq7qqduQcg.Ks3j5_M8T8qCdglk9SesK73S5A7NnzJ8TlVczyRmCTEg.JPEG.lyonil/DSC_1453.JPG'),
-('local:wook','wook','K5GodcbNAVbsuboELouoiY8a0+0s/kw78xyttrM4VlsEbop3E+ElK/M/guAYqSrn8ijVakXm+lihjurUQC6V+8PsCtc6DU7ZIt2L0EHPurLppUuiSDWSdGLzmTXMIkR9AmUSqmIBlpdIVixdZ7AwlPGtx6CMRNv+h7163FMfe1M=','UzuUXd8itQsNYsSj7vx4zuyOT97MA/y8riJFB5P5kXWxL7kh8Z31OdaNpgA6VHh6YzMSbWpYrnUm56RckGP3ug==','수동에서 온 순대국','서울시','성북구','삼선동','한성대학교 근처','010-7577-4937','아침 9시부터 저녁 7시까지',NULL),
-('local:xiu99','xiu99','xiumin99',NULL,'봉이만두','서울특별시','동대문구','휘경동','261-3','02-2215-1122','오전9:00-오후11:00','http://postfiles14.naver.net/MjAxODAzMjlfMTMx/MDAxNTIyMzMzMTI5MjIx.G959lCMi_9UIn60hJLpFstQVWcmYdJKbkPzPouiTDjog.w1cTRJ07Eqw6nrHBS46hQLUJJN7JmJldQHuv_SqXbJwg.JPEG.since861015/IMG_6449.jpg?type=w580'),
-('local:xo0408','xo0408','exo0408',NULL,'일미간장게장','서울특별시','동대문구','장안동','367-3','02-2242-4338','10:00-22:00','https://postfiles.pstatic.net/MjAxODA0MDlfMTk4/MDAxNTIzMjQxMDYwNDk0.J4sTc6F459s4_DeXgTCvH_hL8B9ThjAQtHqVRgs6AFwg.pzdyl0RzMJ00hJUhhBCW9YvRKSHmnxswlha9JQuTkIMg.JPEG.gellysook/2_kag.jpg?type=w966'),
-('local:ykha1031','ykha1031','yk1031',NULL,'개성집','서울특별시','동대문구','용신동','201-2','02-923-6779','am11:00-pm11:00','http://post.phinf.naver.net/20150324_247/oskin671022_1427183449539fO20e_JPEG/mug_obj_201503241650538131.jpg?type=w1080'),
-
 ('local:1poom','1poom','+gETtX37hgF+17my9xlGCBX3SdeN6eL6enSFb+AqeJMidKbDaCLSvQrZw56xY/X9bDS397V/nPZ9k790LztelxqH++CiQZMbJjuXCtdJXhxzTFbsbxabwhuZyeTDW+iQm0ElO4rS0oI7aCJGWACeWhvakqz+sR8nrfR/5CVi/24=','y+srACJ/nlIfDX4rBfvK9cmnS8rhxii5QzpTdxjmu5fd3XWShOaKowXKVNomC/Wg2I3Ah6pFT3VnVKTgGR2RdQ==','일품향','서울특별시','종로구','종로4가동','8','02-742-7488','10:30-21:30',NULL),
 ('local:2mone334','2mone334','tB1yTtz5RxA5skBSEIdQ4uhiDTdFcbJc4HafLZJPpFwnmdUiOEfn85aPuX1776uNy9dC/Ah0TdbcssdiHZOPA/fXuur+nOOdyDpEfxh9tqo242nxJPsPqDQvZcEeSIQ7KnP+F1BxiCT4YC+cEKcJgFvfWwVWvz7Y1M+hd2cpPzk=','zmpcJknoQ5u/8sQU/ml7Yv9WvnmX2M9mU8g6RHB9G1SDg4TJCk3cFYg9mOb8gdRzNY1wx8idXBuuDRmU3nyLBg==','이모네 파전','서울특별시','동대문구','휘경동','334-13','02-959-8318','16:00-05:00 명절 연휴 휴무',NULL),
 ('local:andong107','andong107','Mwx5ccMAHKKP3KfGAjzUfHVqw5rQvOW9MvYwz9dF801ut+N+p+KE22724pg0YZ/ibaCHnTbnjpOJH0lvOSPmZevuge9OrwEfIhPSU0DnRPBPWKIkReohbKS+wUmFHO4D0MFyRYpw9bfoV3rqQSl6ZHbROIFe3CiAInlj3dOWMug=','qfWfW+/UQsQXs0TPpOw0Tc9gmiapDFd8Zps0t1TjaV5EVycRC0ALvxy/JnuL/Da0FVOwJzXh3zyOQ0mV4F0o+g==','안동반점','서울특별시','성북구','보문동','1가 107','02-923-4448','11:30-21:30 break- 15:00-17:00',NULL),
@@ -171,6 +252,7 @@ INSERT INTO `owner` VALUES
 ('local:cafe902','cafe902','z9RGdJXSZlhabsQLsdJX+s1R9CnVvavDfEwvA4eNGBaVpe+15c1etn6sbGZYPCJLrqOl8U8vlcjMMV9B5HoaX3c5T+pXa4PFG/8eNN4eUomKyiWTn+5uAazouqE0leJL8oJOXMdCN1wRwG2AjoNb7i7yRUpngIgUNjAX1YaWVvQ=','In6NFfkSUkJ7GxHveYnJkY7zT2p5z7Q2rMxloxB1JTKU8w1uBmQH1N9bwjOOOACuGr9CT4XebtEhUDVu0BayNg==','카페902','서울특별시','성북구','돈암동','625-2','070-8828-0902','09:00-11:00',NULL),
 ('local:cchi122','cchi122','xdn0mEow3A5bGuO3jSyIGeJBpVCtUGWjCbyIjDxzCZGFwXGHe3fNw7dDQcu9LrALgJvUACjK7RNt52K7ecIe4g8FomseHExr8iv7cBO49d1Rqxd8ygIqQXZS6joUKhgd4pvnRu3f3+sxtF6h11bNOIVKnzJJApPja3xknOmeR8E=','CDN6NDw2cFilm7XYt54mj1oAsdB5BulfepxpXkFd+FV8RUPn1g15p1WO/+evehvCDaOqiiMnDy1UxfubolFNtg==','크치치킨','서울특별시','동대문구','제기동','122-373','02-957-9285','13:00-01:00 일요일은 15:30부터',NULL),
 ('local:changsin','changsin','LRwqlSPMO3cj9W9/+wpXJKP10toMuJwkHe5Mql6xqUVdvdgYg/EGwL4k9MRNVd25h2972+857ehdzro1XDpX7Ix6k7KyzIt4JAl+f5b0rwdyd55T8cugy+02+Igr8xYpu/1X14kcQlqsI4rbiIbt3RJM4cISviEAplqcIyje6lo=','lOXGiJRURlcG0wo8EuIvPOh7x22ZDLFmt6UobqrFB+BbHdhdJT5M6Dt18FdpqsueNwn6UyYjMGyE57jXqJLoTw==','창신육회','서울특별시','종로구','종로4가동','165-5','02-2266-6727','10:00-23:00',NULL),
+('local:chen0921','chen0921','chen',NULL,'장안정','서울특별시','동대문구','장안동','334-3','02-2246-6574','24시간','https://post-phinf.pstatic.net/20150522_200/gohappylife_1432253022454mFaRY_JPEG/mug_obj_201505220903431570.jpg?type=w1080'),
 ('local:cheongjin','cheongjin','lSHdOGSk+4rBGlQhFvsaoRFUQv3ZnwtzIoiEkxVdItmhpARSHWvu4jBHIJ2hAk18rLZsKizGYEpjatjlsk3KCT1YI3Od2i0Jl4pYzNv5dueB5EgA6EO9MAhHvlznsENZzK+u32vj7EGcqmQGasHkX7HqmGdBP3dx/I2Ylm1FMmg=','MZ0IePgpv0ytsPas1KXAJge5jDu/d9hEnArONWz4QxVP8bwgHUo6oYZ2g4J9Sh2F6B/AQw7E4bhKYddDWKTxGw==','청진옥','서울특별시','종로구','종로1가동','24 르메이에르종로타운 1 218호','02-735-1690','11:00-22:00 break 15:00-17:00 일요일 휴무',NULL),
 ('local:chinakan3','chinakan3','S3dYMACfeIVnoLNPvr2h86n7a3wXST7jF3D82IHMTJ49MOxosLuHPnaZNpB58KErN4442UCN0b3vOG6W8trSEOydmVk+7A5krG9Yba8oLxL8FIFzcrTyoOVOnV6WpDuawnNoUKjz6joc5WSsqzydP+96oPdiaVY8ZyPj1SIv4dU=','OS5Xf5S6w6N9+CR/LxlVxgyXhiukJheBvl9RqSAUtmSZf0XtU62OHJ8imqc5BX88m/vHmY/wCzaNF4tm+i/6CQ==',' 차이나칸','서울특별시','성북구','장위동','316-3','02-909-2246','11:30-21:30 ',NULL),
 ('local:cholim48','cholim48','UgZIyiItmfjgYidBdECPUdp8KoaMpjcfWnW3gFKVOKzn3oxWrAb0ZHWavKrRH/MfXUvqG0RDV+2Hp3BS4/z/nu5Q6SvhmTCrnUyvUmuy4AazuNF8AZqwT4sTcKG6ws45lXZRAP9kU2UVlw+J4NCBr2573SnbCyIjjfy5jospBDw=','BwSF9wi6zm1GvPCPkAPF32pNC66pn1mQBkrfwV0mzvQrtroL5QoekaoqLe4zGuQwL1XXiIgnPD4o8aeBY075/A==','초림정','서울특별시','성북구','돈암동','48-4','02-953-8808','11:00-21:30 b.t 15-17시',NULL),
@@ -180,8 +262,11 @@ INSERT INTO `owner` VALUES
 ('local:dasom672','dasom672','yWdn3UPKKZyr7VEznlIUMTLDxQkMj7G8MS3Ko28cQMH7JTtPilUG1+Uk5L7Z00Ct17SA8qV9dTdh+7IpvPso7YgHzO25G9N4vubfX1b0eQJ4I9aACOsjvjbxWVpIfxGuWTVPsnrhl7oJszkPfiOcAEUzx7+Vxdw9qSPygaeVVCg=','SGOF0xwvIacjlkp1tpUdcWqD9ZGlmhaAqWM8bCG0r4GX9JmxKCHCiRBDP/rrn8s909bS4lWO7CSwxU5IWAggJw==','다솜 자연밥상','서울특별시','종로구','무악동','67-2','02-735-6005','11:00-21:00',NULL),
 ('local:ddok278','ddok278','04W44IuCK+nJMDSOwGM5KvF0lKaFQIAMVRKcNplC5j31B0ubon/qTLKkoXR1e39IeQgRVIRE31rBcUkqHqA6wvQOJcK0gRE0D+MZ7WSvpIay2S2cQwcD89L/cUFL6bGvHse4ABpH6fGIS97exUgWocX08olNWLWgdY6KfXii+j8=','KWR6MJ/XHWOcimv585pt/EoVPcjBwSqHswccWNWrOVX7fc2QAcqWzpF4LAMtnQSSaJ7m3UhmUkfGHUe/7CsRvg==','독','서울특별시','동대문구','전농1동','602-4','02-957-1116','16:00-24:00',NULL),
 ('local:ddonburi2','ddonburi2','D7X/bVAcEIx4YP9FlXJv/h8bvrchFEN/1KmUI2u33E5q6SSO6vRLdJgf9kyQS7GNlw+LwDXos5N8lnRGu84iHNDKTZyy2CxCb2o+Slf/Ais05Tu5XjZuls4OJLPXPFh9rJkFIZJM/6e/g/jObQw+eMAUfj5NjC2K4Z7Uc0FCa+M=','r31BA4awJMKlG0h/gTz+P0HP2IsgjJp75xa8XCCGWtCpvkXXZJegItvqNx7K1QSe+0Tvcn+w5jLPBqEjsd8K2A==',' 돈부리청년','서울특별시','동대문구','이문동','264-295','02-969-0109','11:00-20:30',NULL),
+('local:dinner','dinner','ZK1NSiMxAOIUWmZdqvnNym+nzRmuU6OiZlkefKP1pKGBW9ay5ttBEfopiDFbUZIeFrjdRFxREep/ZegejWMInmxq2ZiF1TKyb/IjcTxZhLzIKQ02ZWj5wRzsIKxCY6Sp4fckvm1+CLNdouKNY7S1ZhRrrWrGshKNf/ETkPvNWN0=','E4zvauutjiFruqPimVV9EdUxH/kl8tdOUAC3trVKghXQCsXb3tVkFU2CZPpllNg2WZy5WR6mru6pR+DzpRYGMQ==','성북동디너쑈','서울특별시','성북구','성북동','1가 35-43','02-741-3335','11:00~22:00','https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/%EA%B9%80%EC%B9%982.png'),
+('local:do12','do12','dodo12',NULL,'예지현','서울특별시','동대문구','휘경동','192-5','02-3395-8805','연중무휴','http://imgnews.naver.net/image/215/2017/03/16/A201703160297_1_20170316162916651.jpg?type=w647'),
 ('local:dolsae23','dolsae23','yGJbwJI8GHHqxco4GJOVRfWHfOWEJ/dnU/YROKPxDdcHqv1oCyQV+a/9+P+xFWMDMGzVOWqpYPtPtQifDpZL+Hfc9uWD1QtuEyfUIq8fhd33nMDY5pozNYvdNJPF0jwGQixcu3SGQ3zMXQxrZNRUHMGzlrWQ226xzU+aKFQ6/4E=','lPPo5/KwBd1J/9tf5/VlU0P3SYuFIDTrp4QkG6BLKptQ4eevhwDtV2HJvwtTVa0WG5RwsHn1kKcO2lLGTYLZ7w==','혜화돌쇠아저씨 ','서울특별시','종로구','혜화동','명륜 4가 23','02-765-7399','12:00-21:00 월요일 휴무',NULL),
 ('local:donbak45','donbak45','jF+XFOtG49v2bsuRvgGtVg1U2BjdcrklywuAdfWGDzJZn2kuGDUVXlRGhkQkvdzF9b6Nn5/i0poIFqsjbB9JqdGpX1kCbRMw2eWf86D2V9mX0K/tsm7aV5tcr+2sa+Sh3sXRjoO1jtkbuf0kRif+noyyWI/Zkbw0zgCNLXuOLes=','eYI/QFAaqbuEQhsCi+jTO3csFojHFrF39jgLau2NqN04hD/CFB3b3/RnGGcEapLJQERm3Gtrbz4SH6t1eutfDw==','돈박','서울특별시','종로구','무악동','45-19 1층','02-720-2999','11:00-22:00',NULL),
+('local:dongdae1','dongdae1','dong1',NULL,'퐈이야','서울특별시','동대문구','전농동','602-5','02-960-1541','9:30-22:30','https://postfiles.pstatic.net/20140109_23/gayoun0728_1389240448458xwJX0_JPEG/20140103_195355.jpg?type=w2'),
 ('local:dorandoran','dorandoran','lP+H5uy/uZmdu+UZ9RPPf8zuV90ksE9g72KOqKsIdqQhvaNjKLuIhLyzkPZLf2zca9V9nJe09RSnjZGsR+29fFgXyKfWGIBYD33PKT7NIipJWPV5OsUgozDlvU6q3OHnS1p/04WzEnu7utlkf1Y86cZfGgoAVN2eQ2DaTMp/kWM=','zitA1PJSHUiJ9WR+CWljczXNUIXPtWuAl0W/5iikqll0DNtebTuTGwRzXVCOE5hnvhvl5NvdB89FSHQzUiVsuQ==','도란도란곱창','서울특별시','동대문구','이문동','305-78','02-960-3701','15:00-02:00',NULL),
 ('local:dumi316','dumi316','zZE4dXME4JaFuqIbzF+/Yg3XxTu8BgiDYgod2e9chWCWnxsK5SS2uhT++ux11PGO8/sU6Q9JQr3fQDRA7fV7mtBnlTbstpi9aVcUs6HBhDu7AXh+nMo4dHDWN+x9+c5wK9Sr2xf+3Tem/AKBXxBpJPz/41j492lbbtNNQg6NOw0=','ybDGxgEvtzH5EJarhqjt/RiAWytE5zSZgOuAghpz5QjT7WzIBFg9R456Mu+M7wH0OQ/a333bjdZOb3qrjMrcnQ==','더미 본점','서울특별시','종로구','종로1가동','24 르메이에르종로타운 1 316호','02-2075-6611','11:30-22:00 명절당일휴부',NULL),
 ('local:eunha295','eunha295','stwQCZ6sfzBXfxwO28/LyzzLewIOZYUphJpxdydSdB7ZjUzbetMHXkmg4vAXectQesFzqsBkZRpnnnXYWq2p61iTDFIZIRImRfYUn2oEMYJXyX+fCzBqiR+5m9ys7LGqULVxMHT4jSEpSYq/ZEE9GA02ZNgba6IM7BdtjYSEVhU=','jjsDGdwXYJeETIMKCmOiuHG65rdDK0iomKY789PBS94pO03gDwZzCNted/9555JfVFlPj3erKBqNJjmmYEvIdQ==','은하곱창','서울특별시','동대문구','전농1동','295-48 북동점포','02-2247-0254','10:00-22:30 일요일 휴무',NULL),
@@ -193,7 +278,8 @@ INSERT INTO `owner` VALUES
 ('local:garbi530','garbi530','C/31rzwCDSRtVVMh36XKCp5eLHpmHnAQfNv/666ozkJFoSrpCCCxogbWkyMtMsJA00aJafnJv2X07t8TdgiezfE3+2r0IcmAut0XnTymhvZ0KWuZjIwjfE2aTPmVIktZLIUi6dZ/JStUyby+Nob44v3JrFy+HSKCTt3PRhdohJQ=','dXzIHbPtM4HA/V1dtyJehk5AFbGGgBSECZ3YCbv08AcuJrgD6W3AHJchuKt2K2Lb/nNJW4K75V6X7ZP4SoUotw==','갈비명가 이상','서울특별시','동대문구','답십리동','530-27','02-2243-8200','11:00-23:00',NULL),
 ('local:gaylim167','gaylim167','K1nh/nIyj5T+HVeiY1ryn96BkKxr8EXnJyHiOCZ4qo7kYurjmBmQiRFCofdON9zL2qJtPEUS76KjwQNp/W/wRZMcV9KMvRmCCT9SLmt66ZdUZICk5DgEU7Z/227olCOUVpXy88fzGurYlDQmxB6qs9me3DbjrKfndo1pEW+6zAQ=','Z8osiCVBH2mkTel7DsPVwabYhZSmwcpBmJVibkFgS4d1yk1rm1lroIUDqwj8v8H/X9UinjdVPKlxgAfxfZoMzA==','계림','서울특별시','종로구','종로3가동','167','02-2263-6658','11:30-22:00 일요일 휴무',NULL),
 ('local:gitdaebong','gitdaebong','5Ps7fTnc2WdaTQ7bNkFmkEFysplWVOQd6BGCe89QKMXjuYWmoiDGNUmk6uBcgoyglosejixaeCdK0yWpP6d83EcR5CQ9iYDNWZCiWdwQs1yo8Q6lMIvGYcD8oP7OEnjoasyl+JiS5K0Cv0AU0ZZf5z5yYHJP2xAh6JT87CK0XrY=','Tz8KAzxMDHY2w8dluTu7XiMJU9j7IWB98cqy9HU7k4k7x9SqfDpwQ3I4IYwQghezBekH1UBT6P2NsvKEtqW2IQ==','깃대봉냉면','서울특별시','종로구','숭인동','56-25','02-762-4407','10:30-21:30',NULL),
-('local:goldking25','goldking25','X/EUZUEi0dERLzFzAHlT1x1MSHrd8VpULKlKX18yf+lsUDZt3A1Tw7FcwRb78y6s7rZ9sgufqX7qu88R+Nq/2SiRAqHCQIn45X5Yfqezk788LTuvzQj0FrupVSC+4ub3S7QTA9W+p6ubnhQ2+AfjZgiCGptiyvupqoidp7pVV2g=','c0aFH/ifKsdIIAyRh5vrf4GoHFLYIUJ3d409bxV3jE7lPQXWBAS/da+uiErrSoKScrRWrUMRsw9QjlUFXTydaA==','금왕돈까스','서울특별시','성북구','성북동','256-2','02-763-9366','10:00-21:00',NULL),
+('local:goldking25','goldking25','X/EUZUEi0dERLzFzAHlT1x1MSHrd8VpULKlKX18yf+lsUDZt3A1Tw7FcwRb78y6s7rZ9sgufqX7qu88R+Nq/2SiRAqHCQIn45X5Yfqezk788LTuvzQj0FrupVSC+4ub3S7QTA9W+p6ubnhQ2+AfjZgiCGptiyvupqoidp7pVV2g=','c0aFH/ifKsdIIAyRh5vrf4GoHFLYIUJ3d409bxV3jE7lPQXWBAS/da+uiErrSoKScrRWrUMRsw9QjlUFXTydaA==','금왕돈까스','서울특별시','성북구','성북동','256-2','02-763-9366','10:00-21:00','https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185018260.png'),
+('local:grandma123','grandma123','grand123',NULL,'나정순할매주꾸미','서울특별시','동대문구','용신동','119-20','02-928-0231','오전9:00-오후11:00','http://blogfiles2.naver.net/MjAxODAzMjJfMTgx/MDAxNTIxNjkzODE4NDQ2.4iA-mDq8ASQDkNMOjOLWC9ehWGE8Z5XM7VwTYQE4L8Yg.TS8Bvw2w4K2o6YonFr--JgxzzoQiw_RKCo6vZQK_JRsg.JPEG.a0119754/4.jpg'),
 ('local:grandma470','grandma470','hNgimeSAP3ZlIYgpc3+p2nb5xcRMQxmXs4JaV6g5+hEGVwiBtBi4dog18rAQsxgDUlPD+3fySiUkkKsBg0BUs/hBe4emQcfzifZQhcFrWkeQaa2Prm1Hf+TVcrPSrKS1kPl1EGcRDZ/vv/luydV/ArwOVvMessMP5IXVBrmcagc=','Mrl3jSQ21KukbSU9m3J+LrccUPRpjpZ3VTes/jQBlUHiD9ON9eHXcZvUS/v83Z6U1ckDsmg4iBjOpsfmZVNB4g==','청량리할머니냉면','서울특별시','동대문구','제기동','470','02-963-5362','10:00-21:30',NULL),
 ('local:grilldm','grilldm','IIxcfTX0OUF7swNPO5eqJz9AQJCTVd3Du09AtSNk8dzePmAvDsafL1wCJzY9DUn8U+XT7oHsAU1HT1SEFw5b+3M1x9VRtm1N4ES/LmDwRiziTiGhVzBuGNRazApSDA2yZ3ycGs8WSIAjxjZJACg/jsZ/6MlJSKtZPFnC+LaF0BQ=','bFM5tzf1SgSTA9VBi0tICQwapOfmr060j0PH132SXP3kYc7kdP+JCWmaWatvheaCFUYAsdhCb9p2aTk63FAGug==','그릴데미그라스','서울특별시','종로구','삼청동','128','02-723-1233','11:30-22:00 breaktime 14:30-18:00',NULL),
 ('local:gwangju773','gwangju773','TaNlbBQe9yQfpuRx9otTlyUOaBUT7xK1rkFeY21kCYgg/Oc40MaRI6QbIGKEvGJ3hFH6oJV6QomHZ+iJwboGP22s3zl6fZue+a+KYsoqtl2IXC19nwq3WG0V4aXGoH9bAXkRISa1YM/S2bBoWdWKc5OTVJ+cnHRLXx60vBfnOWI=','i65dUoz0TUacNVkHwjzASapv04L1ph9dXEZaSWivz2tomWhl5BbC/JiGBz+bxQ/mP3rh5eGxHYhoMFv86I7VDQ==','광주식당','서울특별시','동대문구','청량리동','773','02-969-4403','07:00-22:00 월요일 휴무',NULL),
@@ -203,8 +289,9 @@ INSERT INTO `owner` VALUES
 ('local:hanok112','hanok112','rUthhSlnCtIjMxhtwnfpLzxJNcxnhgJSP8zqHopKIpyd3vr1zTq0nGFDDpFxtddkEs7ygxuI6UehZ3VfQ69EAf/SJ6y8HHuOCXFUXcqodKuszBRlZ0JwUeR3k/p98aAxHDPOUA4hKYw1v4IBZgcG3mUCUOT/lu9Dnat9VsaQh8E=','VajKqyp059tjo127neG5wxOYjqKPkbflCt0Xa3knqdDb+za/wKrJ/1eJp2vTK0dktZb1xfwegG1G8SpAKKMLUA==','한옥집','서울특별시','종로구','종로5가동','112','02-742-3002','10:00-22:00',NULL),
 ('local:hansang34','hansang34','tpDcTQZfAyvObUTlWeSdBUMfXxZKCKI8BCbeYBCefVuA5iW61jhO1p9afV8TWzwYF9ITgko9GDcqme6QwgoIVNZ+5RHniDz8J9MAN98BOAklrnaiMdUjd6ZFCxvEg20p8mJ4Lp1+CjTHqxWK1cf9BRS5Pvxgx76x19vSJAnwcZk=','zzkMgHFg76slfquDotMNBWxlzNM7InxJ3NYGLz3TK3ogifKu0u+lmcCJy8yPnksS91aKsFCWwcTPFWSTAYiYbQ==','한상','서울특별시','성북구','석관동','349-1 장위뉴타워13층','02-962-1472','11:30-21:30 break- 15:00-16:30',NULL),
 ('local:hansgal91','hansgal91','X0e7zaDpm6fLg+jQTEYDuPmgncqVGM34foklk3uV0eQa3eHBK43UbQqeR1fWYlwHmp6/oZtlFDExiC6UNdQIgdLY3/+aokbpiUsPwKzDPTvSffq3GtC8icExtcgWMHcMvzMZvaBsCe42Hrg6QiH8EEX5SbePihzuDliCTgF0VJk=','WCottZRsDzojGAfeFsgChqWwgQpF1qcpiEzKT//+QWAcmyXtuJfOzcvnqvVXV7I7/rTecGpO48sY1YdarSIThg==','한스갤러리','서울특별시','성북구','정릉동','918 한스갤러리 2층','02-941-1142','11:00-22:00',NULL),
+('local:hansung','hansung1','hello',NULL,'마카나이','서울특별시','동대문구','전농동','602-11','02-969-2972','오전8:00~오후11:00','https://postfiles.pstatic.net/MjAxODA0MjVfMTY1/MDAxNTI0NjM1MzQxMDgx.w-JZKSUQnDJstU5Od_hX9-fylHO6612QBSWoK-PSAE0g.fLM36a-E4JsXp4ZwQ-S7UWt0jh9fYlNH3Sa2G-a_Lqwg.JPEG.winterplay76/20180425_123748.jpg?type=w773'),
 ('local:hariwon24','hariwon24','Uc107JsXTYRea99+r6EE1PNYmpJLgBZruYZWd9/n2pPoMD9BXAqQMD7qruJl9QHftl3YWgYFFl6Ds1LW0ZdHUZtVffBp3qXD09FM/NsftFjmzoi34vUklUnPjHEt+JJTPlZ8+U/jsd5nxd+YrzPa9vJ0C5aQIY2B0wL3mbnTTk8=','ijw6xT7KbRzxpTU+3cB2T6wmRkBG5lF58iBvJgoCrLrx7nddSVFme+sB32BU/Dy2d3ujeGTHObg11fESRozVmQ==','하리원','서울특별시','성북구','삼선동','2가 249 태극 그린빌','02-741-2595','10:00-21:00',NULL),
-('local:hhoney184','hhoney184','3MURzZssSCtrVOH2bTCJmSjuKMXUv80g0XEGpYWqMATxSYqWQ0c9ElcWKonTBMcFxxFLxBozCPM2DA2tniFJZUeLGoqHJUV752bl5mqrcnmnBawHmfY55u7p++6+3fRNEjqYubdr7QtYtXzpXPmQKW4wZZCePgdmJqb3vCQgrlk=','GJ0gihFxdwMf7Kl1S4uj36tOIJAJd4k3GCr7cUQKqSKKKsKxtD0QoCSN8do0+5zjvanIHa8nnvejPHQQwmew2w==','꿀맛식당','서울특별시','성북구','성북동','184-84','02-741-8677','11:30-22:00 break 15:30-17:30',NULL),
+('local:hhoney184','hhoney184','3MURzZssSCtrVOH2bTCJmSjuKMXUv80g0XEGpYWqMATxSYqWQ0c9ElcWKonTBMcFxxFLxBozCPM2DA2tniFJZUeLGoqHJUV752bl5mqrcnmnBawHmfY55u7p++6+3fRNEjqYubdr7QtYtXzpXPmQKW4wZZCePgdmJqb3vCQgrlk=','GJ0gihFxdwMf7Kl1S4uj36tOIJAJd4k3GCr7cUQKqSKKKsKxtD0QoCSN8do0+5zjvanIHa8nnvejPHQQwmew2w==','꿀맛식당','서울특별시','성북구','성북동','184-84','02-741-8677','11:30-22:00 break 15:30-17:30','https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185017550.png'),
 ('local:hhong187','hhong187','FrD/vFnlbqW2FC9+ibTC6r2gjBTGv5ckIA/xoLa+JMw7tOh+gF0NWQ/0wfu/HJjqzQaqjIHRNFpO7ZOotcI48CxvU2c+H0P48tRODCHlR4/sqnU88fveVc2im9mT7H3pdA+Ubtn0ptwk8mWYNtdijlj4eJsMOrBqBo2ZFAmUUQ8=','7X2WBJu9+aKmoajnMNDguVYUyxlfV5gtI2shXh8cyWa1J+O+0HPeAraCWbc9/PP45RhXS8ZBqJ7N1R75JW8nOQ==','홍곱창','서울특별시','동대문구','휘경동','187-4','02-3295-1187','13:30-23:30 일요일 휴무',NULL),
 ('local:hoho143','hoho143','SEdM//Jicm3/A/z7F2Oo+D/m0bWJSLWV0lScsiLXbuYU7AnpFSVxnxZwIyvBPiv7O+sHJ4ft8jjPn20E35J48xzIbzNg9vHW8/j4I8NQpgS2rUNPjyIBZD5ohQrL2kIA6+vpOcw1n0C+a44HM9olRXkoD8VqdGMaeLOtehYoonU=','dKUpTKwtTFq6MDsIF48Ep2Gro92fBA5cGrAvE/bjZe5p2TrEVC1Qp0LLgyim2mX21I8tzmw0O0CLAgxwqRGmiQ==','호호식당','서울특별시','종로구','혜화동','143','02-741-2384','11:00-22:00 break 15:00-17:00',NULL),
 ('local:homtown227','homtown227','4qBQf4PEMj4qvMV6KZPSx3zXxPvF4K10jn24jEeijq2kCmL5jOV+YEo31t1wdzBf7UvvChlt+rJCwWJxC5aK2UwtCZqpKmofMYm4p9DAbgL15K535c+SzZCFngJjlnN8hHpxF7rRHoOEsX5uG5kESkHw1w/SKm2++XwoUUOUcho=','u2ew56YKW6JVPjsO0KiGgy1Jb2fxfSXk1Elj0YmySA0z76UW3RIDuiRrb71wjnrbOtMBSDKe7PFe53tmI6Xtyw==','홈타운숯불바베큐치킨','서울특별시','성북구','정릉동','227','02-914-0011','14:00-1:00 일요일 휴무',NULL),
@@ -212,6 +299,7 @@ INSERT INTO `owner` VALUES
 ('local:hoya8282','hoya8282','yZuc6XFn4Thy/12DyHloAZrnPqVtM1eY/rr5tcg2sTohzEa1VS8gqW9COWpR8Xi12hwn9wtdDOTTXCzufQpHr/m4BpY7nJHtIHCesysyZoLky0srXgKH9kTBQx3XP8wyeDjrOEOoRBAyehbBh37GoFEUpm8Ol35ZfsZHJB23DeI=','cFkafpdC8gaXxxtJAHcqOUn8zSg/INo1Udmkr66D44U7RKAv57LkytKlJcWo1xAqSYhwv549gufsxy8WrU5QBA==','호야반점','서울특별시','종로구','무악동','82 린덴바움유치원','02-720-0866','11:00-22:00',NULL),
 ('local:hwaro71','hwaro71','/tEcTdFfxR6IX4P6/CekC7LKHOCpt3AOa6VXNQF4mBSU8co+NRZm2gCyIFwUn2FychelGswi8c0XQtTXbbaW/8tABSgfF9Os//HN+wPtp8pd7lOivZZ45qcQlnH2UEeTK3uHPSPFLU4pVZGcAVUG6U3hiyubiMjJP6+jZCiVFPw=','0VGgLk9wpt2+AYFnw6Tl2F3zsAtWuTerVuJbczrAzJXaboT89F5MzUTfqmPqHSnF6Z/gqZp1oUajNGJ8fUg8Rg==','화로상회','서울특별시','성북구','삼선동','1가 71','번호없음','14:00-1:00',NULL),
 ('local:hwatong123','hwatong123','AQyuUJR8K78UUjWj98rAlvj1C3map2VIgFNxBWLp41bqOGQKFyMh/TnOqkhGOlhA+VGWNomRKGh2LSw+ND0dQhcz6zl4DQ09sIsqsxqqGRASjLGQyTnA6KOq087dx2pnh0fUsez0dxfV4QrzzpBpWe3DFqsyClDYb99I2f4Y7T0=','vwv7/xBgjAh0MB/azTTOz7IXAveCmwOudNx1OYxro24IZeEQdhAJhKlLKfJ5yt2hAJXba0FZlopkNanRZBu2NQ==','화통','서울특별시','종로구','종로3가동','123-3','02-2269-8877','10:00-23:00',NULL),
+('local:hyehwa2','hyehwa2','V3rrJhYiTiiSITL92IydDgSDEFhMucJ/tlZiXeGAFKMwYAjwCjFbv3mFtf6hU1oNFf4EoGy2wyy0F2QjUtMITdWiV1gqdE2BLKP2zPPsn687HN+0olmTIIPxEJsfnRi8mMQxmPyJTbeFOWRYuBQnpgM9h4EEZD7qi4GKrN+FthQ=','40d/yitAOCqBD8gEUn0rtLT32sqLvprZBQevsHStPMxD35eHZLBKNIYPW6Q3s0DrLMlkl1W/WrzbCUjHFX9Q2w==','정돈','서울특별시','종로구','혜화동','107지층','02-987-0924','11:30-14:00, 17:00-21:00(last order 21시 시)','http://blogfiles9.naver.net/MjAxNzEyMjJfMjM3/MDAxNTEzOTQ3Mjk5MjIy.8YUVLcAEtGLCvE538plFcnZqoNdeoO4rl-SzKd__uwcg.5m6Y5KY5AY2YlCrK2wFr1X6gymGq01LCVALAFQPalIkg.JPEG.yabes0505/0_%B3%D7%B8%F0_%C6%C1_%B8%DE%C0%CE.jpg'),
 ('local:hyoja431','hyoja431','MhE1uvlLSiUWypfe9mDuVjZBaGCiTdqcToMuJjDSBNCVGFWsk/of1XJPMESDHTM/FB1zVl/H2OJbTckWpkHucz0kxc9bNbDO5kFBDRJ6A3GjTlc46VXlbme9geLRM+LjItp5RHBCOVKKK+sD9hr5RbiVN6vjqkZO543HyvcJHrk=','xhSx5W3IKrHP07Q3veGGigZ3l6pk3/MfOhy46NC00bwB0MemtcCcumLw15Fe/EDgXygTBZeRMl/t/ztjSmgKmQ==','효자 베이커리','서울특별시','종로구','청운효자동','43-1','02-736-7629','7:30-24:00',NULL),
 ('local:italy1337','italy1337','B6fKMzyd3or1YOBFA3bmvBrwxpukmONs8Bo6GS8L8PgPCGYQg/8a0FouImnFxELI4fUybml4yOBUDLjziNyEFewc7FZMp/+A6jIuFlhNcafyKhrql+0eqX8+phcWxrQLxg94Ks86/17ziSmEHhJtU9Gnm2nHDX8xzaeVteomcSA=','TXdhxyV3bR019UJzoRPx+020JEGDn+C8MRU4MtwGFs3V7fQjDRVANJJkhDXK0SdPluwLdk6qFS0eO20gV2wQcg==','이태리 총각','서울특별시','종로구','청운효자동','137-7','02-730-8893','11:30-22:00 브래이크타임 15:00-17:00',NULL),
 ('local:jamey177','jamey177','1Y4gd8FHq1Fz3wzgzZWOycSD7oWEAH0qj4AieW5NljAK3xbV6YNHCE7kNiX74/AIn5MPXa/NRchE5N2/ik+lW8ztsJGO1qncSP/pRxKxES4G5QO45CG4IZN8or6/jkEtXlzVeboC5OFC82T0GmPXTeL3VqzuMV0QhgH5ShC3ilk=','8IMIX6rfVlhS92KGDNYDwRaPZejdNMGcYLkRhiT03hTf8hDYtr7Azl42DVX/Y4yJtAayLwd5kBge8Hy5lkyudw==','육회자매집','서울특별시','종로구','종로4가동','177 제우빌딩','02-2272-3069','9:00-22:30 마감22:20 일요일 휴무',NULL),
@@ -222,11 +310,16 @@ INSERT INTO `owner` VALUES
 ('local:jungdon107','jungdon107','zOOExWmQgOC0Lhye7KvrGOpT79OVJt188h5wdcaacOoB11cA4km0Fyr95e26joH45HzrLb3zSTS/px68GQI3N/evu4HwW6MPREaQzdInHTYprPe/gRixzGJErw8AXS1n5rGXhWngnGVKYVQ6Nqzn8LwSjr5S2bKj11Mkwd/vprs=','Ecpo5MrNTe9mP2JNUlfIorEekq3TRANy/8zaklQ1RnSlenMbB+E8Na0/cKbbF5McWUMlQJ3PCvWSdqzWu5sdpA==','정돈','서울특별시','종로구','혜화동','107 지층','02-987-0924','11:30-14:00, 17:00-21:00(last order 21시)',NULL),
 ('local:jungsoon20','jungsoon20','ojPB78gZaMDREiv6xG3ZEe4GdHN280Asgij1xAI9njyRZOzDf2AbIUDKxpPCPP4rEFZ19ksX4jQ12G7e8oi21qtfZRHMco3Hr9sybkrbcuKtDddgaVR2II+zdlfqabHY/Z93306FbbTvAOTPguEEwRGrZLQYfRiS63SWtf8QDmA=','p/7YtmsC7YyIPqwHI0wmJ2KMrogJDf5T/o7sJKmJfEsncxqdgorgt4c1oYCG0XyMtb2Po7N6xtzWBJvG9uta2w==','나정순할매주꾸미','서울특별시','동대문구','용신동','119-20','02-928-0231','11:00-22:30',NULL),
 ('local:junsubang','junsubang','cBq8sx1FXvB+XmjufdmK/rvOhH+EcJfcdaMsmv/5K+tf+rN3RbJUxxISmUyWt0ZgHFRabHjw1B2N/M1dgBqih/LO94EGXonsrIOeoKPRrk99tYTjjC6H+6JrFN9Jk1gJCQuEwR4zhrQPhzTS6kgg1ZRuEsLvFw4YIz3Cr3KKZZY=','g4pMGuJCMvIZ6aQd840qZSZnb/FhL2oqabUd7TEZPQ7ymZg4+MZRyChD/Gyjdp6IzpP78MfI0985bEPQRyVo+Q==','준수방 키친','서울특별시','종로구','청운효자동','122','02-725-0691','11:30-21:30 break- 15:00-17:00',NULL),
+('local:kai88','kai88','kimkai88',NULL,'크치치킨','서울특별시','동대문구','제기동','122-373','02-962-9285','오후1:30-새벽2:30','http://blogfiles1.naver.net/20160609_246/narae8167_1465428947313BsVaH_JPEG/%C5%A9%C4%A1%C4%A1%C5%B2_160607_%2813%29.JPG'),
 ('local:kkangtong','kkangtong','dIU3UosHdKe3ITdLtS1bqWexdHctEgISTceUMdSZ3Dn53sS8fNGB2GlKVIe6xjLoHtTX/VyUOTm2ScQuKL2m/OUGz485I9zPFdtsbfQPV1FSD8577AJhm/OOMi1kifkNPeWi1VBDtJ9h8ztXjFfpMSKLj2wQ71YkyOu50r+n7Hk=','iXcWpZQRTr6iVPzkIEKg5y4GXZrTYtSH9YqterH571uCPNAAYGNkAxM1ZoPKpH9GYVS593Qf6W40AmqijlWTSQ==','깡통만두','서울특별시','종로구','가회동','84-22 1층','02-794-4243','11:30-21:30 breaktime 15:30-17:00',NULL),
 ('local:konggi341','konggi341','yRySU8t5Enldq60DR6eUno85YvoBn3R/uE/4lvNwZ6qsnSaLoLeevfAs1NWiNSVfFTLMS8MhfZRCvnHNL8gKyw+N42wv1nVxCb90Zt+JfyCqirXSCmRZyH72TaJw0hnCWeYAjksc6a6tTS8aWR1LJnnEu4QLgfLWw7kh/cAZ060=','+jvuONfbHm5cthmHVuwHYxWn/SMpouNXSr/59nG5NdVmxrCFLbiX6dVFK8J55kt8SDeexwxsSdJxubK/RKso2Q==','콩지POT지','서울특별시','종로구','가회동','34-1','02-745-2203','11:30-22:00(주말은 2부제로)',NULL),
+('local:korea1','korea1','korea11',NULL,'대한곱창','서울특별시','동대문구','장안동','433-20','02-2214-5207','연중무휴','https://postfiles.pstatic.net/20160821_125/sny815_1471773163978GDaUr_JPEG/KakaoTalk_20160821_183142718.jpg?type=w2'),
+('local:lay4570','laylay4570','lay10',NULL,'감초식당','서울특별시','동대문구','제기동','122-373','02-962-4570','9시~23시','https://post-phinf.pstatic.net/MjAxNjEyMDZfMjI0/MDAxNDgwOTkwNTE0MTQz.h8J5deaXre2yKpifJKuyqlZxdTPGRrA9Hg5i3f1tnvUg.y-VDZN4dSKzCFyhW2tj_7Cf35UJWiuBaF3UmO44rx5Ag.JPEG/mug_obj_201612061115181327.jpg?type=w1080'),
 ('local:layered','layered','bdA3AlPQX7VsW0Lp+DTAU0VAWNJ+gZOLnlq3J4+ecmw0rzaOhOFOyp8gcfaILYw6GGW9VvWZwlgUftmMn5I5YjdVLx2O0WvNk+bkd4c7uG+QS1vhcL3LcVQjbgYcEX7gXk7Ui0dqxbnGkHSkxtRtUpgB1LBZAXYq4kwLJ8/Twy4=','ERp+wa+cB9vx/zRSuzW13sxnW5karxTPAYmfAfswZtpSIe1tc/kZP6dOoowEpeVwMTB9Bit1FD6XwAtfimyvcQ==','레이어드','서울특별시','종로구','가회동','84-14','02-747-3568','8:00-22:00 주말 10:00-22:00',NULL),
 ('local:loun620','loun620','8j6Kq5vGbqTX37iY3GuDqEsbwTEzUJhSYt6XlLV2c2IsdUxgYOP+8bpXGEz/x/RiNiDmCQlL+BF1TmWnqmwXS5aeKB5tsHQ0oAu/5iTiFXjrpvEvo3Z4K1NN/32tcFluF6wkV2quRJxvk6UvPSL4ad85U5Duk+OkB/hXUY+V0RU=','zwbqd3XtwbX50Sg2//pA/hIm9+Jq4+Vf6R6HQuGH52Jb4aGO+hmzHh1TPU8spQKTwjzijsidTur1nkhOhbRg3Q==','로운샤브샤브','서울특별시','동대문구','전농2동','620-69','02-6425-2015','10:30-22:00 샐러드바 21:00마감',NULL),
 ('local:makne202','makne202','ZfmgxXXHpGAHtRyFp5+EyGZ2onwyF+WZc12dE2lYtSpPA7kHnmBGiPyHTH7hmvwY+zChwfIxV3usiHCUfJ59fefBf/0RY+9mS9JPjXu8b/0pFjPJJHzmG2bmQih/Z7hOgc+ACbDigJnPvnUIcUer72vd7lMuITMUrjXAFouaJ1U=','pYPsTmiLMghctD4TwbDPptNnFRNCDYO0Ns8bEujVGCygSAx10VRQkjs1BspYl54vnZV9Oy+UnNbRq51G3M65wQ==','막내낙지','서울특별시','종로구','종로3가동','24 르메이에르종로타운 202호','02-736-0824','11:00-23:00',NULL),
+('local:mama010','mama010','mama111',NULL,'어머니대성집','서울특별시','동대문구','용신동','754-9','02-923-1718','24시간영업','http://blogfiles1.naver.net/MjAxNzAyMDFfMTky/MDAxNDg1ODc5OTY5NDEy.ObP9rrBvhKYkS2k36FVjzcezE0fPwgyDX4Wm18mcuTUg.X5irO0u5NqLgGzguyVBG2Li1yS_FvRsr4BBddIngDS8g.JPEG.ajrtkska/20160524_223105.jpg'),
+('local:mandu','mandu','G0H4lsQsHe+mmw7QaNy8m5w0FuPocRpvnfuFTCI4qQc+vrsXT3XBG6/SfrxpSQDRZPuUhuVToRWhef9+cnTo7mE8EvV3hgqIrs2hj/+y9v8iLjeXQWB0+HppTr64cYpRX3BR5WXg4//G2ltVpbgg3BSGAxATJ/rZNiHPgLmRZds=','i7auYja3+XXdYogQXVFR2OZYkaccm76BRL70lClWn3f81MYy4mGJvmFSJsaLTHlJA66zTFHKgnZkaWZ22PFn2Q==','하단','서울특별시','성북구','성북동','184-40','02-764-5744','12:00~22:00','https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185017953.png'),
 ('local:masizzim','masizzim','5sDFYt/O/DGWSSbiuvIQGScveNr3rP9clWLmg/8DmXjyRwughhq/bQqedKjUBgXp9OAPdIvA6fLPPBIwpv69Sn+a241UWEluyb/PgolhTxc3ICHe2CG+jjn8CwB6PGGXmG4e5jKcJRSC1qn1qHiwH2hVHN2WEkYpxNcAVR3q5YM=','sy0kkVoR6F1YCafWCPsPnhgStPQiMSunw65MdIP8VFM0RmUhEPNbfiXsS3AmhNQyyjDN2VapgVy/zBnBvpu+Qw==','마시찜','서울특별시 ','성북구','석관동','168-4 동성빌딩','02-964-8588','11:00-23:00 월요일 휴무',NULL),
 ('local:megimegi','megimegi','UtcLqR3ioJoYTDUJx4tdE8QbcSBI7GYUrxl4YeZQ4XN6xr0cPpi5BGBfog+Di0mAMezqvXK6yXxhHr+XbA6P+SV+QJyKK6hkz+RAEq+C8fJTB3EFkoRlc5ZxV3JzMM3lr//SNFRnbjT68VyDnxQL5XIsGRwXRva37MSyYAUG1Pc=','U1uFtnXU7ydJRhNzVN1m7N0zwmTiVmHn42Z89nGHWltZZK0HjgjD0aB+ZmES+06bgQ/9qr8xpQ7BfC0QJjadCw==','메기의 추억','서울특별시','성북구','종암동','88-15','02-922-8690','10:00-23:00',NULL),
 ('local:mesiya167','mesiya167','eLN//bPSBvFmCJgCYRWVsD+8jcdOFi76GrDjY7QppZXrPub8sET8RDpvqgAwkCVFLhqb8IkPBxSOl55nlLB1tYCb7Fqs0+eq8MHtVzA4jD7EtsE6q+vtCbjS508Q7XDb+tiuzRBm05R9vKUI2Yp8oQZWLDUciAVWE0et+ktTZjs=','VTZxbpy9V29L547cBJXs6jEopD4DUBwOAKilIAYqk7JptRGBl92LMQXDZ2JVt81p7TFnLgGoxKn5IWGRr+C4Iw==','키친메시야','서울특별시','종로구','사직동','167 대우빌딩','02-734-2480','평일 11:30-22:00 주말 11:30-21:00',NULL),
@@ -238,7 +331,7 @@ INSERT INTO `owner` VALUES
 ('local:mrmrgst92','mrmrgst92','E8Lmj4vV8D89tohdNBdpO2VrLqPHxJxp55F+EZqP3TeFKHzbd3/TBmmpTvqE9DHVrRtjTjXfMPbO4LNgOsK+Nwysvabxns1xycTVxEJ/iVaBavVRps8sQWjV6oBrMDTMxnvLmxBhlskTk1WNgS9jAJJvzZ5WPmIwwgZwpyMANM0=','oqwUzzsExFqVgerVHFPEa6UFflML1VUDD1fCip0SWSmSrHlEVjyzxWbpVRAHaNu+1Sn+0jfpR+V96oTfQgsgQQ==','무르무르드구스토','서울특별시','성북구','안암동','5가 92 4층','02-928-0683','10:00-21:30 bt 12:30-17:00',NULL),
 ('local:naksan81','naksan81','HDA2hw39iuvVICpdhojmyNxnzNzgGOumqTLRcaPdeko1+CZLbG3xQbd5pp/u3SaEYcb93/eLdkC/uHmrbk6F3J8wHT8kmrHxkHq20d+R64+VO/2BNrhO38WCQWe9mH7ZGuY+810z/h2GAXEWZDJZhFPq6letuC1x9zaZtwbeMBA=','IAiIm1HourXJkeZ0c+m6jU9g++5NNY5PwlimUa1nsa3KcsTj9FPGYTKTnFp+TiJCoWlqzrzR2YNRjEAKJuXkPw==','낙산냉면','서울특별시','종로구','창신동','81-8','02--743-7285','11:00-21:30',NULL),
 ('local:namdo228','namdo228','DQbE/asNQexdqZjagI86tEpz7jxgidwi6mvZEAmXk127Z/v9TQHdoCQ9ttDjN0ucNcP15ZukYG6lr4+65iK9qVAc04/SFXK8kU9rSjqeZNP1HfVktMGG71H0XkTJpYPleZLho8xG33S1K6Zoyc4RbwWdEbVaXRr7WiATUcr4DhQ=','PuZLUKFfjKv9JDQwploUSUhq73WgA0dqlCdDIND1PReOwoP0BfoXVLICnra6jkviyp75KnPeeJGnIg79vgEIWQ==','남도식당','서울특별시','종로구','숭인동','228-4','02-2234-5544','11:00-21:30',NULL),
-('local:napoleon35','napoleon35','z/0BMb0Fd1T+ux4Ad+j7MZd4xFlyfgTO+V7eDq0i3/B7bMxYk/+vMHRggXkewaepggmQhoaHQP8Zy8fwjhgnAKCddaD44U8wEJjkm9JSsz77LGjXiAnkAfoRbvhq5K85LxQF37OPSezDUEFfudl76pDfgtfSW5/GwueTz4exi04=','xkMRNktbQ1FKkSNNeIvFMVipq62vWimAdY5F1X3G0blheZXk3gSWusU/CaGoQ6s0vGdA/MZCp1pwCiS9IdAcsQ==','나폴레옹과자점','서울특별시','성북구','성북동','1가 35-5','02-742-7421','08:30-21:30',NULL),
+('local:napoleon35','napoleon35','z/0BMb0Fd1T+ux4Ad+j7MZd4xFlyfgTO+V7eDq0i3/B7bMxYk/+vMHRggXkewaepggmQhoaHQP8Zy8fwjhgnAKCddaD44U8wEJjkm9JSsz77LGjXiAnkAfoRbvhq5K85LxQF37OPSezDUEFfudl76pDfgtfSW5/GwueTz4exi04=','xkMRNktbQ1FKkSNNeIvFMVipq62vWimAdY5F1X3G0blheZXk3gSWusU/CaGoQ6s0vGdA/MZCp1pwCiS9IdAcsQ==','나폴레옹과자점','서울특별시','성북구','성북동','1가 35-5','02-742-7421','08:30-21:30','https://s3.ap-northeast-2.amazonaws.com/nodeeverybody/test/KakaoTalk_20180524_185018657.png'),
 ('local:ninja65','ninja65','xq704yziYSBS4IyjnZjCgGNy3QnIYSMQe789sT/YGs5ZbyzA58GMs4A79ItFAsM275wDyegpavZaR+fp6oiQkGhNpMdE1vQVil0bvnn/vh3SvnPNK/O56GYu5ovrhfDsNXy2HNSNzjAwL02afHTLl83DJuA+pUJq1M9TF7Meots=','/d+Vn6fu2PwkRbBbTRh2vLEzr7UD4XUdbwvCRqtUI0VrY/cM3IArGHBM+Dzu+q1L+YxIvXjKJlao3apFE0IkFA==','닌자초밥','서울특별시','종로구','숭인동','65-20','02-744-1028','11:30-22:00',NULL),
 ('local:nompasta13','nompasta13','T6Ys4r1CySofxsznAw2bMYyxgpJd6k4HuutsWiCauBlkVX678chY4nG0KyaU4ViRTsk5vkMGNp5vDTZ6EaaP+pKHHxhJfbs6Ay7qSYhbLrNjXp5SlobmatFQgC0M2rgnQnjlJjwVZUGePJKirb3UBgh4wyMfZa/QyG+4G0x1F7Y=','CysYR9eJv7dwGrxev10BjYJqY5wneNGYS3oyZUKTkuL4FHaUBPsbjFnCJhLDvCRGqWqmgqJfN/moOa1W0Qh4YA==','놈파스타','서울특별시','성북구','동선동','2가 135-4','02-929-1354','11:30-22:00',NULL),
 ('local:nullbom39','nullbom39','aSnbTad7pS1PevMJCeDgaJqJY6FzG8EKdWRwBW35AhFy4tx/FR42R+uaFuniBkD8VpY2B8s6NF6ao5rPdUatves/6/yoKgG6x/OIfJy3cOTPiaKKNIQinCnEitWD8GQsQ73V/zKm8jdL+SthiPP1wFdNKUkj3V55ENNTkfRKKGc=','6BsbSJPky3a3yJWoh3AVHVKXqhVcQc2OyVr3u9uvUyxvdB4TOFQ9euy3qH19QgbwOOTVH9BpG6fcG6dczyJ1kw==','늘봄','서울특별시','동대문구','답십리동','267-8','02-2215-5051','11:30-22:00',NULL),
@@ -247,6 +340,7 @@ INSERT INTO `owner` VALUES
 ('local:ppaeng106','ppaeng106','C/bj0YU5CxGh4AoVq+avci7DTv2l6v4bXDooxMDywxk4xtfzUn4MOgNkwjrRpjCG7FAH4lMPd5AHvI7dBN5HqtmICQmoivROlZ2CFsH3xl/twKci0SvZBX9T/yT0ezaAX2DNgi7Q7bftTdD1yC5Uj32dY0bowlf4OE2WmuR/Ozs=','XONoC61MbLMNgPVjolNrsi9CU6kAFDTBYJ55jA4RoXpbCcqhCSBFH7K9bQcmdDdK81FFcCx/k/8FElVXauBk5A==','팽팽닭발','서울특별시','성북구','삼선동','2가 106-1','02-741-9095','16:00-01:00',NULL),
 ('local:pulip587','pulip587','JaQ/9iKBCQR41Gmfpaj6ELLkcv/MZcm5z4P3VuGUyOAR0xNShzbPxZCqVbMP2RbkYI9KJakQUG89mr2FDWebqqIeqFwJdUplBwkdnParqHsQLYn24wX5pLHzbtS7aux0CJg1Ky1rx0tQC8qAijQCuBRt6HZZKsa57MtF+hX/miY=','2ly69bbxnpiqSOmazoGmkLXfqvRA7MVQ0pBfW21cawx+i05gSCm8B9f9PEek5IZhc/xSpXhGniVnwOlc7ac58A==','풀잎채','서울특별시','동대문구','전농2동','587-2','02-3707-1744','10:30-22:00',NULL),
 ('local:rabit1132','rabit1132','2B6B3ybuQKk326oUH7weI3HYNMjrRnEQmGbkRXAuFrYlC9VXnfJ8x87+Rx6sy9KLBjPoqE+x1m6cFA74oYfoHZqglz02/fGxJJeoUneInFKoihKRmHZp02KqVA1g4UMGkcsfbuGPCj9HRLGjoOSHp1BfSiYToUwRIVoafw3xIgk=','QyLMkTFX91JANNWivQKiweWuaxYAcgaTJBE7txWGx+SJhkVk/wodFduA8Oy2jXlByF2ukG3LO6yTWwSdcCvbPQ==','토끼정','서울특별시','종로구','이화동','1-132','02-762-1030','11:00-22:00 마지막주문 21:20',NULL),
+('local:rain21','rain21','rain1031',NULL,'낙서파전','서울특별시','동대문구','휘경동','319-32','02-968-6019','pm2:00-am3:00','https://postfiles.pstatic.net/20150210_7/uule2_14235659322551tbUP_PNG/2015-02-10_19%3B52%3B36.PNG?type=w2'),
 ('local:raon9','raon9','RMOYzsxzZ//6lrLmUL+hhTvwKD0DSEmPdOl7dDwZb7+sBGXY7778XpMWWIgQx5VUB/Oe8ckaUisRwxf571Is6LJjcB+CIhMBAWWn3pcrYasAUiLKAZ9x3VRyViBaLH+r9m84sZpyYazoBsbIw5Ty/vOsymLIdjDw/p9RQFHv/oA=','GsMwqW3V2VOksvc9KnCNa1RKE3eQLte4SPbSKX89vgW+sP/YzmusT8iO4OpHVk1+ni0NjuNiO0FXmstp2JsE1A==',' 라온9','서울특별시','동대문구','제기동','892-71','02-6370-2000','런치 11시 -17시 디너 17시-22시',NULL),
 ('local:real287','real287','NHAc5NMVBlwrTAYkkFFF7wpan9A7Ff3swg1uF13ppuUsH2IQCRIaz7X5oGd3qX0jQ4VSpo5fZdJ/WiK/nTGfp99NVFlnAwD0Es3H45B/ktrLgy5/Ql9Qtrj7MYN0n5oCMgNDWIGCzTguR9wthxeWSMtfyEhh6WSTAbb8BOPeqSQ=','9qQjoivXRDBAFOBM1x9p0nCXjow9/YLSpAzQzrqEIWFogeyNxxCV6kffksxwGp5WNZb4NtIpwvVgSoA7uUA7LA==','레알라면','서울특별시','동대문구','이문동','287-38','070-8967-4208','11:00-21:00 breaktime 15:00-17:00',NULL),
 ('local:samcheong','samcheong','y6h0rZOxqTizdhoqr8Va7ih2+KzYXCre4kjIiUw7tB9mYg5GW62+P2xDmyeTFWav4Wc5QCHzVR9HZlacjeuixa8W9h5mAiIgie+g5epFQZZo10bZ/sBPlcQ61/W53XSJykS6HmPPPczKPylhsWF9554Hl4LYpJuRj/VLXrK7yhw=','k2JSi5ZbjI4GweRkRAt8UGz1HDiFxAOUJXkd0iOSLw9l7AP0uzrV/G3qBrebSK22zumSJUAyFwgWF4GQ42sI5A==','삼청동수제비','서울특별시','종로구','삼청동','102-2','02-735-2965','11:00-21:00',NULL),
@@ -254,11 +348,13 @@ INSERT INTO `owner` VALUES
 ('local:seafood27','seafood27','xBdhrdyf/PChOhMKUK5+JfAc8q784sgHe9TjlwwKlTsvDZiQT6rdmnK6Nwf4gT2YSQpEWs+u05HqfLlAPJ4eN9kAGTkYYOKtFAzIpmKVvO9IEu8QzOK0H/DZOLWA2ru9d9OOFjxPRxL2V/A+3GvdKoHCV4DQ50gYv7qPagkF/dQ=','GiFTJLSHtB8wIfW9q+92QILt/6f792xmIyOFZS+S9wtvflcWSBd58sb9hCMCml1D4/ZG1kV31rPc0uDnzsk4rQ==','아구와해물마을','서울특별시','성북구','월곡동','27-109','02-943-4477','11:30-22:00',NULL),
 ('local:seochon111','seochon111','m+8oEF0Rmgu44irdI9lajpV1rlinlwRNKVuKZbZXM7z/WMRqYrfKE0v+XAOrMd1xT0xwXxDypRCbC1EywMveZr9j0/1x3LcFDYgvd78AHwbeNNb2q7vGL0LpjOc3eR1p5fE3LBai/RjqQdrAxMpiS3AnFxeEG+eHKBwG4ZnE+sY=','pDI3sk7C6FDAEAhs5k0362sA6aeOEED3Wdt9VWLb44gnG/lqDnfzEM7zAz3rM4yltUzScCZq/J7J/KXsrZA/0w==','서촌계단집','서울특별시','종로구','사직동','11-1','02-737-8412','16:00-01:00 동절기 16:00-04:00 하철기',NULL),
 ('local:sinsaso13','sinsaso13','QFhAsMVGtAxIJNHmtop9VbL4Yb48tnsJAdV/cX1jTsYxWGADhp787T5SkEKLryWZChykt+hs9tijAQ42yPOOijPdli8wm8d/whwD4h9AL2s3tWlDWB02trEr4THW/0Is8Dq5nySmSVV1+W+2YyQ13HFE/5gkUvo2URPBe8GwVOk=','yz0YmwpJOxBWZOa+GUtxNeTgVHcenN7eRVdqOUlokZK8xKGfdrYNBrgK70NPkmBqwQKTz8kBWj6x13Cy4YMByw==','신사소곱창','서울특별시','성북구','석관동','133-45','02-967-0102','16:00-02:00 일요일은1시까지',NULL),
+('local:sky1004','sky1004','skysky',NULL,'은하곱창','서울특별시','동대문구','전농동','295-48','02-2247-0254','오후5:00~새벽2시','http://blogfiles14.naver.net/MjAxODA0MTNfMTkw/MDAxNTIzNTgzMjQ4MzAw.WFsXibBs2yWmHLl4FlN0BdPaGSp2TMuKIL-Vv2fJkwgg.KyQLY8-9h99TK0igcsnMtLHrmMdSkVHSgfJ8R88kNPcg.JPEG.heyey_1109/%C7%A5%C1%F62.jpg'),
 ('local:snowtree','snowtree','/VUVLAOLmVys6rEVMP3YS6DAe4rJ1H0REchKeSIWiUG1elnxvYEfPuSWgz/yN+Bq/fIUOJ5a7N1ZoJhhQm4iw+28fjVs6DrM+tp+23iS50FwrFLsk85UAX3udxa5l2t8fUi+bRRJVVQ3NTKYcvsujZ/HubGD6NOwY40XVDiJnh4=','nlQs8E6zIMQoKkMbJPu9ZnkA4AwDo3CfgGYi3grj/gB7LDplHRrWzfXFQwRV2u3Ki+T0S4xIpogbHLoOwOgVTw==','눈나무집','서울특별시','종로구','삼청동','20-8','02-739-6742','11:30-21:00',NULL),
 ('local:so1mari','so1mari','gcwJGaY9mJCDxlH3vIQTJWdql6PrKM754H7vOBxZ7pJCv66yYioedK3oGnobCRS0tCjWd4uN3A8rYi3OTnFMBgDrmOWAV2AfauYFZqxZA6KtoZRngDXY5SejLI4YMbtdDpdx7eobzlL5bw/Eq1M5/ALLvKpuU32630Mx0NX9kHg=','NqfygD3HQZw7DNNaUAe7+cITGBMChGbzXkhiwGPsgynZ2+xx0zTPoih4VARyCogXHWrekevQSlr0aldDcpCX4w==','소한마리 정육식당','서울특별시','성북구','삼선동','2가 197','02-766-7749','1:00-22:00',NULL),
 ('local:sonmandu2','sonmandu2','dijTRSHdRELhhaPfuXkSjL7AqQ1BM1m5QvllgbV/C0ygrTDFEtjG5Fz/UDo3F2AQsfkTqAxswNyxN9S9p+Fqq/7qK5Dq1Jl3TkDVI1R9z/iDt66UqDbDI6c3JmCBu/BNIX0aPCyszKIKMqg13BkTyRKwoZgtrJovz5srTkFe5eU=','Uy9Y0kfqQOAAb9hKrgydDzdW+BjzyVlwT6uNuy6Wjk1R4ABKa6OZXyUq970a/H3uNqiS9tEwL0EUeFfu013TKQ==','자하손만두','서울특별시','종로구','부암동','245-5','02-379-2648','11:30-21:30 명절전날, 당일 휴무',NULL),
 ('local:star247','star247','/0yaKWS8VIMbuTtGS7DtcrCf7e+1s5dDk70E7eZFBYbtiVL48mnDFpHuPw5QmoMPPUJ326zeyv+rZbRwdpij5GMB38sKd+R3/pC39yJ9TDgubhKCdeANKHw/hEImBu7xyHGD7t9O/QJ3pS1fK7mQycyveGAx8KiKuRKXYOvFu/0=','yMJh/xcP7rRk6Jg1XE49lVXkFpl6U1yAJKLbscyPPBKcni6+nwufLrMmnkv5itKqBX+sJZqoj9LLVoavC0Qqmg==','혜성칼국수','서울특별시','동대문구','청량리동','50-18','02-967-6918','10:30-21:00 월 휴무',NULL),
 ('local:stardong17','stardong17','xdMr8Ck40GfmU9MkfoHQmJT7TZuQ7IGNJB0hsNjsSPW2/U5fcF1BcAaaZi1toF5lTGLip6/g5tQFWrxuCA2Qri1dCj6hj3+bp5ruLGJ68iSqdfBwxGImW9MTU19XRsx9ZaoDEqALGHSqM5oyGkVb0wN8Xjvk3igkXr+MUpGSppI=','1Z/Un4ulPvv67J346OoYOSrUCfxHX9rdSbgJVdDJLaRbk1CwEQVD93ubhGcxM1Hiqp6pZysjZyzwjPTKOB0fhw==','스타동','서울특별시','성북구','삼선동','2가 172','02-743-7707','11:00-21:00',NULL),
+('local:suho01','suho01','suho0101',NULL,'라온9','서울특별시','동대문구','제기동','892-71','02-969-0244','24시','http://blogfiles1.naver.net/MjAxODA1MTFfMjMx/MDAxNTI1OTg4MTE4MDE2.q6hWlKe3NviEMFrYpeARVNqbmkhjBp0s6VDq7qqduQcg.Ks3j5_M8T8qCdglk9SesK73S5A7NnzJ8TlVczyRmCTEg.JPEG.lyonil/DSC_1453.JPG'),
 ('local:sunde141','sunde141','8HY14KdRHkwhrn0QsQgd6kONKBPDkueeGmCN4nbpPGgDYx049Xu1JnY05G1f+AjM6Be0QBsAehf6yy7y6G1JlmehihFbXEhVWlg23elYP7vbXSgo15rnFAOpXOqePQfhBRUsdAYLAsdKU144VrXX1WABOPYzlTnG2l5QiZvLJIo=','qFjQeSJKOL6QzrhoOpYPuw8hAcXN1VdLZzhIeI+XdqK/47rf/DJq5o50u/WEvgPWLBPF0Rytg9QOs+TavdeeqQ==','순대실록','서울특별시','종로구','이화동','1-41 우성빌딩','02-742-5338','00:00-24:00',NULL),
 ('local:sungo147','sungo147','9h+ks7Z+td7bnS3/PDMJR4U07HOkhM/sW7KsltgQoHu2iQx1I/FCrsf8qBnbomOfmBimhX+tqkpYwwy8hX5fvEJ/p4EcREol2cwMHju+5GvdovWq2pAIPRSsu9N6Iyl+ZuP0cNy5apziIK0IZr3ZXc7jfI74FgVhf6IlFwFYTks=','Uk9Q77XOVhoCNv7H7TkVTJSBJJ8RylJN83hS02fTTymORlfLK21+zysYhjmnsRiLmZJkj4qSH1luOAp5s66c+g==','고른햇살','서울특별시','성북구','안암동','5가 147-5 원영스위트','02-953-3394','06:00-23:00',NULL),
 ('local:sunhee138','sunhee138','kQHzkw7qHZOnUyjXUR00Nd30aFQAbp0eCEE6GUj1RpyZWRm6h6VWqCIcd9KrHafRi+m7ZvmdS9AzPQDnfsHckgTQAG+r6faPgf4j19anaOtozDQTXqtSoP5o4C9EfbITUMva3LRpOyIDMTTFhiXMjBbHZW69SZltl32B/R0HsC4=','+7EtfYgNqJLsCvlvY3R/M8NkHr6ltIMtAF4v0MSaQ/JZziYyMvKxUNV988Rxqkz4VL+8LTzDOGfS5pwU2jWrcA==','순희네 빈대떡','서울특별시','종로구','종로5가동','138-9','02-2264-5057','08:00-24:00 명절당일 휴무',NULL),
@@ -275,6 +371,10 @@ INSERT INTO `owner` VALUES
 ('local:winner392','winner392','9bYTKNlZgOkSl5WzM+1ckfYuDQ3CzG2axDx4N2XF0qRolbGu5jE4M3bPmn3Diwa/OLyPjJopLXFwu4Rnqn1P0rg74yM9PxuolEgxCeawxI4TYL32gptsjb8SVf2tTx+WrzB/ypnuimobJM0zzAgfXSnSZ7w8OffpFSAywATmkI8=','OjwWETFIsxavYkhJIG8ZzNmyI/B63tBZ82c2tJem6HeXTnlpAjYkOFHzMCZUwt5R5AxFPf3bjEuo7AQa1oocvw==','승리장','서울특별시','성북구','삼선동','2가 392-6','02-765-1004','09:00-23:00',NULL),
 ('local:wojung155','wojung155','PVEjdPN16Z4RLmth8ZQ3wqc+CD6KcSwweQybx9bS6SvB89jE5TnbWKHmVhzgw5NKcn+ppox+4pOLwhBiCrKC26pQeWZWt2oCJvIYL9ISfNrReGTfSrI160unk2mJaV2EjzOt3FbmjnHiWRW0NHB3l0Sl1rYB1m1NMWtpntakCMI=','MwxgatkTiQ9Uj//TrLhSzUjghmgAsS0VfEvdqnnZrF6c1Jh7ChM6mqqzlLtyHZih3M8R+A9mx6LQQLAlvwPyvQ==','우정회집','서울특별시','종로구','종로6가동','155-1','전화없음','13:00-01:00',NULL),
 ('local:woma70','woma70','WcmcjqiWZH0C+3aGRbPw8LxUpAnWETVCO2lHYD0mZ1D3n3u35pDV98ANFn9GFpD/VPVj4njC6jdBIAXo0ltNIo+gIu1OiBkGW1qrLCEUxfVK9zUAiFmRT8H6dcIe4pdCqiQM9jGSSBQs9i/d90f68or0/RWISu768ITc0Kb4GPU=','Ox5/B6yjgeWzahSLQ4/sT4NGaPxSX2pcjMjyzYkif/v3/DwmGTrVTmVi+YRrEVwdb63j6TW8/RUY9JLEVgzPFg==','우마스시','서울특별시','동대문구','답십리동','70-19','02-2214-6533','11:00-21:00',NULL),
+('local:wook','wook','K5GodcbNAVbsuboELouoiY8a0+0s/kw78xyttrM4VlsEbop3E+ElK/M/guAYqSrn8ijVakXm+lihjurUQC6V+8PsCtc6DU7ZIt2L0EHPurLppUuiSDWSdGLzmTXMIkR9AmUSqmIBlpdIVixdZ7AwlPGtx6CMRNv+h7163FMfe1M=','UzuUXd8itQsNYsSj7vx4zuyOT97MA/y8riJFB5P5kXWxL7kh8Z31OdaNpgA6VHh6YzMSbWpYrnUm56RckGP3ug==','수동에서 온 순대국','서울시','성북구','삼선동','한성대학교 근처','010-7577-4937','아침 9시부터 저녁 7시까지',NULL),
+('local:xiu99','xiu99','xiumin99',NULL,'봉이만두','서울특별시','동대문구','휘경동','261-3','02-2215-1122','오전9:00-오후11:00','http://postfiles14.naver.net/MjAxODAzMjlfMTMx/MDAxNTIyMzMzMTI5MjIx.G959lCMi_9UIn60hJLpFstQVWcmYdJKbkPzPouiTDjog.w1cTRJ07Eqw6nrHBS46hQLUJJN7JmJldQHuv_SqXbJwg.JPEG.since861015/IMG_6449.jpg?type=w580'),
+('local:xo0408','xo0408','exo0408',NULL,'일미간장게장','서울특별시','동대문구','장안동','367-3','02-2242-4338','10:00-22:00','https://postfiles.pstatic.net/MjAxODA0MDlfMTk4/MDAxNTIzMjQxMDYwNDk0.J4sTc6F459s4_DeXgTCvH_hL8B9ThjAQtHqVRgs6AFwg.pzdyl0RzMJ00hJUhhBCW9YvRKSHmnxswlha9JQuTkIMg.JPEG.gellysook/2_kag.jpg?type=w966'),
+('local:ykha1031','ykha1031','yk1031',NULL,'개성집','서울특별시','동대문구','용신동','201-2','02-923-6779','am11:00-pm11:00','http://post.phinf.naver.net/20150324_247/oskin671022_1427183449539fO20e_JPEG/mug_obj_201503241650538131.jpg?type=w1080'),
 ('local:yukjun104','yukjun104','29q4spnUgN4T2fV6JtWnSNLz6gGvecEDYr8G9yGF9AMw2xlApfaM7+pNRO6nLXjhUqm4grTtqmGKrvhq4MCpPcOpE+ed+eUhrxpA8M/TYAKcpd7iEC4LwJTvX6ahXG3x2wFCuZl0z3meEnQ81iMCsKhD380kXFKT2lFS9TsOBc0=','beS9SN8ky809U9KBZL4rJa+Y/4Es4YsrDuUtMmFKz1SznCLz7cwU0+sQLANQGaUp6gLC0oEt86iweMtYF4vAxA==','육전식당','서울특별시','동대문구','용신동','104-3','02-2253-6373','11:00-23:00 break-15:00-16:00, 명절휴무',NULL);
 /*!40000 ALTER TABLE `owner` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -289,8 +389,8 @@ DROP TABLE IF EXISTS `product_info`;
 CREATE TABLE `product_info` (
   `owner_auth` varchar(20) NOT NULL,
   `product` varchar(15) NOT NULL,
-  `price` int(11) ,
-  `sale` text DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `sale` text,
   `product_imgUrl` text,
   PRIMARY KEY (`owner_auth`,`product`),
   CONSTRAINT `fk_product` FOREIGN KEY (`owner_auth`) REFERENCES `owner` (`owner_auth`)
@@ -304,18 +404,17 @@ CREATE TABLE `product_info` (
 LOCK TABLES `product_info` WRITE;
 /*!40000 ALTER TABLE `product_info` DISABLE KEYS */;
 INSERT INTO `product_info` VALUES
-('local:chen0921', '설농탕',9000,'10%', 'http://postfiles.pstatic.net/20160615_124/fayry_1465978685029Jsglv_JPEG/%C0%E5%BE%C8%C1%A4_7.jpg?type=w3'),
-('local:chen0921', '돈가스 정식',12000,NULL, 'http://blogfiles1.naver.net/MjAxNzA1MjdfMTgx/MDAxNDk1ODg0Mjg0MzYz.M1ouKAkPbV-gCUcT9DBeCJTMSza0b-VrKG0jKukvEzog.aHCmh-LD47LkmdtpmlD6u_eHBY_feYf8T63DyxiDp98g.PNG.kimmeej4989/%C0%E5%BE%C8%B5%BF_%C0%E5%BE%C8%C1%A4%B5%B7%B1%EE%BD%BA__%B4%DE%C4%DE%C7%E2%B1%E2SAM_4503-9.png'),
-('local:chen0921', '돈가스',8000,NULL, 'https://postfiles.pstatic.net/MjAxODA0MTBfNTEg/MDAxNTIzMzQ0MzM0ODQz.9K4Vvt1MwbeqcS1YeXQo675UTHDoXUgo7N0DkdaG-Awg.TMRGdlKAgHk-3TRgOo7a0yW69482tXMk_3RHqSDrqsgg.JPEG.nju0424/output_2601937817.jpg?type=w580'),
-('local:chen0921', '함박스텍',8000,NULL, 'http://postfiles.pstatic.net/20160615_173/fayry_1465978684755U9So7_JPEG/%C0%E5%BE%C8%C1%A4_6.jpg?type=w3'),
-('local:do12', '꼬막짬뽕',8000,NULL,'http://www.suwon.com/news/photo/201709/116728_61129_4056.jpg'),
-('local:do12', '짜장면',5000,'3+1', 'http://postfiles.pstatic.net/MjAxODA1MDRfMzkg/MDAxNTI1Mzk4MTU2NTQx.PeP8B6i_pzO55DRk9S5Qh6jrj3WkePLm71aTQYr4w1cg.kT_9m9eC5weZ9WvvL0oARjljWKj685UdeiykPlebP8Eg.JPEG.roomy_atelier/y10.jpg?type=w1'),
-('local:do12', '차돌양지짬뽕',8000,NULL, 'http://postfiles.pstatic.net/MjAxNzAzMjVfMjI1/MDAxNDkwNDQ3ODE0NDQ4.sKdOu7Ys8sYEFdiNfpT3oLUr37Cqd6jrvkJdwapVKJog.6GUfB62uEZkdwoz9zUM3hGBdVnRRTOS8tavfCfr4uFIg.JPEG.cjswo965030/KakaoTalk_20170325_221346401.jpg?type=w773'),
-('local:do12', '탕수육 소',12000,'4인분 시키면 탕수육 50%','https://postfiles.pstatic.net/MjAxNjEyMDdfMTEy/MDAxNDgxMDk0NzkzNjY4.tkyhJNenZqsq2jXPamZoWAd-ffLyzjmiy_hhRkDAiEUg.OeaK081jlMeqkF3X7VHvtrg8xflNzSeFSU1h_j9HKI8g.JPEG.ha2684/15.JPG?type=w966'),
-('local:lay4570', '돼지불갈비정식',13000,'소주 한병 공짜',NULL),
-('local:lay4570', '삼치구이',8000,NULL,NULL),
-('local:lay4570', '육개장',7000,NULL,NULL)
-;
+('local:chen0921','돈가스',8000,NULL,'https://postfiles.pstatic.net/MjAxODA0MTBfNTEg/MDAxNTIzMzQ0MzM0ODQz.9K4Vvt1MwbeqcS1YeXQo675UTHDoXUgo7N0DkdaG-Awg.TMRGdlKAgHk-3TRgOo7a0yW69482tXMk_3RHqSDrqsgg.JPEG.nju0424/output_2601937817.jpg?type=w580'),
+('local:chen0921','돈가스 정식',12000,NULL,'http://blogfiles1.naver.net/MjAxNzA1MjdfMTgx/MDAxNDk1ODg0Mjg0MzYz.M1ouKAkPbV-gCUcT9DBeCJTMSza0b-VrKG0jKukvEzog.aHCmh-LD47LkmdtpmlD6u_eHBY_feYf8T63DyxiDp98g.PNG.kimmeej4989/%C0%E5%BE%C8%B5%BF_%C0%E5%BE%C8%C1%A4%B5%B7%B1%EE%BD%BA__%B4%DE%C4%DE%C7%E2%B1%E2SAM_4503-9.png'),
+('local:chen0921','설농탕',9000,'10%','http://postfiles.pstatic.net/20160615_124/fayry_1465978685029Jsglv_JPEG/%C0%E5%BE%C8%C1%A4_7.jpg?type=w3'),
+('local:chen0921','함박스텍',8000,NULL,'http://postfiles.pstatic.net/20160615_173/fayry_1465978684755U9So7_JPEG/%C0%E5%BE%C8%C1%A4_6.jpg?type=w3'),
+('local:do12','꼬막짬뽕',8000,NULL,'http://www.suwon.com/news/photo/201709/116728_61129_4056.jpg'),
+('local:do12','짜장면',5000,'3+1','http://postfiles.pstatic.net/MjAxODA1MDRfMzkg/MDAxNTI1Mzk4MTU2NTQx.PeP8B6i_pzO55DRk9S5Qh6jrj3WkePLm71aTQYr4w1cg.kT_9m9eC5weZ9WvvL0oARjljWKj685UdeiykPlebP8Eg.JPEG.roomy_atelier/y10.jpg?type=w1'),
+('local:do12','차돌양지짬뽕',8000,NULL,'http://postfiles.pstatic.net/MjAxNzAzMjVfMjI1/MDAxNDkwNDQ3ODE0NDQ4.sKdOu7Ys8sYEFdiNfpT3oLUr37Cqd6jrvkJdwapVKJog.6GUfB62uEZkdwoz9zUM3hGBdVnRRTOS8tavfCfr4uFIg.JPEG.cjswo965030/KakaoTalk_20170325_221346401.jpg?type=w773'),
+('local:do12','탕수육 소',12000,'4인분 시키면 탕수육 50%','https://postfiles.pstatic.net/MjAxNjEyMDdfMTEy/MDAxNDgxMDk0NzkzNjY4.tkyhJNenZqsq2jXPamZoWAd-ffLyzjmiy_hhRkDAiEUg.OeaK081jlMeqkF3X7VHvtrg8xflNzSeFSU1h_j9HKI8g.JPEG.ha2684/15.JPG?type=w966'),
+('local:lay4570','돼지불갈비정식',13000,'소주 한병 공짜',NULL),
+('local:lay4570','삼치구이',8000,NULL,NULL),
+('local:lay4570','육개장',7000,NULL,NULL);
 /*!40000 ALTER TABLE `product_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,53 +444,19 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('local:wook','local:emmaoh26',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.'),
+INSERT INTO `review` VALUES
+('local:dinner','local:lef56',3,'맛이 나쁘지 않아요.','맛이 메리트가 없네요..'),
+('local:dinner','local:lha58',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.'),
+('local:dinner','local:park ',4,'김치볶음밥 최고~!!','위생이 별로네요.'),
+('local:dinner','local:pha8282',5,'음식이 너무 맛있어요~','불친절해요'),
+('local:dinner','local:ujjang93',3,'음악이 좋음','맛은 그럭저럭'),
+('local:wook','local:emmaoh26',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.'),
 ('local:wook','local:hscthsh3306',3,'음악이 좋음','맛은 그럭저럭'),
 ('local:wook','local:jwkasa',1,'인테리어 예쁨','불친절'),
 ('local:wook','local:jwl628',2,'맛있어요!','좀 비싸네요'),
 ('local:wook','local:ldhfall',3,'먹을만하다','양이 적다'),
 ('local:wook','local:ujjang93',4,'메뉴가 다양합니다.','단점은 없어요!');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `user_auth` varchar(20) NOT NULL,
-  `user_id` varchar(10) DEFAULT NULL,
-  `user_password` varchar(255) DEFAULT NULL,
-  `salt` varchar(255) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `address1` varchar(10) DEFAULT NULL,
-  `address2` varchar(10) DEFAULT NULL,
-  `address3` varchar(10) DEFAULT NULL,
-  `address4` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`user_auth`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('local:1155','1155','WZba4CB9EhTZhG32lm/GnajMN+4R3GnutBjxDvqHNWKihZ64TQGeggPp6uKcTA1ZNvBftmojUTRyEntRVRvFi1KXDpe89gSSkgKg2DM8bteNCsdFJVP8fG4lA3DYAn6/REy4GAz+0hOr0lO0cLX1eYy3lJwV5MvkaR5VbtbH6n4=','sbQdcc6RsMPqs/MMO1zTk7yUAxuZ7t1J6tGw/Te6cFD9B6/6PhZiKJSFKbYz/S/cDEVOCuRu70GbxwC4hyhMjg==','노트북',NULL,NULL,NULL,NULL),
-('local:1222','1222','yPyGG6i5UhY9b70XygLElbwg0TrfFDf7nB2dAHDkq6SGcuwgJOCqJZrGTvC6rjdZiDptVRynG3qPGEfzUm+2DKuyreGvdDhRzZ+TssUdamXUswufxKkGxY3upmaaf2Xhj1sfTMu+Hz3X2JRaRv0mRCwXZtc14+dQAqPB3SEGqd0=','gIvPMiImzsW8fIiinALZcAdahABYLa9wk6tTA618oHBxmeAAJJuDoJ+76PiuGA1URjVMLJ7+El+ue0sKj9Or8Q==','1222',NULL,NULL,NULL,NULL),
-('local:emmaoh26','emmaoh26','111111','g2','오지은',NULL,NULL,NULL,NULL),
-('local:hscthsh3306','hscthsh330','111111','g2','장희수',NULL,NULL,NULL,NULL),
-('local:jhkdie','jhkdie','111111','g2','김정호',NULL,NULL,NULL,NULL),
-('local:jwkasa','jwkasa','111111','g2','박진우',NULL,NULL,NULL,NULL),
-('local:jwl628','jwl628','111111','111111','이정욱',NULL,NULL,NULL,NULL),
-('local:ldhfall','ldhfall','111111','g2','이동현',NULL,NULL,NULL,NULL),
-('local:nsj888','nsj888','111111','g2','조남수',NULL,NULL,NULL,NULL),
-('local:ujjang93','ujjang93','111111','g2','유광형',NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -439,185 +504,59 @@ CREATE TABLE `state` (
 LOCK TABLES `state` WRITE;
 /*!40000 ALTER TABLE `state` DISABLE KEYS */;
 INSERT INTO `state` VALUES
-(02,'서울특별시');
+(2,'서울특별시');
 /*!40000 ALTER TABLE `state` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `city`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `city`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `city` (
-  `state_id` int(11) NOT NULL,
-  `city_id` int(11) NOT NULL,
-  `city_name` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`state_id`,`city_id`)
+CREATE TABLE `user` (
+  `user_auth` varchar(20) NOT NULL,
+  `user_id` varchar(10) DEFAULT NULL,
+  `user_password` varchar(255) DEFAULT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `address1` varchar(10) DEFAULT NULL,
+  `address2` varchar(10) DEFAULT NULL,
+  `address3` varchar(10) DEFAULT NULL,
+  `address4` varchar(100) DEFAULT NULL,
+  `image_url` text,
+  PRIMARY KEY (`user_auth`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `city`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `city` WRITE;
-/*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES
-(02,001,'종로구'),
-(02,002,'중구'),
-(02,003,'용산구'),
-(02,004,'성동구'),
-(02,005,'광진구'),
-(02,006,'동대문구'),
-(02,007,'중랑구'),
-(02,008,'성북구'),
-(02,009,'강북구'),
-(02,010,'도봉구'),
-(02,011,'노원구'),
-(02,012,'은평구'),
-(02,013,'서대문구'),
-(02,014,'마포구'),
-(02,015,'양천구'),
-(02,016,'강서구'),
-(02,017,'구로구'),
-(02,018,'금천구'),
-(02,019,'영등포구'),
-(02,020,'동작구'),
-(02,021,'관악구'),
-(02,022,'서초구'),
-(02,023,'강남구'),
-(02,024,'송파구'),
-(02,025,'강동구');
-/*!40000 ALTER TABLE `city` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES
+('local:1111','1111','C+0yozIK/uTZ9PxBqE6nlXzngvTF9QeRCNiPJRvilUtx3/LHJGcrl80C7d29TnsRykgq0vFY/wp92W2cWYDLt7oxzpHgtDtR5sPg3iKoN3fPdjl6lkVKXhAhuv/3joNNd8/uyraaz2WA+M4sp46mFLSEz2UbDdj5learMlCQNRg=','X42q+bsqhwKCggitPbcXmtBLcIx2p4Rswghp6yP58YlAf+hWTTqVa4LS9QPcuCIfJ/uSj46CHaXMOEPwrcJClA==','1번',NULL,NULL,NULL,NULL,NULL),
+('local:1155','1155','WZba4CB9EhTZhG32lm/GnajMN+4R3GnutBjxDvqHNWKihZ64TQGeggPp6uKcTA1ZNvBftmojUTRyEntRVRvFi1KXDpe89gSSkgKg2DM8bteNCsdFJVP8fG4lA3DYAn6/REy4GAz+0hOr0lO0cLX1eYy3lJwV5MvkaR5VbtbH6n4=','sbQdcc6RsMPqs/MMO1zTk7yUAxuZ7t1J6tGw/Te6cFD9B6/6PhZiKJSFKbYz/S/cDEVOCuRu70GbxwC4hyhMjg==','노트북',NULL,NULL,NULL,NULL,NULL),
+('local:1222','1222','yPyGG6i5UhY9b70XygLElbwg0TrfFDf7nB2dAHDkq6SGcuwgJOCqJZrGTvC6rjdZiDptVRynG3qPGEfzUm+2DKuyreGvdDhRzZ+TssUdamXUswufxKkGxY3upmaaf2Xhj1sfTMu+Hz3X2JRaRv0mRCwXZtc14+dQAqPB3SEGqd0=','gIvPMiImzsW8fIiinALZcAdahABYLa9wk6tTA618oHBxmeAAJJuDoJ+76PiuGA1URjVMLJ7+El+ue0sKj9Or8Q==','1222',NULL,NULL,NULL,NULL,NULL),
+('local:emmaoh26','emmaoh26','111111','g2','오지은',NULL,NULL,NULL,NULL,NULL),
+('local:hscthsh3306','hscthsh330','111111','g2','장희수',NULL,NULL,NULL,NULL,NULL),
+('local:hyk1','hyk1','tHkLOUjW0QL1fr2Y2Xx/kU+INpm/t2zURLCN+3VnCKFpKADjP1VsVVnCxKXwFNfY0wK7roWZW8vEvDNV/Niz8jXPwEE2DQfoRmUlMdO2sZgMQjkvvnhGdQwVannPcI69jSvX6zqvh6/+C1Yu7CwRzvq5hWu0oGU2MbGWHv9PuzI=','16Ylvs0Ra37rEaTYO5owNTi2+eqiKD7EMnQns8mMHIOQxMmIAvqJ6nFQb8vQe4I6TCWUzPI5fOhZh9L9hXbCYg==','하유경',NULL,NULL,NULL,NULL,NULL),
+('local:jhkdie','jhkdie','111111','g2','김정호',NULL,NULL,NULL,NULL,NULL),
+('local:jwkasa','jwkasa','111111','g2','박진우',NULL,NULL,NULL,NULL,NULL),
+('local:jwl628','jwl628','111111','111111','이정욱',NULL,NULL,NULL,NULL,NULL),
+('local:lay76','lay76','qdzU+QtEF9duyjx/z0L8Z1KdqLX2TebLNIa9nhERYzC92Gye+vXah9aFUFzy9Rpe79sBgV0IOTcCM9EFNIEJnlNpIQb9/cvbt/kXMdULyvr46N6Abei44uNz6YZAuwDPBSVh8Owrc7QZwfqiIYvsna0vgFVYM+iTtgz3+ZwVFo0=','vkkIYERmwtzjnZPxWLMGLOckHoQLjoIooNqJFVPuxMGksSe+BWahrwScPRfxrRZ83HQF+ak5u6REyaE7+7FxLw==','강윤서',NULL,NULL,NULL,NULL,NULL),
+('local:ldhfall','ldhfall','111111','g2','이동현',NULL,NULL,NULL,NULL,NULL),
+('local:lef56','lef56','ZfA1/1Qu9nb0lhlEtG8Xx9KD3oHdhaagWsSduhRm7zYq3xZPZWbbjqFKYgEXE6EVuRIH01N5eQgYVV/71EVLqKP03wFhP57dmnjz6uQMvM5ojpk2gHEMYQuDyTUJWQorgmB/Kf6TKY8uAq9az6dqIjP+Pf6a/MPiKXHWsctvYQ0=','6grH29prGSKfY8DgL6ScXZYyhaz2nKDShAK1MzohaZFZpODmCAQfNo4kSKAmCPcTKt1eEFo++CKXSzqzXJEpgw==','강동원',NULL,NULL,NULL,NULL,NULL),
+('local:lha58','lha58','pvTtbLKCLf4I7ivvhk7onGOZzEdoqGMOI3YkSuZ9pen/VRQPdQZu8fraUulhzMcaxRqVXtuRRmnWf7gSgtcJlzUQramnWnd8fnMQxOwpGmQle+rX74rYAoyF+dk2a7f/KWNj+0km5ANCDLKKhylsnsc4u2O7NfWnJ7u7HJwwEvU=','h9IT/J1maLDTfeU7rDDiOt9KK6gVlrPgCSpFaoctqHShMVGmvJxYSOX/2rwfYzvZundPXeA+LjudsBI/a7axmA==','이현아',NULL,NULL,NULL,NULL,NULL),
+('local:nsj888','nsj888','111111','g2','조남수',NULL,NULL,NULL,NULL,NULL),
+('local:park','park','/9YxQc9WnZoAgvlsd8GhJinKpHTz1HdP7g28VstzTXMdUtpzLPUEE+JsuK/0vLGfT21GSN6VSHoBenIZ+9CkFwqjh0C2FZemDLNRqZr3FeG8ybtlK6W+yYKS1Ff4JIV8rcnpMg+YAUVENhz7ZSnaJkVlHRG1xhxbymjEq6Vu7J4=','5mUiNZzMDkYYjzmBQASdPCQ9qZYtya+SWe/kG+lj7QIaEgY3P7NvKDRZQzvpoW3IA6MCcyeWPr8WO9Xl8vEgzA==','박찬영',NULL,NULL,NULL,NULL,NULL),
+('local:pha8282','pha8282','ZkCdiVj39PoAAFc2lAObus1AyMcp4+/oeToM5oJhzhQMJn2UaXtR9HDioRyU0mfH8mGmEBmiYDUXd8W2gQiRYDzwCDRjbOij+hyZRJxxkMZhQ7FnzCQOdW0W4MJ6RXiyxr68P4LyTsj1LDb5xNAIEUmXDf0fn4ZcTexzgeAAPwg=','MEJ7YrMyN1j2vMjioJZFwPc5RsjCwbXEvBFpRcp9SsflSzOJ/fBwRQu7IlmQKJW2UT9L5SnKd2YaYu0+5BTKkg==','임기훈',NULL,NULL,NULL,NULL,NULL),
+('local:ujjang93','ujjang93','111111','g2','유광형',NULL,NULL,NULL,NULL,NULL),
+('local:y113','y113','2DqAzAsu4BFYdIk7hkUGTi7WjVzgxaEeMe1cqdivgYEJuEikNE1zjSIsUQ9auYvdRYHA27xWl86HLatMDKJzsfk0nPlHq/9l7R9o/OxlGyp2ks2RpW2XjEkAq9DdUxY+gwuQn0j0DHD5DXRsQf8jl24OOddKqoqpfYLGAlQLHyQ=','kQHBM0Cv1ZSu+VVzrepDwC7eoD62FNxn49dsUb+bXoMS06LRYaU2oA5pQJgX4ZW6sxrpwHoEnqMAlU5i/qVdhQ==','y',NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `town`
---
-
-DROP TABLE IF EXISTS `town`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `town` (
-  `city_id` int(11) NOT NULL,
-  `town_id` int(11) NOT NULL,
-  `town_name` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`city_id`,`town_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `town`
---
-
-LOCK TABLES `town` WRITE;
-/*!40000 ALTER TABLE `town` DISABLE KEYS */;
-INSERT INTO `town` VALUES
-(001,001,'청운효자동' ),
-(001,002,'사직동'),
-(001,003,'삼청동'),
-(001,004,'부암동'),
-(001,005,'평창동'),
-(001,006,'무악동'),
-(001,007,'교남동'),
-(001,008,'가회동'),
-(001,009,'종로1·2·3·4가동'),
-(001,010,'종로5·6가동'),
-(001,011,'이화동'),
-(001,012,'혜화동'),
-(001,013,'창신1동'),
-(001,014,'창신2동'),
-(001,015,'창신3동'),
-(001,016,'숭인1동'),
-(001,017,'숭인2동'),
-
-(002,001,'소공동'),
-(002,002,'회현동'),
-(002,003,'명동'),
-(002,004,'필동'),
-(002,005,'장충동'),
-(002,006,'광희동'),
-(002,007,'을지로동'),
-(002,008,'신당동'),
-(002,009,'다산동'),
-(002,010,'약수동'),
-(002,011,'청구동'),
-(002,012,'신당5동'),
-(002,013,'동화동'),
-(002,014,'황학동'),
-(002,015,'중림동'),
-
-(003,001,'후암동'),
-(003,002,'용산2가동'),
-(003,003,'남영동'),
-(003,004,'청파동'),
-(003,005,'원효로1동'),
-(003,006,'원효로2동'),
-(003,007,'효창동'),
-(003,008,'용문동'),
-(003,009,'한강로동'),
-(003,010,'이촌1동'),
-(003,011,'이촌2동'),
-(003,012,'이태원1동'),
-(003,013,'이태원2동'),
-(003,014,'한남동'),
-(003,015,'서빙고동'),
-(003,016,'보광동'),
-
-(004,001,'왕십리도선동'),
-(004,002,'왕십리2동'),
-(004,003,'마장동'),
-(004,004,'사근동'),
-(004,005,'행당1동'),
-(004,006,'행당2동'),
-(004,007,'응봉동'),
-(004,008,'금호1가동'),
-(004,009,'금호2·3가동'),
-(004,010,'금호4가동'),
-(004,011,'옥수동'),
-(004,012,'성수1가1동'),
-(004,013,'성수1가2동'),
-(004,014,'성수2가1동'),
-(004,015,'성수2가3동'),
-(004,016,'송정동'),
-(004,017,'용답동'),
-
-(005,001,'중곡1동'),
-(005,002,'중곡2동'),
-(005,003,'중곡3동'),
-(005,004,'중곡4동'),
-(005,005,'능동'),
-(005,006,'구의1동'),
-(005,007,'구의2동'),
-(005,008,'구의3동'),
-(005,009,'광장동'),
-(005,010,'자양1동'),
-(005,011,'자양2동'),
-(005,012,'자양3동'),
-(005,013,'자양4동'),
-(005,014,'화양동'),
-(005,015,'군자동'),
-
-(006,001,'용신동'),
-(006,002,'제기동'),
-(006,003,'전농1동'),
-(006,004,'전농2동'),
-(006,005,'답십리1동'),
-(006,006,'답십리2동'),
-(006,007,'장안1동'),
-(006,008,'장안2동'),
-(006,009,'청량리동'),
-(006,010,'회기동'),
-(006,011,'휘경1동'),
-(006,012,'휘경2동'),
-(006,013,'이문1동'),
-(006,014,'이문2동'),
-/*!40000 ALTER TABLE `town` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -628,4 +567,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-22  3:50:54
+-- Dump completed on 2018-05-24 11:02:47
