@@ -44,6 +44,8 @@ const mainStoreUrl = `/user/main/store`;
 const mainUserInfoUrl = `/user/main/userInfo`;
 const successUrl = `/success`;
 const followUrl = `/user/main/store/follow`
+const writeReviewUrl = `/user/main/store/review/write`;
+const followBtnUrl = `/followBtn`;
 
 const storeMainUrl = `/owner/storeMain`;
 const storeMainContentContainerUrl = `/owner/storeMain/container`;
@@ -55,7 +57,6 @@ const reviewListUrl = `/owner/storeMain/review/list`;
 const reviewListContainerUrl = `/owner/storeMain/review/list/container`;
 const reviewDetailUrl = `/owner/storeMain/review/detail`;
 const uploadUrl = `/upload`;
-const writeReviewUrl = `/owner/storeMain/review/write`;
 
 //Views
 const loginView = `user_login`;
@@ -66,10 +67,11 @@ const timelineSaleContainerView = `user_timelineSaleContainer`;
 const mainSearchView = `search2`;
 const mainUserInfoView = `user_userInformation`;
 const searchResultView = ``;
+const storeMainContentDetailView = `user_contentDetail`;
+const followBtnView = `followBtn`;
 
 const storeMainView = `user_storeMain`;
 const storeMainContentContainerView = `user_storeMainContentContainer`;
-const storeMainContentDetailView = `contentDetail`;
 const storeMainContentUploadView = `contentUpload`;
 const storeMainFollowerView = `follow`;
 const storeMainSaleView = `sale`;
@@ -105,10 +107,8 @@ router.get('/count', function(req, res) {
 });
 
 router.get(logoutUrl, function(req, res) {
-  delete req.session.passport.user; //세션 삭제
-  req.session.save(function() { //데이터 저장이 끝났을때 호출됨 안전하게 redirect하기 위함
-    res.redirect('/');
-  });
+  req.logout();
+  res.redirect(loginUrl);
 });
 
 passport.serializeUser(function(user, done) {
@@ -156,7 +156,7 @@ passport.use(new FacebookStrategy({
           } else {
             done(null, newuser);
           }
-        })
+        });
       }
     });
   }
@@ -294,7 +294,7 @@ router.get(mainTimelineUrl, function(req, res) {
         }
       }
       sql2 += ` ORDER BY content_list.date ASC`;
-      console.log('mainTimelineUrl.sql2 :',sql2);
+      console.log('mainTimelineUrl.sql2 :', sql2);
       connection.query(sql2, function(err, results2) {
         //console.log(results2);
         res.render(timelineFollowContainerView, {
@@ -319,19 +319,20 @@ router.get(mainBargainsUrl, function(req, res) {
   const sql1 = `SELECT owner_auth FROM follow WHERE user_auth=` + mysql.escape(userAuth);
   connection.query(sql1, function(err, results1) {
     var sql2 = `SELECT product_info.*, owner.image_url, owner.store FROM product_info INNER JOIN owner ON product_info.owner_auth=owner.owner_auth WHERE (product_info.sale is not null) and (`;
-    for(var i = 0; i < results1.length; i++){
-      sql2 += `product_info.owner_auth=` ;
+    for (var i = 0; i < results1.length; i++) {
+      sql2 += `product_info.owner_auth=`;
       sql2 += mysql.escape(results1[i].owner_auth);
-      if(i < results1.length - 1){
+      if (i < results1.length - 1) {
         sql2 += ` OR `;
       }
     }
     sql2 += `)`;
-    console.log('mainBargains.results1', results1);
-    console.log('mainBargains.sql2 : ', sql2);
+    //console.log('mainBargains.results1', results1);
+    //console.log('mainBargains.sql2 : ', sql2);
     connection.query(sql2, function(err, results) {
-    console.log('mainBargains.results', results);
+      console.log('mainBargains.results', results);
       res.render(timelineSaleContainerView, {
+        storeUrl: mainStoreUrl,
         contents: results
       });
     });
@@ -389,29 +390,60 @@ router.post(mainUserInfoUrl, function(req, res) {
 
 
 
+
+
 router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
   console.log('1, storeMain');
-  var sql = 'SELECT * FROM owner WHERE owner_auth=';
   const ownerAuth = req.params.owner_auth;
   console.log('1.1, ' + ownerAuth);
-  connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
-    //console.log(results);
-    console.log('2');
-    if (err) return done(err);
-    const info = results[0];
-    console.log('3, before render');
-    res.render(storeMainView, {
-      contents: results[0],
-      saleUrl: storeMainSaleUrl + '/' + ownerAuth,
-      followUrl: storeMainFollowerUrl + '/' + ownerAuth,
-      reviewUrl: reviewListUrl + '/' + ownerAuth,
-      contentUploadUrl: storeMainContentUploadUrl + '/' + ownerAuth,
-      iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
+  var sql1 = `SELECT number FROM content_list WHERE owner_auth=` + mysql.escape(ownerAuth);
+  connection.query(sql1, function(err, results1) {
+    var sql2 = `SELECT user_auth FROM follow WHERE owner_auth=` + mysql.escape(ownerAuth);
+    connection.query(sql2, function(err, results2) {
+      var sql = 'SELECT * FROM owner WHERE owner_auth=' + mysql.escape(ownerAuth);
+      connection.query(sql, function(err, results) {
+        //console.log(results);
+        console.log('2, storeMain');
+        // console.log(results1.length);
+        // console.log(results2.length);
+        if (err) return done(err);
+        const info = results[0];
+        console.log('3, before render');
+        res.render(storeMainView, {
+          followBtnUrl: followBtnUrl + '/' + ownerAuth,
+          contentCount: results1.length,
+          followerCount: results2.length,
+          contents: results[0],
+          saleUrl: storeMainSaleUrl + '/' + ownerAuth,
+          followUrl: storeMainFollowerUrl + '/' + ownerAuth,
+          reviewUrl: reviewListUrl + '/' + ownerAuth,
+          contentUploadUrl: storeMainContentUploadUrl + '/' + ownerAuth,
+          iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
+        });
+        console.log('4, after render');
+      });
     });
-    console.log('4, after render');
   });
   console.log('5, after query');
 });
+
+router.get(followBtnUrl + '/:owner_auth', function(req, res) {
+  const ownerAuth = req.params.owner_auth;
+  var userAuth = req.session.passport.user;
+  var sql = `SELECT * FROM follow WHERE user_auth=` + mysql.escape(userAuth) + ` and owner_auth=` + mysql.escape(ownerAuth);
+  connection.query(sql, function(err, results) {
+    if (results != '') {
+      var isfollow = 1;
+    } else {
+      var isfollow = 0;
+    }
+    res.render(followBtnView, {
+      isfollow: isfollow,
+      followUrl: followUrl + '/' + ownerAuth
+    });
+  });
+});
+
 router.get(followUrl + '/:owner_auth', function(req, res) {
   console.log('1, store follow');
   var ownerAuth = req.params.owner_auth;
@@ -419,7 +451,14 @@ router.get(followUrl + '/:owner_auth', function(req, res) {
   var sql = `SELECT * FROM follow WHERE user_auth=` + mysql.escape(userAuth) + ` and owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
     console.log('2, store follow sql conn');
-
+    if (results != '') {
+      var sql2 = `DELETE FROM follow WHERE user_auth=` + mysql.escape(userAuth) + ` and owner_auth=` + mysql.escape(ownerAuth);
+    } else {
+      var sql2 = `INSERT INTO follow VALUES (?,?)`;
+    }
+    connection.query(sql2, [ownerAuth, userAuth], function(err, results) {
+      res.redirect(followBtnUrl + '/' + ownerAuth);
+    });
   });
 });
 
@@ -432,12 +471,12 @@ router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {
     res.render(storeMainContentContainerView, {
       owner_auth: ownerAuth,
       contents: results,
-      storeMainContentDetailUrl: storeMainContentDetailUrl + ownerAuth
+      storeMainContentDetailUrl: storeMainContentDetailUrl + '/' + ownerAuth
     });
   });
 });
 
-router.get(storeMainContentDetailUrl + '/:owner_auth' + '/:number', function(req, res) {
+router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res) {
   console.log('1, contentDetail');
   const ownerAuth = req.params.owner_auth;
   const sql1 = 'select * from content_list where owner_auth=';
@@ -446,7 +485,7 @@ router.get(storeMainContentDetailUrl + '/:owner_auth' + '/:number', function(req
     console.log(results);
     res.render(storeMainContentDetailView, {
       url: results[0].url,
-      owner_auth: results[0].owner_auth,
+      owner_auth: ownerAuth,
       content: results[0].content,
       date: results[0].date
     });
@@ -473,7 +512,6 @@ router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
     });
   });
 });
-
 
 router.get(storeMainSaleUrl + '/:owner_auth', function(req, res) {
   console.log('1, sale');

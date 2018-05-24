@@ -76,6 +76,11 @@
       display: block;
     }
   </style>
+  <script type="text/javascript">
+    function change_parent_url(url) {
+      window.parent.location.href = url;
+    }
+  </script>
 </head>
 
 <body>
@@ -83,7 +88,7 @@
     <tr>
       <td class="bargains">할인중</td>
       <%for(var i = 0; i < contents.length; i++){%>
-        <td style="width: 60px; text-align: center;">
+        <td style="width: 60px; text-align: center;" onclick="window.parent.location.href = '<%=storeUrl%>/<%=contents[i].owner_auth%>';">
           <div class="bg" style="background-image: url(<%=contents[i].image_url%>);">
             <div class="content">
               <span>
@@ -93,7 +98,9 @@
                 <%=contents[i].sale%>
                 <%}%>
               </span><br>
-              <div class="storename" style="font-size: 8px;"><%=contents[i].store%></div>
+              <div class="storename" style="font-size: 8px;">
+                <%=contents[i].store%>
+              </div>
             </div>
             <div class="img-cover"></div>
           </div>
