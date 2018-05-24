@@ -345,10 +345,10 @@ router.get(mainSearchUrl, function(req, res) {
   });
 });
 router.post(mainSearchUrl, function(req, res) {
-  var data;
   var address1 = req.body.address1;
   var address2 = req.body.address2;
   var address3 = req.body.address3;
+
   var sql = `SELECT store from owner where address1 = ?, address2 = ?, address3 = ? `
   connection.query(sql, [address1, address2, address3], function(err, results) {
     res.render(searchResultView, {
@@ -432,13 +432,13 @@ router.get(followBtnUrl + '/:owner_auth', function(req, res) {
   var userAuth = req.session.passport.user;
   var sql = `SELECT * FROM follow WHERE user_auth=` + mysql.escape(userAuth) + ` and owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
-    if (results != '') {
-      var isfollow = 1;
+    if (results != '') {  //팔로우를 했으면
+      var isFollow = 1;
     } else {
-      var isfollow = 0;
+      var isFollow = 0;
     }
     res.render(followBtnView, {
-      isfollow: isfollow,
+      isFollow: isFollow,
       followUrl: followUrl + '/' + ownerAuth
     });
   });

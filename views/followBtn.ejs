@@ -105,6 +105,7 @@
     border: 1px solid gold;
     border-radius: 100px;
   }
+
   .button {
     background-image: -webkit-linear-gradient(top, #f4f1ee, #fff);
     background-image: linear-gradient(top, #f4f1ee, #fff);
@@ -120,13 +121,21 @@
   }
 
   .button:after {
-    color: #e9e6e4;
-    content: "";
+    <%if(isFollow) {
+      %>color: #f94e66;
+      <%
+    }
+    else {
+      %>color: #e9e6e4;
+      <%
+    }
+    %>content: "";
     display: block;
     font-size: 30px;
     height: 30px;
     text-decoration: none;
-    text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
+    text-shadow: 0px -1px 1px #bdb5b4,
+    1px 1px 1px white;
     position: absolute;
     width: 30px;
   }
@@ -149,7 +158,6 @@
     text-shadow: 0px 0px 6px #f94e66;
   }
 
-
   .button:active {
     background-image: -webkit-linear-gradient(top, #efedec, #f7f4f4);
     background-image: linear-gradient(top, #efedec, #f7f4f4);
@@ -166,15 +174,17 @@
     e.style.height = window.innerHeight * 0.5 + 'px';
     //window.parent.
   }
-  function isfollowColor(e){
-    e.style.color = '#0088cc';
+
+  function isfollowColor(e) {
+    e.style.color = '#f94e66';
   }
 </script>
 
 <body>
   <!-- <button class="btn" onclick=location.href='<%=followUrl%>' style="width: 70%; height: 20%;">팔로우</button> -->
   <div class="buttonHolder">
-    <a class="button heart" onclick="location.href = '<%=followUrl%>';" onload="isfollow(this)"></a>
+    <a class="button heart" onclick="location.href='<%=followUrl%>'">
+    </a>
   </div>
 </body>
 
