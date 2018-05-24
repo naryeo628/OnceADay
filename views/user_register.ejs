@@ -228,13 +228,22 @@
 				<tr class="row">
 					<td>
 						<div class="input-button">
-							<input type="submit" value="회원가입" />
+							<input type="submit" value="회원가입" onclick="popup()" />
 						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
+
+<script>
+	function popup(){
+ //	var url="/welcome";	//팝업창에 출력할 페이지 url
+ //	var Option="width=200,height=200,top=100,left=30";
+  //	window.open(url,"",Option);
+	location.href="/welcome";
+}
+</script>
 </body>
 
 </html>

@@ -269,6 +269,20 @@ router.get(mainUrl, function(req, res) {
   });
 });
 
+//관심가게 리스트 보기
+router.get(mainFollowsUrl,function(req,res){
+  const userAuth=req.session.passport.user;
+  const sql='select * from owner where owner_auth in (select owner_auth from follow where user_auth=?);'
+  params=userAuth;
+  connection.query(sql,params,function(err,results,field){
+    console.log(results);
+    res.render('followStore',{
+      follow:results
+    });
+  });
+});
+
+
 router.get(mainTimelineUrl, function(req, res) {
   console.log('1, ' + mainTimelineUrl + ' get callback start');
   const userAuth = req.session.passport.user;

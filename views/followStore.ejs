@@ -3,32 +3,61 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="follow.css">
 <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    html,
+    form,
+    body,{
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+                table, tr, tbody{
+                        width: 100%;
+                }
+    td{
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+                        height: 8%;
+    }
+        </style>
 
 
 <title>FollowerView</title>
 </head>
 <body>
 <div class="top"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true" id="back" ></span> <p>관심 가게</p> </div>
-	<table>
-		<tbody>
-			<% follow.forEach(function(flist){ %>
-			<tr>
-				<td>
-					<div>
-	       			 <%= flist.owner_id %>
-        			</div>
-				</td>
-			</tr>
-			 <% }); %>
-		</tbody>
-	</table>
-	
+        <table>
+                <tbody>
+                        <% follow.forEach(function(flist){ %>
+                        <tr>
+                            <td>
+                             <img src="<%= flist.image_url %>" alt="사진" width="100" height="100" />
+                              </td>
+                               <td>
+                                        <div>
+                                 <%= flist.owner_id %>
+                                </div>
+                                </td>
+                        </tr>
+                         <% }); %>
+                </tbody>
+        </table>
+
 </body>
 </html>
 
