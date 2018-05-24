@@ -9,6 +9,7 @@ npm install express-session --save;
 npm install passport --save;
 npm install passport-local --save;
 npm install passport-facebook --save;
+npm install express-passport-logout --save;
 npm install pbkdf2-password --save;
 npm install body-parser --save;
 npm install async --save;

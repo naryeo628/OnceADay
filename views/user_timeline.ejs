@@ -2,8 +2,8 @@
 <html lang="kr" dir="ltr">
 
 <head>
- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 
   <meta charset="utf-8">
   <style>
@@ -27,14 +27,6 @@
       padding: 0;
     }
 
-    #footer {}
-
-    #header {}
-
-    #img1 {}
-
-    #imgDiv1 {}
-
     #footer>td {
       width: 25%;
       text-align: center;
@@ -45,9 +37,22 @@
       color: white;
       text-align: center;
     }
-    span{
-	font-size:20px;
-	}
+
+    span {
+      font-size: 20px;
+    }
+
+    .backBtn {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+
+    .logoutBtn{
+      position: absolute;
+      top: 15px;
+      right: 10px;
+    }
   </style>
   <script>
     setTimeout(function() {
@@ -94,11 +99,22 @@
       var frame = document.getElementById('timelineBigFrame');
       frame.src = "<%=userInfoUrl%>";
     }
+
+    function back() {
+      var frame = document.getElementById('timelineBigFrame');
+      history.back();
+    }
+
+    function logout() {
+      location.href = '<%=logoutUrl%>';
+    }
   </script>
 </head>
 
 <body id="body">
   <table style="border-collapse: collapse;">
+    <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
+    <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
     <tr id="header" style="height: 8%;">
       <td class="title" colspan="4">
         <img id="logo" src="/OnceADayLogo.png" style="">
@@ -108,30 +124,18 @@
       <td colspan="4"><iframe id='timelineBigFrame' src="<%=iframeUrl%>" frameborder="0" width="100%" height="100%" marginwidth="0" marginheight="0"></iframe></td>
     </tr>
     <tr id="footer" style="height: 8%; background-color: #f2bcba;">
-      <!--td style="border-top: 1px solid black;">
-        <img id="img1" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-home-6.png" onload="setSize();" onclick="homeFrame();">
-      </td>
       <td style="border-top: 1px solid black;">
-        <img id="img2" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-magnifier-1.png" onload="setSize();" onclick="searchFrame();">
-      </td>
-      <td style="border-top: 1px solid black;">
-        <img id="img3" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-favorite-3.png" onload="setSize();" onclick="followsFrame();">
-      </td>
-      <td style="border-top: 1px solid black;">
-        <img id="img4" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-user-20.png" onload="setSize();" onclick="userInfoFrame();">
-      </td-->
-	<td style="border-top: 1px solid black;">
         <span id="img1" class="glyphicon glyphicon-home" aria-hidden="true" onload="setSize();" onclick="homeFrame()"></span>
       </td>
       <td style="border-top:1px solid black;">
         <span id="img2" class="glyphicon glyphicon-search" aria-hidden="true" onload="setSize();" onclick="searchFrame()"></span>
       </td>
-   
+
       <td style="border-top: 1px solid black;">
         <span id="img3" class="glyphicon glyphicon-heart" aria-hidden="true" onload="setSize();" onclick="followsFrame()"></span>
       </td>
       <td style="border-top: 1px solid black;">
-         <span id="img4" class="glyphicon glyphicon-user" aria-hidden="true" onload="setSize();" onclick="userInfoFrame()"></span>
+        <span id="img4" class="glyphicon glyphicon-user" aria-hidden="true" onload="setSize();" onclick="userInfoFrame()"></span>
       </td>
 
     </tr>

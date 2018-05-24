@@ -74,6 +74,8 @@
       width: 100px;
       height: 20px;
       display: block;
+      position: relative;
+      left: -3px;
     }
   </style>
   <script type="text/javascript">
@@ -90,17 +92,12 @@
       <%for(var i = 0; i < contents.length; i++){%>
         <td style="width: 60px; text-align: center;" onclick="window.parent.location.href = '<%=storeUrl%>/<%=contents[i].owner_auth%>';">
           <div class="bg" style="background-image: url(<%=contents[i].image_url%>);">
-            <div class="content">
-              <span>
-                <%if(contents[i].sale.length > 3) {%>
-                  E
-                <%} else {%>
-                <%=contents[i].sale%>
-                <%}%>
+            <div class="content" style="margin-top:5px; margin-left:3px;">
+              <span style="color:yellow">
+                <%=contents[i].sale.slice(0,3)%>
               </span><br>
-              <div class="storename" style="font-size: 8px;">
-                <%=contents[i].store%>
-              </div>
+              <span class="storename" style="font-size: 8px;"><%=contents[i].store%>
+              </span>
             </div>
             <div class="img-cover"></div>
           </div>

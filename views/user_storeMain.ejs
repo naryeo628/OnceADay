@@ -35,10 +35,6 @@
       padding: 0;
     }
 
-    .container {
-      display: grid;
-    }
-
     p {
       background-color: skyblue;
       text-align: center;
@@ -139,8 +135,7 @@
           </tr>
           <tr>
             <td>
-              <iframe src="<%=followBtnUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="width: 70%; height: 60%;"></iframe>
-              <!--<button class="btn" onclick=location.href='<%=followUrl%>' style="width: 70%; height: 20%;">팔로우</button>-->
+              <iframe src="<%=followBtnUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="width: 60px; height: 65px;"></iframe>
             </td>
             <td>
               <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 70%; height: 50%;">리뷰</button>
@@ -154,7 +149,7 @@
         <p onclick="hideshow()">프로필</p>
       </td>
     </tr>
-    <tr id="profile" style="height: 20%;">
+    <tr id="profile">
       <td colspan="3" class="prof">
         <!--가게 프로필-->
         주소 :
@@ -163,7 +158,10 @@
             <%=contents.address3%>
               <%=contents.address4%> <br> 전화번호 :
                 <%=contents.tel%><br> 영업시간:
-                  <%=contents.time%>
+                  <%=contents.time%><br>
+                    <div style="text-align: right ">
+                      <button class="btn" onclick=location.href='<%=productUrl%>' style="width: 30%; height: 30%;">판매품목</button>
+                    </div>
                     <script>
                       function hideshow() {
                         var x = document.getElementById("profile");
@@ -177,7 +175,7 @@
       </td>
     </tr>
   </table>
-  <div style="height: 55%">
+  <div style="height: 51%">
     <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe>
   </div>
 
