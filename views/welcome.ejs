@@ -1,7 +1,78 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+  <meta charset="utf-8">
+  <title>welcome</title>
+  <style>
+    html,
+    form,
+    body,
+      {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    table,
+    tr,
+    tbody,
+    div {
+      width: 100%;
+    }
+
+    td {
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      font-size: 20px;
+      color: white;
+      font-family: sans-serif;
+      font-weight: bold;
+      height: 8%;
+    }
+
+    .success {
+      height: 100%;
+      text-align: center;
+      background-color: background-color: #3498DB;
+      vertical-align: middle;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 60px;
+    }
+  </style>
+  <script>
+    setTimeout(function() {
+      location.href = "<%=userinfo%>"
+      clearTimeout();
+    }, 1000);
+  </script>
+</head>
+
+<body>
+  <table style="height: 100%;">
+    <tr>
+      <td>
+        <div class="success">
+          저장되었습니다
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
+
+<!--<!DOCTYPE html>
+<html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<META http-equiv="refresh" content="3; url=/user/login">
 <meta charset="UTF-8">
 
 <title>saleProduct</title>
@@ -39,12 +110,13 @@ h3{
 </style>
 </head>
 <body>
-	<div id="mask"></div>
+<!--	<div id="mask"></div>
 	<div>
 	<h3>welcome!</h3>
 	<input type="button" onclick=location.href='<%=LoginUrl%>' class="close" value="확인"/>
-	</div>
+	</div>-->
 	<script>
 	</script>
+	<img src="splash.png" alt="" height="100%" width="100%">
 </body>
-</html>
+</html> -->

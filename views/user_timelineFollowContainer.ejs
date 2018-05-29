@@ -49,7 +49,7 @@
         <iframe id="bargains" src="<%=iframeUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="height: 40%; width: 100%; border-bottom: 1px solid black;"></iframe>
       </td>
     </tr>
-    <%if(contents.length != 0) {
+    <% if(contents.length!=0) {
       for(var i = 0; i < contents.length; i++) {%>
       <tr id="store_head" onclick="location.href='<%=storeUrl%>/<%=contents[i].owner_auth%>'">
         <td><img id="store_icon" src="<%=contents[i].image_url%>" style="width: 50px; border: 1px solid gold; border-radius: 100px; -moz-border-radius: 100px; -khtml-border-radius: 100px; -webkit-border-radius: 100px; ">

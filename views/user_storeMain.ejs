@@ -122,15 +122,15 @@
       <td style="width: 70%; text-align: center;">
         <table style="height: 100%;">
           <tr>
-            <td>게시물</td>
             <td>팔로워</td>
+	     <!--td>게시물</td-->
           </tr>
           <tr>
             <td style="width: 50%">
-              <%=contentCount%>
+              <%=followerCount%>
             </td>
             <td style="width: 50%">
-              <%=followerCount%>
+             <!-- <%=contentCount%>-->
             </td>
           </tr>
           <tr>
@@ -159,7 +159,7 @@
               <%=contents.address4%> <br> 전화번호 :
                 <%=contents.tel%><br> 영업시간:
                   <%=contents.time%><br>
-                    <div style="text-align: right ">
+                    <div style="text-align: center ">
                       <button class="btn" onclick=location.href='<%=productUrl%>' style="width: 30%; height: 30%;">판매품목</button>
                     </div>
                     <script>

@@ -50,7 +50,7 @@
       background-color: skyblue;
       text-align: center;
       margin-top: 0;
-      padding-bottom: -5px;
+      padding-bottom: 0px;
     }
 	.header {
       text-align: center;
@@ -117,8 +117,17 @@
 
 <body>
   <table>
+<!--
+ <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
+    <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='/user/logout'>
+    <tr id="header" style="height: 8%;">
+      <td class="title" colspan="4">
+        <img id="logo" src="/OnceADayLogo.png" style="">
+      </td>
+    </tr>-->
     <tr class="header" style="height: 8%;">
       <th colspan="3" style="text-align: center;">
+	
         <%=contents.store%>
       </th>
     </tr>

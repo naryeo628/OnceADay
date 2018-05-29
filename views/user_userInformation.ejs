@@ -88,7 +88,7 @@
       font-size: 12px !important;
     }
 
-    .input-button>input[type="submit"] {
+    .input-button>span>input[type="submit"] {
       background-color: #2A9AF2;
       border: none;
       color: #FFFFFF;
@@ -203,7 +203,62 @@
       height: 8%;
       opacity: 0;
     }
-  </style>
+/* Popup container - can be anything you want */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+} 	
+ </style>
 
   <title>user_user information</title>
 </head>
@@ -212,8 +267,8 @@
   <table>
     <tr class="profileContainer">
       <td class="profileContainer">
-        <img src="<%=contents[0].image_url%>" style="height: 20%; margin-top: 20px">
-        <form class="form-profile-image" action=<%=uploadUrl%> method="post" enctype="multipart/form-data" >
+        <img src="<%=contents[0].image_url%>" style="height: 100px; width:100px; margin-top: 20px">
+ <form class="form-profile-image" action=<%=uploadUrl%> method="post" enctype="multipart/form-data" >
           <input class="input-file" type="file" onchange="this.form.submit()" name="img_files[]" accept="image/*">
         </form>
         </img>
@@ -263,12 +318,20 @@
       <tr class="row">
         <td>
           <div class="input-button">
-            <input type="submit" value="저장">
+           <span class="popup" onclick="popup()"> <input type="submit" value="저장"> 
+		<span class="popuptext" id="pop">저장되었습니다</span>
+		</span>	
           </div>
         </td>
       </tr>
     </form>
   </table>
+	<script>
+	   function popup(){
+		var popup=document.getElementById("pop");
+			popup.classList.toggle("show");
+	}
+	</script>
 </body>
 
 </html>

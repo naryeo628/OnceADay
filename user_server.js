@@ -118,7 +118,7 @@ router.get(
       failureRedirect: loginUrl
     }
   )
-);
+);*/
 
 
 
@@ -140,7 +140,7 @@ router.get(
       failureRedirect: loginUrl
     }
   )
-);*/
+);
 router.use(session({
   secret: '1234DSFs@adf1234!@#$asd',
   resave: false,
@@ -700,11 +700,10 @@ router.get(reviewListContainerUrl + '/:owner_auth', function(req, res) {
   console.log('1, reviewContainer');
   const ownerAuth = req.params.owner_auth;
   console.log('1.1, reviewContainer/' + ownerAuth);
-  const sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
+  const sql1 = 'SELECT owner.store,review.* FROM review,owner WHERE owner.owner_auth=';
   const sql2 = 'and review.owner_auth=';
   var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {
     if (err) throw err;
-    // console.log(results);
     console.log('2, review container before render');
     var html = `
       <!DOCTYPE html>
@@ -763,11 +762,12 @@ router.get(reviewDetailUrl + '/:owner_auth' + '/:number', function(req, res) {
   const ownerAuth = req.params.owner_auth;
   const reviewNumber = req.params.number;
   console.log('1.1, review/detail/' + ownerAuth + '/' + reviewNumber);
-  var sql1 = 'SELECT owner.store, review.* FROM review, owner WHERE owner.owner_auth=';
+  var sql1 = 'SELECT owner.store, review.*, user.user_id FROM review, owner,user WHERE owner.owner_auth=';
   var sql2 = 'and review.owner_auth=';
-  var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth), function(err, results) {
+  var sql3 = 'and user.user_auth=review.user_auth';
+  var query = connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(ownerAuth) + sql3, function(err, results) {
     if (err) throw err;
-    // console.log(results);
+    //console.log(results);
     console.log('2, review detail before render');
     res.render(reviewDetailView, {
       owner_auth: ownerAuth,
@@ -945,6 +945,10 @@ Upload = require('./s3upload/uploadservice'),
     });
 
   });
+
+
+
+
 router.listen(80, function() {
   console.log('connect 80 port user server');
 });
