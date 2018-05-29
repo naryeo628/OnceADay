@@ -31,6 +31,18 @@ router.use(bodyParser.urlencoded({
 }));
 
 
+
+
+/*FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}*/
+
 //URLs
 const loginUrl = `/user/login`;
 const facebookLoginUrl = `/user/facebook/login`;
@@ -89,8 +101,47 @@ const successView = `success`;
 const productView = `product`;
 const productDetailView = `productDetail`;
 
+//const facebookLoginUrl = `/user/facebook/login`;
+const facebookLoginCallbackUrl = `/user/facebook/login/callback`;
+
+/*router.get(
+  facebookLoginUrl,
+  passport.authenticate(
+    'facebook'
+  )
+);
+router.get(
+  facebookLoginCallbackUrl,
+  passport.authenticate(
+    'facebook',
+    {
+      successRedirect: mainUrl,
+      failureRedirect: loginUrl
+    }
+  )
+);
 
 
+
+
+
+
+router.get(
+  facebookLoginUrl,
+  passport.authenticate(
+    'facebook'
+  )
+);
+router.get(
+  facebookLoginCallbackUrl,
+  passport.authenticate(
+    'facebook',
+    {
+      successRedirect: mainUrl,
+      failureRedirect: loginUrl
+    }
+  )
+);*/
 router.use(session({
   secret: '1234DSFs@adf1234!@#$asd',
   resave: false,
