@@ -31,6 +31,18 @@ router.use(bodyParser.urlencoded({
 }));
 
 
+
+
+/*FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}*/
+
 //URLs
 const loginUrl = `/user/login`;
 const facebookLoginUrl = `/user/facebook/login`;
@@ -88,8 +100,47 @@ const successView = `success`;
 const productView = `product`;
 const productDetailView = `productDetail`;
 
+//const facebookLoginUrl = `/user/facebook/login`;
+const facebookLoginCallbackUrl = `/user/facebook/login/callback`;
+
+/*router.get(
+  facebookLoginUrl,
+  passport.authenticate(
+    'facebook'
+  )
+);
+router.get(
+  facebookLoginCallbackUrl,
+  passport.authenticate(
+    'facebook',
+    {
+      successRedirect: mainUrl,
+      failureRedirect: loginUrl
+    }
+  )
+);
 
 
+
+
+
+
+router.get(
+  facebookLoginUrl,
+  passport.authenticate(
+    'facebook'
+  )
+);
+router.get(
+  facebookLoginCallbackUrl,
+  passport.authenticate(
+    'facebook',
+    {
+      successRedirect: mainUrl,
+      failureRedirect: loginUrl
+    }
+  )
+);*/
 router.use(session({
   secret: '1234DSFs@adf1234!@#$asd',
   resave: false,
@@ -133,8 +184,8 @@ passport.deserializeUser(function(id, done) {
 });
 var FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
-    clientID: '236726423560804',
-    clientSecret: '92125918173fe7cc55b7212bf2a9f135',
+    clientID: '216415682421891',
+    clientSecret: '5e5496e434f708672bba99270cffd1ca',
     callbackURL: "/user/facebook/login",
     profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified', 'displayName']
   },
