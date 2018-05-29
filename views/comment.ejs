@@ -13,6 +13,7 @@
 	<div></div>
 	<div>
 		<table>
+			<% if(<%= user_id %>!=null){ %>
 			<% comments.forEach(function(comment){%>
 			<tr>
 				<td>
@@ -26,6 +27,7 @@
 				</td>
 			</tr>
 			<% }); %>
+			<% } %>
 		</table>
 		<a href="/makeComment"><div clss="btn">댓글 달기</div></a>
 	</div>
