@@ -34,6 +34,7 @@ router.use(bodyParser.urlencoded({
 //URLs
 const loginUrl = `/user/login`;
 const facebookLoginUrl = `/user/facebook/login`;
+const facebookLoginCallbackUrl = `/user/facebook/login/callback`;
 const logoutUrl = `/user/logout`;
 const registerUrl = `/user/register`;
 const mainUrl = `/user/main`;
@@ -133,9 +134,9 @@ passport.deserializeUser(function(id, done) {
 });
 var FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
-    clientID: '236726423560804',
-    clientSecret: '92125918173fe7cc55b7212bf2a9f135',
-    callbackURL: "/user/facebook/login",
+    clientID: '216415682421891',
+    clientSecret: '5e5496e434f708672bba99270cffd1ca',
+    callbackURL: facebookLoginUrl,
     profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified', 'displayName']
   },
   function(accessToken, refreshToken, profile, done) {
@@ -164,7 +165,22 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-
+router.get(
+  facebookLoginUrl,
+  passport.authenticate(
+    'facebook'
+  )
+);
+router.get(
+  facebookLoginCallbackUrl,
+  passport.authenticate(
+    'facebook',
+    {
+      successRedirect: mainUrl,
+      failureRedirect: loginUrl
+    }
+  )
+);
 //local login function
 passport.use(new LocalStrategy({
     usernameField: 'user_id',
@@ -489,6 +505,7 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
         const info = results[0];
         console.log('3, before render');
         res.render(storeMainView, {
+          isOwner: 0,
           productUrl: productUrl + '/' + ownerAuth + '/' + results[0].store,
           followBtnUrl: followBtnUrl + '/' + ownerAuth,
           contentCount: results1.length,
@@ -498,7 +515,7 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
           followUrl: storeMainFollowerUrl + '/' + ownerAuth,
           reviewUrl: reviewListUrl + '/' + ownerAuth,
           contentUploadUrl: storeMainContentUploadUrl + '/' + ownerAuth,
-          iframeUrl: storeMainContentContainerUrl + '/' + ownerAuth
+          storeMainContentContainerUrl: storeMainContentContainerUrl + '/' + ownerAuth
         });
         console.log('4, after render');
       });
@@ -629,13 +646,17 @@ router.get(reviewListUrl + '/:owner_auth', function(req, res) {
   console.log('1, reviewList');
   const ownerAuth = req.params.owner_auth;
   console.log('1.1, ' + ownerAuth);
-  var query = connection.query('SELECT store FROM owner WHERE owner_auth=' + mysql.escape(ownerAuth), function(err, results) {
+  var sql = `SELECT store.*, user.name
+            FROM store
+            FULL OUTER JOIN user ON store.user_auth = user.user_auth
+            WHERE owner_auth=` + mysql.escape(ownerAuth);
+  connection.query(sql, function(err, results) {
     // console.log(results);
     console.log('2, review list before render');
     res.render(reviewListView, {
       owner_auth: ownerAuth,
       store: results[0].store,
-      iframeUrl: reviewListContainerUrl + '/' + ownerAuth,
+      reviewListContainerUrl: reviewListContainerUrl + '/' + ownerAuth,
       isUser: 1,
       writeReviewUrl: writeReviewUrl
     });

@@ -188,6 +188,8 @@
 
     .profileContainer {
       text-align: center;
+      width: 48px;
+      height: 48px;
     }
 
     .form-profile-image {
@@ -199,8 +201,8 @@
       position: relative;
       top: -52px;
       left: 0px;
-      width: 15%;
-      height: 8%;
+      width: 48px;
+      height: 48px;
       opacity: 0;
     }
   </style>
@@ -212,7 +214,7 @@
   <table>
     <tr class="profileContainer">
       <td class="profileContainer">
-        <img src="<%=contents[0].image_url%>" style="height: 20%; margin-top: 20px">
+        <img class="profile-img" src="<%=contents[0].image_url%>" style="width: 48px; height: 48px;margin-top: 20px;">
         <form class="form-profile-image" action=<%=uploadUrl%> method="post" enctype="multipart/form-data" >
           <input class="input-file" type="file" onchange="this.form.submit()" name="img_files[]" accept="image/*">
         </form>

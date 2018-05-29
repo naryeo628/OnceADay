@@ -193,10 +193,23 @@
 			font-size: 25px;
 		}
 	</style>
+	<script type="text/javascript">
+		function tocheckpw1() {
+			var pw = document.getElementById("password");
+			var pwck = document.getElementById("password-check");
+
+			if (pw.value != pwck.value) {
+				pw.setAttribute('value', '');
+				pwck.setAttribute('value', '');
+				alert('비밀번호가 틀렸습니다. 다시 입력해 주세요');
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body>
-	<form action="<%=registerPostUrl%>" method="post">
+	<form action="<%=registerPostUrl%>" onsubmit="return tocheckpw1()" method="post">
 		<table>
 			<tbody>
 				<tr class="banner">
@@ -221,6 +234,13 @@
 				<tr>
 					<td>
 						<div class="floating-input">
+							<input required id='password-check' type="password"><label for="password-check">비밀번호 확인</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="floating-input">
 							<input required id="name" type="text" name="<%=nameBoxName%>"><label for="name">이름</label>
 						</div>
 					</td>
@@ -228,22 +248,18 @@
 				<tr class="row">
 					<td>
 						<div class="input-button">
-							<input type="submit" value="회원가입" onclick="popup()" />
+							<input type="submit" value="회원가입" />
 						</div>
 					</td>
 				</tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
 			</tbody>
 		</table>
 	</form>
-
-<script>
-	function popup(){
- //	var url="/welcome";	//팝업창에 출력할 페이지 url
- //	var Option="width=200,height=200,top=100,left=30";
-  //	window.open(url,"",Option);
-	location.href="/welcome";
-}
-</script>
+	</script>
 </body>
 
 </html>

@@ -89,7 +89,8 @@
   <table>
     <tr>
       <td class="bargains">할인중</td>
-      <%for(var i = 0; i < contents.length; i++){%>
+      <%if(contents != null){
+      for(var i = 0; i < contents.length; i++){%>
         <td style="width: 60px; text-align: center;" onclick="window.parent.location.href = '<%=storeUrl%>/<%=contents[i].owner_auth%>';">
           <div class="bg" style="background-image: url(<%=contents[i].image_url%>);">
             <div class="content" style="margin-top:5px; margin-left:3px;">
@@ -102,7 +103,7 @@
             <div class="img-cover"></div>
           </div>
         </td>
-        <%}%>
+        <%}}%>
     </tr>
   </table>
 </body>
