@@ -25,6 +25,7 @@
       margin: 0;
       padding: 0;
       width: 100%;
+      height: 100%;
     }
 
     td,
@@ -35,7 +36,7 @@
       padding: 0;
     }
 
-    p {
+    .profileBanner {
       background-color: skyblue;
       text-align: center;
       margin-top: 0;
@@ -45,11 +46,9 @@
     .header {
       text-align: center;
       background-color: #3498DB;
-      padding: 5px;
-      font-size: 20px;
+      font-size: 1.5em;
       color: white;
-      font-family: sans-serif;
-      font-weight: bold;
+      font-family: Jeju Hallasan;
     }
 
     .prof {
@@ -98,27 +97,78 @@
     }
 
     .profileImg {
-      height: 25%;
+      height: 120px;
       border: 1px solid gold;
       border-radius: 100px;
     }
+
+    .backBtn {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+
+    .logoutBtn{
+      position: absolute;
+      top: 15px;
+      right: 10px;
+    }
+
+    @font-face {
+      font-family: 'Jeju Hallasan';
+      font-style: normal;
+      font-weight: 400;
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot);
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot?#iefix) format('embedded-opentype'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff2) format('woff2'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff) format('woff'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.ttf) format('truetype');
+    }
   </style>
   <script>
-    function setSize(e) {
-      e.style.height = window.innerHeight * 0.5 + 'px';
+    setTimeout(function() {
+      var trash = document.getElementById('sa-extension-is-installed');
+      var body = document.getElementById('body');
+      //body.removeChild(trash);
+      body.removeChild(trash);
+      clearTimeout();
+    }, 500);
+
+    function setSize(node, isWidth, widthRatio, isHeight, heightRatio) {
+      if (isWidth == 1) {
+        node.style.width = window.innerWidth * widthRatio + 'px';
+      }
+      if (isHeight == 1){
+        node.style.height = window.innerHeight * heightRatio + 'px';
+      }
+    }
+
+    function back() {
+      var frame = document.getElementById('timelineBigFrame');
+      history.back();
+    }
+
+    function logout() {
+      location.href = '<%=logoutUrl%>';
     }
   </script>
 </head>
 
-<body>
+<body id="body" onload="setSize(this, 1, 1, 1, 1)">
   <table>
+    <%if(isOwner == 1){%>
+    <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
+    <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
+    <%}%>
     <tr class="header" style="height: 8%;">
       <th colspan="3" style="text-align: center;">
         <%=contents.store%>
       </th>
     </tr>
-    <tr style="height: 25%;">
-      <td style="width: 30%; text-align: center;"><img class="profileImg" src="<%=contents.image_url%>" alt="프로필 사진" id='profimage' /></td>
+    <tr style="height: 128px;">
+      <td style="width: 30%; text-align: center;">
+        <img class="profileImg" src="<%=contents.image_url%>" alt="프로필 사진" id='profimage' />
+      </td>
       <td style="width: 70%; text-align: center;">
         <table style="height: 100%;">
           <tr>
@@ -135,50 +185,46 @@
           </tr>
           <tr>
             <td>
+              <%if(isOwner == 0){%>
               <iframe src="<%=followBtnUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="width: 60px; height: 65px;"></iframe>
+              <%}%>
             </td>
             <td>
-              <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 70%; height: 50%;">리뷰</button>
+              <button class="btn" onclick=location.href='<%=reviewUrl%>' style="width: 70%; height: 70%;">리뷰</button>
             </td>
           </tr>
         </table>
       </td>
     </tr>
-    <tr style="height: 5%;">
+    <tr class="profileBanner" style="height: 4%;" onclick="hideshow()">
       <td colspan="3">
-        <p onclick="hideshow()">프로필</p>
+        프로필
       </td>
     </tr>
-    <tr id="profile">
-      <td colspan="3" class="prof">
-        <!--가게 프로필-->
-        주소 :
-        <%=contents.address1%>
-          <%=contents.address2%>
-            <%=contents.address3%>
-              <%=contents.address4%> <br> 전화번호 :
-                <%=contents.tel%><br> 영업시간:
-                  <%=contents.time%><br>
-                    <div style="text-align: right ">
-                      <button class="btn" onclick=location.href='<%=productUrl%>' style="width: 30%; height: 30%;">판매품목</button>
-                    </div>
-                    <script>
-                      function hideshow() {
-                        var x = document.getElementById("profile");
-                        if (x.style.display === "none") {
-                          x.style.display = "table-row";
-                        } else {
-                          x.style.display = "none";
-                        }
-                      }
-                    </script>
+    <tr id="profile" style="height: 20%;">
+      <td colspan="3">
+        <span>주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%></span> <br>
+        <span>전화번호 : <%=contents.tel%></span><br>
+        <span>영업시간 : <%=contents.time%></span><br>
+        <span><button class="btn" onclick=location.href='<%=productUrl%>' style="width: 20%; height: 25%;">판매품목</button></span>
+        <script>
+          function hideshow() {
+            var x = document.getElementById("profile");
+            if (x.style.display === "none") {
+              x.style.display = "table-row";
+            } else {
+              x.style.display = "none";
+            }
+          }
+        </script>
+      </td>
+    </tr>
+    <tr style="height: auto;">
+      <td colspan="3" >
+        <iframe src="<%=storeMainContentContainerUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe>
       </td>
     </tr>
   </table>
-  <div style="height: 51%">
-    <iframe src="<%=iframeUrl%>" frameborder="0" height="100%" marginwidth="0" marginheight="0" style="height: 100%;"></iframe>
-  </div>
-
 </body>
 
 </html>

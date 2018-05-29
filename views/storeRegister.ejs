@@ -180,6 +180,19 @@
       font-size: 25px;
     }
   </style>
+	<script type="text/javascript">
+		function tocheckpw1() {
+			var pw = document.getElementById("password");
+			var pwck = document.getElementById("password-check");
+
+			if (pw.value != pwck.value) {
+				pw.setAttribute('value', '');
+				pwck.setAttribute('value', '');
+				alert('비밀번호가 틀렸습니다. 다시 입력해 주세요');
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body>
@@ -207,6 +220,13 @@
             </div>
           </td>
         </tr>
+				<tr>
+					<td>
+						<div class="floating-input">
+							<input required id='password-check' type="password"><label for="password-check">비밀번호 확인</label>
+						</div>
+					</td>
+				</tr>
         <tr>
           <td>
             <h4>기본정보입력</h4>
@@ -271,12 +291,12 @@
         <tr class="row">
           <td>
             <div class="input-button">
-              <input type="submit" value="Register">
+              <input type="submit" value="회원가입">
             </div>
           </td>
         </tr>
     </table>
-
+    <div style="height: 50px;"></div>
   </form>
 </body>
 
