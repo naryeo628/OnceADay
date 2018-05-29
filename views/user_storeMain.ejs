@@ -15,7 +15,7 @@
     body,
     iframe,
     div {
-      height: 100%;
+      height: 99%;
       width: 100%;
       margin: 0;
       padding: 0;
@@ -124,6 +124,22 @@
       url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff) format('woff'),
       url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.ttf) format('truetype');
     }
+
+    .form-profile-image {
+      position: absolute;
+      top: 8%;
+      width: 120px;
+      height: 120px;
+    }
+
+    .input-file {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      width: 120px;
+      height: 120px;
+      opacity: 0;
+    }
   </style>
   <script>
     setTimeout(function() {
@@ -168,6 +184,11 @@
     <tr style="height: 128px;">
       <td style="width: 30%; text-align: center;">
         <img class="profileImg" src="<%=contents.image_url%>" alt="프로필 사진" id='profimage' />
+        <%if(isOwner == 1){%>
+        <form class="form-profile-image" action=<%=storeProfileImageUrl%> method="post" enctype="multipart/form-data" >
+          <input class="input-file" type="file" onchange="this.form.submit()" name="img_files[]" accept="image/*">
+        </form>
+        <%}%>
       </td>
       <td style="width: 70%; text-align: center;">
         <table style="height: 100%;">
@@ -187,6 +208,8 @@
             <td>
               <%if(isOwner == 0){%>
               <iframe src="<%=followBtnUrl%>" frameborder="0" marginwidth="0" marginheight="0" style="width: 60px; height: 65px;"></iframe>
+              <%} else {%>
+              <button class="btn" onclick=location.href='<%=writeContentUrl%>' style="width: 70%; height: 70%;">글작성</button>
               <%}%>
             </td>
             <td>
@@ -203,10 +226,14 @@
     </tr>
     <tr id="profile" style="height: 20%;">
       <td colspan="3">
-        <span>주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%></span> <br>
-        <span>전화번호 : <%=contents.tel%></span><br>
-        <span>영업시간 : <%=contents.time%></span><br>
-        <span><button class="btn" onclick=location.href='<%=productUrl%>' style="width: 20%; height: 25%;">판매품목</button></span>
+        <%if(isOwner == 1){%>
+        <p style="border: 1px dotted skyblue" onclick=location.href="<%=storeProfileUrl%>"><%}%>
+          <span>주소 : <%=contents.address1%> <%=contents.address2%> <%=contents.address3%> <%=contents.address4%></span> <br>
+          <span>전화번호 : <%=contents.tel%></span><br>
+          <span>영업시간 : <%=contents.time%></span>
+        <%if(isOwner == 1){%>
+        </p><%}%>
+        <p style="width: 100%; text-align: center"><button class="btn" onclick=location.href='<%=productUrl%>' style="width: 20%; height: 25%;">판매품목</button></p>
         <script>
           function hideshow() {
             var x = document.getElementById("profile");

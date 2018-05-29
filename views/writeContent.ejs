@@ -1,53 +1,71 @@
 <!DOCTYPE html>
-<html>
-  <style>
-    html {
-      height: 100%;
-      width: 100%;
-    }
+<html lang="kr" dir="ltr">
 
-    body {
-      //background-color: #F1F1F1;
+<head>
+  <meta charset="utf-8">
+  <title>writeContent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    html,
+    form,
+    tbody,
+    body,
+    iframe {
       height: 100%;
       width: 100%;
       margin: 0;
-    }
-
-    form {
-      height: 100%;
-      width: 100%;
-    }
-
-    table {
-      height: 100%;
-      width: 100%;
-    }
-
-    tbody {
-      height: 100%;
-      width: 100%;
-    }
-
-    td {
       padding: 0;
     }
 
-    .banner {
-      height: 50%;
+    table,
+    div {
       width: 100%;
     }
 
-    form h4 {
-      font-size: 32px;
-      color: #333333;
-      font-family: Roboto, arial, sans-serif;
-      display: block;
+    tr {
       text-align: center;
-      margin-top: 20px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      text-align: center;
+      background-color: #3498DB;
+      font-size: 1.5em;
+      color: white;
+      font-family: Jeju Hallasan;
+      height: 8%;
+      line-height: 250%;
+      text-align: center;
+    }
+
+    .backBtn {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+
+    .logoutBtn {
+      position: absolute;
+      top: 15px;
+      right: 10px;
+    }
+
+    @font-face {
+      font-family: 'Jeju Hallasan';
+      font-style: normal;
+      font-weight: 400;
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot);
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot?#iefix) format('embedded-opentype'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff2) format('woff2'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff) format('woff'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.ttf) format('truetype');
     }
 
     .floating-input {
-      //padding: 10px;
       display: block;
       width: 300px;
       margin: 30px auto;
@@ -162,89 +180,64 @@
       }
     }
 
-    .row {
-      vertical-align: top;
-    }
-
-    .btn-register,
-    .div-register-button {
-      vertical-align: top;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    .btn-register {
-      background-color: white;
-      border: 0;
-      border-top: 1px solid black;
-    }
-
-    h3 {
+    .subheader {
       text-align: center;
-      font-size: 32px;
-    }
-
-    h4 {
-      text-align: center;
-      font-size: 25px;
+      border-bottom: 1px solid BLACK;
     }
   </style>
-  <title>user_login</title>
-
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    setTimeout(function() {
+      var trash = document.getElementById('sa-extension-is-installed');
+      var body = document.getElementById('body');
+      //body.removeChild(trash);
+      body.removeChild(trash);
+      clearTimeout();
+    }, 500);
+  </script>
 </head>
 
-<body>
-  <form action="<%=loginPostUrl%>" method="post">
+<body id="body">
+  <%if(isOwner == 1){%>
+  <div class="header">
+  <%=contents[0].store%>
+  </div>
+  <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
+  <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
+  <%}%>
+    <script type="text/javascript">
+      function back() {
+        var frame = document.getElementById('timelineBigFrame');
+        history.back();
+      }
+
+      function logout() {
+        location.href = '<%=logoutUrl%>';
+      }
+    </script>
     <table>
-      <tbody>
-        <tr class="banner" style="height: 50%;">
-          <td>
-            <h3><img src="/OnceADayLogo.png" style="width: 60%;"></h3>
-          </td>
-        </tr>
+      <tr>
+        <td colspan="3">
+          <div class="subheader">게시글 작성</div>
+        </td>
+      </tr>
+      <form action="<%=writeContentUrl%>" method="post">
         <tr>
           <td>
             <div class="floating-input">
-              <input required id='id' type="text" name="<%=idBoxName%>" />
-              <label for="id">아이디</label>
+              <input required id="content" type="text" name="content" />
+              <label for="content">게시글</label>
             </div>
           </td>
         </tr>
         <tr>
-          <td>
-            <div class="floating-input">
-              <input required id='password' type="password" name="<%=passwordBoxName%>" />
-              <label for="password">비밀번호</label>
-            </div>
-          </td>
-        </tr>
-        <tr class="row">
           <td>
             <div class="input-button">
-              <input type="submit" value="로그인" />
-              <div class="ripple-container"></div>
+              <input type="submit" value="다음">
             </div>
           </td>
         </tr>
-        <tr></tr>
-        <tr class="row-signin">
-          <td>
-            <div class="div-register-button">
-              <button class="btn-register" onclick="registerPageMove()">회원가입</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+      </form>
     </table>
-  </form>
-  <script type="text/javascript">
-    function registerPageMove() {
-      location.href = '<%=registerUrl%>';
-    }
-  </script>
 </body>
 
 </html>
