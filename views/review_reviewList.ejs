@@ -2,6 +2,8 @@
 <html lang="kr" dir="ltr">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
   <meta charset="UTF-8">
@@ -10,7 +12,7 @@
     form,
     body,
     iframe {
-      height: 100%;
+      height: 99%;
       width: 100%;
       margin: 0;
       padding: 0;
@@ -31,10 +33,41 @@
       margin: 0;
       padding: 0;
     }
-
-    #footer>td {
-      width: 25%;
+    .db-btn {
+      display: inline-block;
+      padding: 0em 2.8em;
+      border-radius: .25em;
+      background: transparent;
+      outline: 0;
+      vertical-align: middle;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      box-shadow: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.4px;
       text-align: center;
+      width: 100%;
+    }
+    .db-btn.h48 {
+      height: 48px;
+    }
+    .db-btn.blue {
+      background-color: #049bfa;
+    }
+    .db-btn.blue:hover {
+      background-color: #028cf5;
+    }
+    .db-btn.blue:active {
+      background-color: #0260a8;
+    }
+    .db-btn.round {
+      border-radius: 21px;
     }
 
     .title {
@@ -84,10 +117,9 @@
     setTimeout(function() {
       var trash = document.getElementById('sa-extension-is-installed');
       var body = document.getElementById('body');
-      //body.removeChild(trash);
       body.removeChild(trash);
       clearTimeout();
-    }, 500);
+    }, 50);
 
     function setSize(node, isWidth, widthRatio, isHeight, heightRatio) {
       if (isWidth == 1) {
@@ -127,7 +159,7 @@
       <td></td>
     </tr>
     <%if(isOwner == 0){%>
-    <tr>
+    <tr style="height: 5%;">
       <td>
         <button class="db-btn blue round h48" onclick=location.href='<%=writeReviewUrl%>/<%=owner_auth%>'>리뷰 작성하기</button>
       </td>

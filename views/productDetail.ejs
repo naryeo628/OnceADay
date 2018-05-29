@@ -2,7 +2,11 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <title>productDetail</title>
   <style>
     html,
@@ -38,15 +42,38 @@
       text-align: center;
       border-bottom: 1px solid BLACK;
     }
-
     .header {
       text-align: center;
       background-color: #3498DB;
-      padding: 5px;
-      font-size: 20px;
+      font-size: 1.5em;
       color: white;
-      font-family: sans-serif;
-      font-weight: bold;
+      font-family: Jeju Hallasan;
+      height: 8%;
+      line-height: 250%;
+      text-align: center;
+    }
+
+    .backBtn {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+
+    .logoutBtn{
+      position: absolute;
+      top: 15px;
+      right: 10px;
+    }
+
+    @font-face {
+      font-family: 'Jeju Hallasan';
+      font-style: normal;
+      font-weight: 400;
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot);
+      src: url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.eot?#iefix) format('embedded-opentype'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff2) format('woff2'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.woff) format('woff'),
+      url(//fonts.gstatic.com/ea/jejuhallasan/v3/JejuHallasan-Regular.ttf) format('truetype');
     }
 
     .info {
@@ -70,12 +97,24 @@
 </head>
 
 <body>
+  <%if(isOwner == 1){%>
+  <div class="header">
+    <%=contents.store%>
+  </div>
+  <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
+  <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
+  <%}%>
+  <script type="text/javascript">
+    function back() {
+      var frame = document.getElementById('timelineBigFrame');
+      history.back();
+    }
+
+    function logout() {
+      location.href = '<%=logoutUrl%>';
+    }
+  </script>
   <table>
-    <tr class="header" style="height: 8%;">
-      <th colspan="3" style="text-align: center;">
-        <%=store%>
-      </th>
-    </tr>
     <tr>
       <td colspan="3">
         <div class="store">판매품목</div>

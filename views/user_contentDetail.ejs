@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
 
-  <title>ContentDetail</title>
-  <script>
-    src = "https://code.jquery.com/jquery-3.3.1.js"
-    integrity = "sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin = "anonymous" >
-  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <title>Search2</title>
+
+  <title>ContentDetail</title>
   <style>
     header {
       text-align: left;
@@ -31,13 +27,13 @@
 <body>
   <div>
     <div>
-      <img src=" <%= url %> " alt="사진" width="100%">
+      <img src=" <%= contents.url %> " alt="사진" width="100%">
     </div>
     <div>
-      <p> <%= owner_auth %> : </p>
+      <p> <%= contents.owner_auth %> : </p>
       <br>
-      <p>Date : <%= date %> </p>
-      <p> <%= content %> </p>
+      <p>Date : <%= contents.date %> </p>
+      <p> <%= contents.content %> </p>
 
     </div>
     <div>

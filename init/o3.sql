@@ -188,7 +188,7 @@ CREATE TABLE `product_info` (
   `owner_auth` varchar(20) NOT NULL,
   `number` int(11) NOT NULL,
   `product` varchar(30) NOT NULL,
-  `price` int(11) DEFAULT NULL,
+  `price` varchar(30) DEFAULT NULL,
   `sale` text,
   `product_imgUrl` text,
   PRIMARY KEY (`owner_auth`,`number`),
@@ -219,6 +219,7 @@ CREATE TABLE `review` (
   `score` int(11) DEFAULT NULL,
   `good` text,
   `bad` text,
+  `image` text DEFAULT NULL,
   PRIMARY KEY (`owner_auth`,`user_auth`),
   KEY `fk_reivew2` (`user_auth`),
   CONSTRAINT `fk_reivew2` FOREIGN KEY (`user_auth`) REFERENCES `user` (`user_auth`),
@@ -232,7 +233,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES ('local:dinner','local:lef56',3,'맛이 나쁘지 않아요.','맛이 메리트가 없네요..'),('local:dinner','local:lha58',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.'),('local:dinner','local:park ',4,'김치볶음밥 최고~!!','위생이 별로네요.'),('local:dinner','local:pha8282',5,'음식이 너무 맛있어요~','불친절해요'),('local:dinner','local:ujjang93',3,'음악이 좋음','맛은 그럭저럭'),('local:wook','local:emmaoh26',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.'),('local:wook','local:hscthsh3306',3,'음악이 좋음','맛은 그럭저럭'),('local:wook','local:jwkasa',1,'인테리어 예쁨','불친절'),('local:wook','local:jwl628',2,'맛있어요!','좀 비싸네요'),('local:wook','local:ldhfall',3,'먹을만하다','양이 적다'),('local:wook','local:ujjang93',4,'메뉴가 다양합니다.','단점은 없어요!');
+INSERT INTO `review` VALUES ('local:dinner','local:lef56',3,'맛이 나쁘지 않아요.','맛이 메리트가 없네요..',NULL),('local:dinner','local:lha58',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.',NULL),('local:dinner','local:park ',4,'김치볶음밥 최고~!!','위생이 별로네요.',NULL),('local:dinner','local:pha8282',5,'음식이 너무 맛있어요~','불친절해요',NULL),('local:dinner','local:ujjang93',3,'음악이 좋음','맛은 그럭저럭',NULL),('local:wook','local:emmaoh26',5,'남친이랑 오기 좋아요.','혼자 오기에는 좋지 않아요.',NULL),('local:wook','local:hscthsh3306',3,'음악이 좋음','맛은 그럭저럭',NULL),('local:wook','local:jwkasa',1,'인테리어 예쁨','불친절',NULL),('local:wook','local:jwl628',2,'맛있어요!','좀 비싸네요',NULL),('local:wook','local:ldhfall',3,'먹을만하다','양이 적다',NULL),('local:wook','local:ujjang93',4,'메뉴가 다양합니다.','단점은 없어요!',NULL);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
