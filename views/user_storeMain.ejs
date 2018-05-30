@@ -158,15 +158,6 @@
         node.style.height = window.innerHeight * heightRatio + 'px';
       }
     }
-
-    function back() {
-      var frame = document.getElementById('timelineBigFrame');
-      history.back();
-    }
-
-    function logout() {
-      location.href = '<%=logoutUrl%>';
-    }
   </script>
 </head>
 
@@ -175,6 +166,15 @@
     <%if(isOwner == 1){%>
     <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
     <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
+    <script type="text/javascript">
+      function back() {
+        var frame = document.getElementById('timelineBigFrame');
+        history.back();
+      }
+      function logout() {
+        location.href = '<%=logoutUrl%>';
+      }
+    </script>
     <%}%>
     <tr class="header" style="height: 8%;">
       <th colspan="3" style="text-align: center;">
