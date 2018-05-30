@@ -383,20 +383,24 @@ router.post(writeContentUrl, function(req, res) {
 });
 router.get(productUrl, function(req, res) {
   const ownerAuth = req.session.passport.user;
-  var sql = ` SELECT product_info.*, owner.store
+  var sql = ` SELECT *
               FROM product_info
-              JOIN owner
-              ON product_info.owner_auth=owner.owner_auth
-              WHERE product_info.owner_auth=` + mysql.escape(ownerAuth);
+              WHERE owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
-    // console.log(results);
+    console.log(results);
     // console.log(sql);
-    res.render(productView, {
-      logoutUrl: logoutUrl,
-      isOwner: 1,
-      productDetailUrl: productDetailUrl,
-      contents: results,
-      writeProductUrl: writeProductUrl
+    var sql1 = `SELECT store
+                FROM owner
+                WHERE owner_auth=` + mysql.escape(ownerAuth);
+    connection.query(sql1, function(err, results1) {
+      res.render(productView, {
+        store: results1[0].store,
+        logoutUrl: logoutUrl,
+        isOwner: 1,
+        productDetailUrl: productDetailUrl,
+        contents: results,
+        writeProductUrl: writeProductUrl
+      });
     });
   });
 });
@@ -609,10 +613,10 @@ router.get(reviewDetailUrl + '/:number', function(req, res) {
   console.log('4, review detail after callback');
 });
 
+///////
 Upload = require('./s3upload/uploadservice'),
   router.post(writeProductImageUrl + '/:number', function(req, res) {
     //var content=req.body.content;
-    var ownerAuth = req.session.passport.user;
     console.log('1, upload');
     var tasks = [
       function(callback) {
@@ -622,14 +626,21 @@ Upload = require('./s3upload/uploadservice'),
       },
       function(files, callback) {
         Upload.s3(files, function(err, result) {
+          var ownerAuth = req.session.passport.user;
           console.log('upload.s3');
           //console.log(result);
           callback(err, files);
           var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
+          var params = result;
           var image = {
             product_imgUrl: params.Location
           };
           connection.query(sql, image, function(err, results) {
+            if (err) {
+              console.log(err);
+            } else {
+              // console.log(rows);
+            }
             res.redirect(success, {
               success: productUrl
             });
@@ -668,10 +679,16 @@ Upload = require('./s3upload/uploadservice'),
           //console.log(result);
           callback(err, files);
           var sql = `UPDATE content_list SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
+          var params = result;
           var image = {
             url: params.Location
           };
           connection.query(sql, image, function(err, results) {
+            if (err) {
+              console.log(err);
+            } else {
+              // console.log(rows);
+            }
             res.redirect(success, {
               success: storeMainUrl
             });
@@ -710,10 +727,16 @@ Upload = require('./s3upload/uploadservice'),
           //console.log(result);
           callback(err, files);
           var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
+          var params = result;
           var image = {
             image_url: params.Location
           };
           connection.query(sql, image, function(err, results) {
+            if (err) {
+              console.log(err);
+            } else {
+              // console.log(rows);
+            }
             res.redirect(success, {
               success: storeMainUrl
             });
@@ -736,95 +759,6 @@ Upload = require('./s3upload/uploadservice'),
     });
   });
 
-////////////
-router.get(uploadUrl, function(req, res) {
-  res.render(storeMainContentUploadView);
-});
-Upload = require('./s3upload/uploadservice'),
-  router.post(uploadUrl, function(req, res) {
-    //var content=req.body.content;
-    var ownerAuth = req.session.passport.user;
-    console.log('1, upload');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        });
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          console.log('upload.s3');
-          console.log(result);
-          callback(err, files);
-
-          var sql = 'insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
-          var sql = 'INSERT INTO content_list(owner_auth, url) values (?,?)';
-          var params = result;
-          var sql1 = `SELECT MAX(number) FROM content_list WHERE owner_auth=` + mysql.escape(ownerAuth);
-          connection.query(sql1, function(err, results) {
-            console.log(results);
-            connection.query(sql, [ownerAuth, params.Location], function(err, rows, fields) {
-              console.log(rows);
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(rows);
-              }
-            });
-          });
-        });
-      }
-    ];
-    //사용자에게 알려줌
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect(storeMainUrl);
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
-  });
-
-Upload = require('./s3upload/uploadservice'),
-  router.post('/saleProduct', function(req, res) {
-    console.log('1, saleProduct');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        })
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          callback(err, files);
-        });
-      }
-    ];
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        res.json({
-          success: true,
-          msg: '업로드 성공'
-        })
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
-
-  });
-
-/*
-module.exports = router;
-*/
 router.listen(3000, function() {
   console.log('connect 3000 port owner server');
 });

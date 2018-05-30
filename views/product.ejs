@@ -38,6 +38,7 @@
       margin: 0;
       padding: 0;
       border: 1px solid #3498DB;
+      width: 33%;
     }
     .db-btn {
       display: inline-block;
@@ -58,7 +59,8 @@
       font-weight: 300;
       letter-spacing: 0.4px;
       text-align: center;
-      width: 100%;
+      width: 50%;
+
     }
     .db-btn.h48 {
       height: 48px;
@@ -132,7 +134,7 @@
 <body id="body">
   <%if(isOwner == 1){%>
   <div class="header">
-    <%=contents.store%>
+    <%=store%>
   </div>
   <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
   <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
