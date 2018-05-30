@@ -816,8 +816,6 @@ router.get(successUrl, function(req, res) {
   });
 });
 
-
-
 Upload = require('./s3upload/uploadservice')
 router.post(userProfileImageUploadUrl, function(req, res) {
   //var content=req.body.content;
@@ -834,7 +832,6 @@ router.post(userProfileImageUploadUrl, function(req, res) {
         // console.log(result);
         callback(err, files);
         const userAuth = req.session.passport.user;
-        var sql = ' into user(image_url) values (?)';
         var sql = `UPDATE user SET image_url=? WHERE user_auth=` + mysql.escape(userAuth);
         var params = result;
         connection.query(sql, [params.Location], function(err, rows) {
@@ -862,82 +859,7 @@ router.post(userProfileImageUploadUrl, function(req, res) {
     }
   });
 });
-router.post(uploadUrl, function(req, res) {
-  //var content=req.body.content;
 
-  console.log('1, upload');
-  var tasks = [
-    function(callback) {
-      Upload.formidable(req, function(err, files, field) {
-        callback(err, files);
-      })
-    },
-    function(files, callback) {
-      Upload.s3(files, function(err, result) {
-        // console.log(result);
-        callback(err, files);
-
-        //var sql='insert into content_list (owner_auth, url, content) values ("hyk1031",?,?)';
-        var sql = 'insert into content_list(owner_auth, url) values ("hyk1031",?)';
-        var params = result;
-        connection.query(sql, [params.Location], function(err, rows, fields) {
-          // console.log(rows);
-          if (err) {
-            console.log(err);
-          } else {
-            // console.log(rows);
-          }
-        });
-
-      });
-    }
-  ];
-  //사용자에게 알려줌
-  async.waterfall(tasks, function(err, result) {
-    if (!err) {
-      //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect('/');
-    } else {
-      res.json({
-        success: false,
-        msg: '실패',
-        err: err
-      })
-    }
-  });
-});
-
-Upload = require('./s3upload/uploadservice'),
-  router.post('/saleProduct', function(req, res) {
-    console.log('1, saleProduct');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        })
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          callback(err, files);
-        });
-      }
-    ];
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        res.json({
-          success: true,
-          msg: '업로드 성공'
-        })
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
-
-  });
 router.listen(80, function() {
   console.log('connect 80 port user server');
 });
