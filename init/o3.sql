@@ -97,9 +97,9 @@ DROP TABLE IF EXISTS `comment_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comment_list` (
-  `owner_auth` varchar(20) DEFAULT NULL,
+  `owner_auth` varchar(60) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
-  `user_auth` varchar(20) DEFAULT NULL,
+  `user_auth` varchar(60) DEFAULT NULL,
   `comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -121,7 +121,7 @@ DROP TABLE IF EXISTS `content_list`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `content_list` (
-  `owner_auth` varchar(20) NOT NULL,
+  `owner_auth` varchar(60) NOT NULL,
   `number` int(11) NOT NULL,
   `content` text,
   `date` bigint(20) DEFAULT NULL,
@@ -468,8 +468,8 @@ DROP TABLE IF EXISTS `follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `follow` (
-  `owner_auth` varchar(20) NOT NULL,
-  `user_auth` varchar(20) NOT NULL,
+  `owner_auth` varchar(60) NOT NULL,
+  `user_auth` varchar(60) NOT NULL,
   PRIMARY KEY (`owner_auth`,`user_auth`),
   KEY `fk_follow2` (`user_auth`),
   CONSTRAINT `fk_follow` FOREIGN KEY (`owner_auth`) REFERENCES `owner` (`owner_auth`),
@@ -789,7 +789,7 @@ DROP TABLE IF EXISTS `product_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_info` (
-  `owner_auth` varchar(20) NOT NULL,
+  `owner_auth` varchar(60) NOT NULL,
   `number` int(11) NOT NULL,
   `product` varchar(30) NOT NULL,
   `price` int(11) DEFAULT NULL,
@@ -1126,8 +1126,8 @@ DROP TABLE IF EXISTS `review`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review` (
-  `owner_auth` varchar(20) NOT NULL,
-  `user_auth` varchar(20) NOT NULL,
+  `owner_auth` varchar(60) NOT NULL,
+  `user_auth` varchar(60) NOT NULL,
   `score` int(11) DEFAULT NULL,
   `good` text,
   `bad` text,
