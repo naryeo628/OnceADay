@@ -132,7 +132,7 @@
         opacity: 0;
       }
     }
-    
+
     .header {
       text-align: center;
       background-color: #3498DB;
@@ -174,7 +174,6 @@
     </div>
     <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
     <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
-    <%}%>
     <script type="text/javascript">
       function back() {
         var frame = document.getElementById('timelineBigFrame');
@@ -184,6 +183,7 @@
       function logout() {
         location.href = '<%=logoutUrl%>';
       }
+    <%}%>
     </script>
     <table>
       <form action="<%=writeProductUrl%>" method="post">

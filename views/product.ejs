@@ -132,11 +132,11 @@
 <body id="body">
   <%if(isOwner == 1){%>
   <div class="header">
-    <%=contents[0].store%>
+    <%=contents.store%>
   </div>
   <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
   <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
-  <%}%>
+
   <script type="text/javascript">
     function back() {
       var frame = document.getElementById('timelineBigFrame');
@@ -147,6 +147,7 @@
       location.href = '<%=logoutUrl%>';
     }
   </script>
+  <%}%>
   <table>
     <tr>
       <td colspan="3">

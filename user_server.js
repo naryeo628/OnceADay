@@ -101,6 +101,10 @@ const successView = `success`;
 const productView = `product`;
 const productDetailView = `productDetail`;
 
+//etc
+const defaultUserImage = `/iconmonstr-user-20-48.png`;
+const isOwner = 0;
+
 
 /*router.get(
   facebookLoginUrl,
@@ -317,7 +321,7 @@ router.post(registerUrl, function(req, res) {
       user_password: hash,
       salt: salt,
       name: req.body.user_name,
-      image_url: 'https://cdns.iconmonstr.com/wp-content/assets/preview/2012/240/iconmonstr-user-20.png'
+      image_url: defaultUserImage
     };
     console.log('1.1, ' + registerUrl + user);
     var sql = 'INSERT INTO user SET ?';

@@ -96,6 +96,11 @@ const writeProductImageView = `writeProductImage`;
 const writeContentView = `writeContent`;
 const writeContentImageView = `writeContentImage`;
 
+//etc
+const defaultOwnerImage = `/iconmonstr-shop-13-120.png`;
+const isOwner = 1;
+
+
 router.get('/', function(req, res) {
   res.redirect(loginUrl);
 });
@@ -206,7 +211,7 @@ router.post(registerUrl, function(req, res) {
       address4: req.body.address4,
       tel: req.body.tel,
       time: req.body.time,
-      image_url: 'https://cdns.iconmonstr.com/wp-content/assets/preview/2017/240/iconmonstr-shop-13.png'
+      image_url: defaultOwnerImage
     };
     console.log('1.1, ' + registerUrl + owner);
     var sql = 'INSERT INTO owner SET ?';
