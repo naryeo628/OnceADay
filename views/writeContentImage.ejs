@@ -195,8 +195,8 @@
         var img = new Image();
         img.src = event.target.result;
         // note: no onload required since we've got the dataurl...I think! :)
-        if (img.width > window.innerWidth) { // holder width
-          img.width = window.innerWidth + 'px';
+        if (img.style.width > window.innerWidth) { // holder width
+          img.style.width = window.innerWidth + 'px';
         }
         holder.innerHTML = '';
         holder.appendChild(img);
