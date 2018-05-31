@@ -152,8 +152,6 @@
     }, 500);
 
     function setSize(node, isWidth, widthRatio, isHeight, heightRatio) {
-   
-	 document.addEventListener("deviceready", onDeviceReady, false);
 	
       if (isWidth == 1) {
         node.style.width = window.innerWidth * widthRatio + 'px';
@@ -162,18 +160,6 @@
         node.style.height = window.innerHeight * heightRatio + 'px';
       }
     }
-	function onDeviceReady() {
-   document.addEventListener("backbutton", onBackKey, false);
-  }
-  function onBackKey() {
-    navigator.notification.confirm('종료하시겠습니까?', onBackKeyResult, '종료','취소,종료');
-    //무반응으로 만들려면 위를 주석처리.onBackKeyDownMsg를 써야 하나?
-  }
-  function onBackKeyResult(index) {
-    if(index == 2) {
-      navigator.app.exitApp();
-    }
-  }
 	
   </script>
 </head>
