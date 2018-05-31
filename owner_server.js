@@ -682,14 +682,12 @@ router.post(storeProfileImageUrl, function(req, res) {
   var tasks = [
     function(callback) {
       Upload.formidable(req, function(err, files, field) {
-        if(err)
           callback(err, files);
       });
     }, function(files, callback) {
       Upload.s3(files, function(err, result) {
         console.log('upload.s3');
         //console.log(result);
-        if(err)
           callback(err, files);
         var ownerAuth = req.session.passport.user;
         var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
@@ -713,7 +711,7 @@ router.post(storeProfileImageUrl, function(req, res) {
       //res.json({success:true, msg:'업로드 성공'})
       return res.redirect(storeMainUrl);
     } else {
-      return res.redirect(storeMainUrl);
+      res.redirect(storeMainUrl);
     }
   });
 });
