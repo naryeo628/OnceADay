@@ -30,10 +30,18 @@ router.use(bodyParser.urlencoded({
   extended: false
 }));
 
-/*router.get('/face', function(req, res){
-res.render('face')});*/
 
 
+
+/*FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}*/
 
 //URLs
 const loginUrl = `/user/login`;
@@ -99,7 +107,6 @@ const commentView = `comment`;
 //etc
 const defaultUserImage = `/iconmonstr-user-20-48.png`;
 const isOwner = 0;
-
 
 
 router.use(session({
@@ -826,6 +833,19 @@ router.post(userProfileImageUploadUrl, function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(mainUserInfoUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
 });
 
 router.listen(80, function() {

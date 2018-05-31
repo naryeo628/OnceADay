@@ -689,6 +689,19 @@ router.post(storeProfileImageUrl, function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
 });
 router.post(writeProductImageUrl + '/:number', function(req, res) {
   //var content=req.body.content;
@@ -720,6 +733,19 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
 });
 router.post(writeContentImageUrl + '/:number', function(req, res) {
   //var content=req.body.content;
@@ -751,6 +777,19 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
 });
 router.post(writeProductImageUrl, function(req, res) {
   //var content=req.body.content;
@@ -782,6 +821,19 @@ router.post(writeProductImageUrl, function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
 });
 
 router.listen(3000, function() {
