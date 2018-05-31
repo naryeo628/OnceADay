@@ -193,10 +193,22 @@
   </style>
   <title>user_login</title>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+
+
+
+
+
+
+
+
+
+
+</script>
 </head>
 
 <body>
+
   <form action="<%=loginPostUrl%>" method="post">
     <table>
       <tbody>
@@ -213,7 +225,7 @@
             </div>
           </td>
         </tr>
-        <tr>
+      <tr>
           <td>
             <div class="floating-input">
               <input required id='password' type="password" name="<%=passwordBoxName%>" />
@@ -225,7 +237,10 @@
           <td>
             <div class="input-button">
               <input type="submit" value="로그인" />
-              <div class="ripple-container"></div>
+             
+
+ 
+<div class="ripple-container"></div>
             </div>
           </td>
         </tr>
