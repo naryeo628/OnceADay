@@ -651,6 +651,7 @@ router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res
   connection.query(sql, function(err, results) {
     // console.log(results);
     res.render(storeMainContentDetailView, {
+      isOwner: isOwner,
       contents: results[0]
     });
   });

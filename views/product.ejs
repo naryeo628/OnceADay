@@ -136,7 +136,7 @@
 <body id="body">
   <%if(isOwner == 1){%>
   <div class="header">
-    <%=store%>
+    <span onclick=location.href="<%=storeMainUrl%>"><%=store%></span>
   </div>
   <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
   <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>

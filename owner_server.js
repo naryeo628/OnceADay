@@ -78,6 +78,7 @@ const writeBargain = `/owner/main/store/product/write/bargain`;
 const deleteBargain = `/owner/main/store/product/delete/bargain`;
 const commentUrl = `/owner/content/comment`;
 const successUrl = `/success`;
+const deleteContentUrl = `/owner/delete/content`;
 
 //Views
 const loginView = `user_login`;
@@ -317,6 +318,7 @@ router.get(writeContentUrl, function(req, res) {
               WHERE owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
     res.render(writeContentView, {
+      storeMainUrl: storeMainUrl,
       writeContentUrl: writeContentUrl,
       contents: results,
       logoutUrl: logoutUrl,
@@ -549,12 +551,16 @@ router.get(storeMainContentContainerUrl, function(req, res) {
 router.get(storeMainContentDetailUrl + '/:number', function(req, res) {
   console.log('1, contentDetail');
   const ownerAuth = req.session.passport.user;
-  const sql = ` SELECT *
+  const sql = ` SELECT content_list.*, owner.*
                 FROM content_list
-                WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(req.params.number);
+                JOIN owner
+                ON content_list.owner_auth=owner.owner_auth
+                WHERE content_list.owner_auth=` + mysql.escape(ownerAuth) + ` AND content_list.number=` + mysql.escape(req.params.number);
   connection.query(sql, function(err, results) {
     //console.log(results);
     res.render(storeMainContentDetailView, {
+      isOwner: isOwner,
+      deleteContentUrl: deleteContentUrl,
       commentUrl: commentUrl + '/' + ownerAuth + '/' + results[0].number,
       storeMainUrl: storeMainUrl,
       contents: results[0]
@@ -567,6 +573,17 @@ router.get(storeMainContentUploadUrl, function(req, res) {
   res.render(storeMainContentUploadView, {
     uploadUrl: uploadUrl,
     storeMainUrl: storeMainUrl
+  });
+});
+
+router.post(deleteContentUrl, function(req, res){
+  console.log('1, deleteContent', deleteContentUrl);
+  const ownerAuth = req.session.passport.user;
+  const sql = ` DELETE
+                FROM content_list
+                WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(req.body.number);
+  connection.query(sql, function(err, results) {
+    res.redirect(storeMainContentContainerUrl);
   });
 });
 
@@ -698,7 +715,7 @@ router.post(storeProfileImageUrl, function(req, res) {
       //res.json({success:true, msg:'업로드 성공'})
       return res.redirect(storeMainUrl);
     } else {
-      res.redirect(storeMainUrl);
+      return res.redirect(storeMainUrl);
     }
   });
 });
@@ -738,7 +755,7 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
       //res.json({success:true, msg:'업로드 성공'})
       return res.redirect(storeMainUrl);
     } else {
-      res.redirect(storeMainUrl);
+      return res.redirect(storeMainUrl);
     }
   });
 });
@@ -747,12 +764,16 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
   console.log('1, upload');
   var tasks = [
     function(callback) {
+    console.log('2, upload');
       Upload.formidable(req, function(err, files, field) {
+      console.log('3, upload');
         callback(err, files);
       });
     },
     function(files, callback) {
+    console.log('4, upload');
       Upload.s3(files, function(err, result) {
+      console.log('5, upload');
         var ownerAuth = req.session.passport.user;
         console.log('upload.s3');
         //console.log(result);
@@ -763,6 +784,7 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
           product_imgUrl: params.Location
         };
         connection.query(sql, image, function(err, results) {
+        console.log('6, upload');
           if (err) {
             console.log(err);
           } else {
@@ -774,13 +796,16 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
   ];
   //사용자에게 알려줌
   async.waterfall(tasks, function(err, result) {
+  console.log('7, upload');
     if (!err) {
+    console.log('8, upload');
       //res.json({success:true, msg:'업로드 성공'})
       return res.render(success, {
         success: productUrl
       });
     } else {
-      res.render(success, {
+    console.log('9, upload');
+      return res.render(success, {
         success: productUrl
       });
     }
