@@ -685,41 +685,22 @@ router.post(storeProfileImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
+          res.render(successView, {
+            success: storeMainUrl
+          });
         });
       });
     }
   ];
-});
-router.post(writeProductImageUrl + '/:number', function(req, res) {
-  //var content=req.body.content;
-  console.log('1, upload');
-  var tasks = [
-    function(callback) {
-      Upload.formidable(req, function(err, files, field) {
-        callback(err, files);
-      });
-    },
-    function(files, callback) {
-      Upload.s3(files, function(err, result) {
-        var ownerAuth = req.session.passport.user;
-        console.log('upload.s3');
-        //console.log(result);
-        callback(err, files);
-        var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
-        var params = result;
-        var image = {
-          product_imgUrl: params.Location
-        };
-        connection.query(sql, image, function(err, results) {
-          if (err) {
-            console.log(err);
-          } else {
-            // console.log(rows);
-          }
-        });
-      });
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.redirect(storeMainUrl);
     }
-  ];
+  });
 });
 router.post(writeContentImageUrl + '/:number', function(req, res) {
   //var content=req.body.content;
@@ -751,10 +732,18 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.redirect(storeMainUrl);
+    }
+  });
 });
-router.post(writeProductImageUrl, function(req, res) {
+router.post(writeProductImageUrl + '/:number', function(req, res) {
   //var content=req.body.content;
-  var ownerAuth = req.session.passport.user;
   console.log('1, upload');
   var tasks = [
     function(callback) {
@@ -764,13 +753,14 @@ router.post(writeProductImageUrl, function(req, res) {
     },
     function(files, callback) {
       Upload.s3(files, function(err, result) {
+        var ownerAuth = req.session.passport.user;
         console.log('upload.s3');
         //console.log(result);
         callback(err, files);
-        var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
+        var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
         var params = result;
         var image = {
-          image_url: params.Location
+          product_imgUrl: params.Location
         };
         connection.query(sql, image, function(err, results) {
           if (err) {
@@ -782,6 +772,19 @@ router.post(writeProductImageUrl, function(req, res) {
       });
     }
   ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.render(success, {
+        success: productUrl
+      });
+    } else {
+      res.render(success, {
+        success: productUrl
+      });
+    }
+  });
 });
 
 router.listen(3000, function() {
