@@ -102,27 +102,6 @@ const isOwner = 0;
 
 
 
-
-
-
-
-/*
-router.get(
-  facebookLoginUrl,
-  passport.authenticate(
-    'facebook'
-  )
-);
-router.get(
-  facebookLoginCallbackUrl,
-  passport.authenticate(
-    'facebook',
-    {
-      successRedirect: mainUrl,
-      failureRedirect: loginUrl
-    }
-  )
-);*/
 router.use(session({
   secret: '1234DSFs@adf1234!@#$asd',
   resave: false,
@@ -152,7 +131,7 @@ passport.serializeUser(function(user, done) {
   done(null, user.user_auth);
 });
 passport.deserializeUser(function(id, done) {
-  console.log('deserializeUser', id);
+  //console.log('deserializeUser', id);
   var sql = 'SELECT * FROM user WHERE user_auth=?';
   connection.query(sql, [id], function(err, results) {
     console.log(sql, 'err:' + err, results);

@@ -125,7 +125,7 @@ passport.serializeUser(function(user, done) {
   done(null, user.owner_auth);
 });
 passport.deserializeUser(function(id, done) {
-  console.log('deserializeUser', id);
+  //console.log('deserializeUser', id);
   var sql = 'SELECT * FROM owner WHERE owner_auth=';
   connection.query(sql + mysql.escape(id), function(err, results) {
     console.log(sql, err, results);
@@ -685,9 +685,6 @@ router.post(storeProfileImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(successView, {
-            success: storeMainUrl
-          });
         });
       });
     }
@@ -732,9 +729,6 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: productUrl
-          });
         });
       });
     }
@@ -779,9 +773,6 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: storeMainUrl
-          });
         });
       });
     }
@@ -826,9 +817,6 @@ router.post(writeProductImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: storeMainUrl
-          });
         });
       });
     }
