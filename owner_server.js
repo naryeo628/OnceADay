@@ -709,7 +709,7 @@ router.post(storeProfileImageUrl, function(req, res) {
   async.waterfall(tasks, function(err, result) {
     if (!err) {
       //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect(storeMainUrl);
+      res.redirect(storeMainUrl);
     } else {
       res.redirect(storeMainUrl);
     }
@@ -749,9 +749,9 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
   async.waterfall(tasks, function(err, result) {
     if (!err) {
       //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect(storeMainUrl);
+      res.redirect(storeMainUrl);
     } else {
-      return res.redirect(storeMainUrl);
+      res.redirect(storeMainUrl);
     }
   });
 });
@@ -796,10 +796,10 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
     if (!err) {
     console.log('8, upload');
       //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect(productUrl);
+      res.redirect(productUrl);
     } else {
     console.log('9, upload');
-      return res.redirect(productUrl);
+      res.redirect(productUrl);
     }
   });
 });
