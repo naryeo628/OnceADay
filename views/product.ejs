@@ -15,7 +15,6 @@
     body,
     div,
     iframe {
-      height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
@@ -167,7 +166,7 @@
       </tr>
       <%}%>
         <%for (var i = 0; i < contents.length; i += 3) {%>
-      <tr>
+      <tr style="height: 100px;">
         <%if (contents.length - i <= 3) {
         for (var j = 0; j < contents.length - i; j++) {%>
         <td class="product" style="background: url(<%=contents[i + j].product_imgUrl%>) no-repeat; background-size: cover; background-position: center;" onclick=location.href='<%=productDetailUrl%>/<%=contents[i + j].owner_auth%>/<%=contents[i + j].number%>'>
@@ -179,9 +178,8 @@
                 <%}
         } else {
           for (var j = 0; j < 3; j++) {%>
-        <td class="product" onclick=location.href='<%=productDetailUrl%>/<%=contents[i + j].owner_auth%>/<%=contents[i + j].number%>'>
+        <td class="product" style="background: url(<%=contents[i + j].product_imgUrl%>) no-repeat; background-size: cover; background-position: center;" onclick=location.href='<%=productDetailUrl%>/<%=contents[i + j].owner_auth%>/<%=contents[i + j].number%>'>
           <span><%=contents[i + j].product%></span><br>
-          <img src="<%=contents[i + j].product_imgUrl%>" onload="setSize(this)"><br>
           <span><%=contents[i + j].price%>원</span>
           <%if(contents[i + j].sale != null){%><span style="color:red">Event!</span>
             <%}%>
