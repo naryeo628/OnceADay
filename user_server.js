@@ -66,6 +66,8 @@ const reviewListUrl = `/owner/storeMain/review/list`;
 const reviewListContainerUrl = `/owner/storeMain/review/list/container`;
 const reviewDetailUrl = `/owner/storeMain/review/detail`;
 const uploadUrl = `/upload`;
+const commentUrl = `/owner/content`;
+
 
 //Views
 const loginView = `user_login`;
@@ -92,6 +94,7 @@ const writeReviewView = `user_review_write`;
 const successView = `success`;
 const productView = `product`;
 const productDetailView = `productDetail`;
+const commentView = `comment`;
 
 //etc
 const defaultUserImage = `/iconmonstr-user-20-48.png`;
@@ -203,8 +206,7 @@ router.get(
 router.get(
   facebookLoginCallbackUrl,
   passport.authenticate(
-    'facebook',
-    {
+    'facebook', {
       successRedirect: mainUrl,
       failureRedirect: loginUrl
     }
@@ -375,7 +377,7 @@ router.get(mainTimelineUrl, function(req, res) {
           sql2 += ' or ';
         }
       }
-      sql2 += ` ORDER BY content_list.date ASC`;
+      sql2 += ` ORDER BY content_list.date`;
       // console.log('mainTimelineUrl.sql2 :', sql2);
       connection.query(sql2, function(err, results2) {
         //console.log(results2);
@@ -434,10 +436,23 @@ router.get(mainSearchUrl, function(req, res) {
 });
 router.post(mainSearchUrl, function(req, res) {
   console.log('1, ', mainSearchUrl);
-  var address1 = req.body.address1.slice(0, -1);
-  var address2 = req.body.address2.slice(0, -1);
-  var address3 = req.body.address3.slice(0, -1);
   var store = req.body.store;
+  var address1 = req.body.address1;
+  var address2 = req.body.address2;
+  var address3 = req.body.address3;
+  var lastStr1 = address1.charAt(address1.length - 1);
+  var lastStr2 = address2.charAt(address2.length - 1);
+  var lastStr3 = address3.charAt(address3.length - 1);
+
+  if (lastStr1 == '시' || lastStr1 == '도') {
+    address1 = address1.slice(0, -1);
+  }
+  if (lastStr2 == '시' || lastStr2 == '군' || lastStr2 == '구') {
+    address2 = address2.slice(0, -1);
+  }
+  if (lastStr3 == '읍' || lastStr3 == '면' || lastStr3 == '동') {
+    address3 = address3.slice(0, -1);
+  }
   // console.log('address');
   // console.log(address1,address2, address3);
   // if(address3 == null)console.log('null');
@@ -511,7 +526,7 @@ router.post(mainUserInfoUrl, function(req, res) {
 
 
 
-
+///////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -534,6 +549,7 @@ router.get(mainStoreUrl + '/:owner_auth', function(req, res) {
         const info = results[0];
         console.log('3, before render');
         res.render(storeMainView, {
+          storeMainUrl: storeMainUrl,
           logoutUrl: logoutUrl,
           isOwner: 0,
           productUrl: productUrl + '/' + ownerAuth,
@@ -565,6 +581,7 @@ router.get(productUrl + '/:owner_auth', function(req, res) {
   connection.query(sql, function(err, results) {
     console.log(results);
     res.render(productView, {
+      storeMainUrl: storeMainUrl,
       isOwner: 0,
       productDetailUrl: productDetailUrl,
       contents: results
@@ -582,6 +599,7 @@ router.get(productDetailUrl + '/:owner_auth/:number', function(req, res) {
   connection.query(sql, function(err, results) {
     console.log(results);
     res.render(productDetailView, {
+      storeMainUrl: storeMainUrl,
       isOwner: 0,
       contents: results[0]
     });
@@ -653,6 +671,7 @@ router.get(storeMainContentUploadUrl + '/:owner_auth', function(req, res) {
   console.log('1, contentUpload');
   const ownerAuth = req.params.owner_auth;
   res.render(storeMainContentUploadView, {
+    storeMainUrl: storeMainUrl,
     uploadUrl: uploadUrl + '/' + ownerAuth,
     storeMainUrl: storeMainUrl + '/' + ownerAuth
   });
@@ -665,6 +684,7 @@ router.get(storeMainFollowerUrl + '/:owner_auth', function(req, res) {
   connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
     // console.log(results);
     res.render(storeMainFollowerView, {
+      storeMainUrl: storeMainUrl,
       contents: results
     });
   });
@@ -687,6 +707,7 @@ router.get(reviewListUrl + '/:owner_auth', function(req, res) {
     console.log(results);
     console.log('2, review list before render');
     res.render(reviewListView, {
+      storeMainUrl: storeMainUrl,
       logoutUrl: logoutUrl,
       owner_auth: ownerAuth,
       store: results[0].store,
@@ -743,6 +764,7 @@ router.get(reviewDetailUrl + '/:owner_auth' + '/:number', function(req, res) {
     // console.log(results);
     console.log('2, review detail before render');
     res.render(reviewDetailView, {
+      storeMainUrl: storeMainUrl,
       logoutUrl: logoutUrl,
       contents: results[reviewNumber],
       isOwner: 0
@@ -756,6 +778,7 @@ router.get(writeReviewUrl + '/:owner_auth', function(req, res) {
   var sql = `SELECT store FROM owner WHERE owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
     res.render(writeReviewView, {
+      storeMainUrl: storeMainUrl,
       store: results[0].store,
       writeReviewPostUrl: writeReviewUrl + '/' + ownerAuth
     });
@@ -788,7 +811,7 @@ router.post(writeReviewUrl + '/:owner_auth', function(req, res) {
 });
 router.get(successUrl, function(req, res) {
   res.render(successView, {
-    success: successUrl
+    success: '/'
   });
 });
 
