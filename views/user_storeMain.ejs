@@ -163,7 +163,7 @@
 	
   </script>
 
-  <%if(isOwner == 1){
+  <%if(isOwner == 1){%>
   <script>
     function onLoad() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -181,11 +181,11 @@
         }
     }
   </script>
-  }%>
+  <%}%>
 
 </head>
 
-<body id="body" onload="setSize(this, 1, 1, 1, 1)" <%if(isOwner == 1){onload="onLoad()"}%>>
+<body id="body" onload="setSize(this, 1, 1, 1, 1)" <%if(isOwner == 1){%>onload="onLoad()"<%}%>>
   <table>
     <%if(isOwner == 1){%>
     <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
