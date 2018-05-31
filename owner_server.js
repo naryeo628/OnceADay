@@ -77,6 +77,7 @@ const writeProductImageUrl = `/owner/main/store/product/write/image`;
 const writeBargain = `/owner/main/store/product/write/bargain`;
 const deleteBargain = `/owner/main/store/product/delete/bargain`;
 const commentUrl = `/owner/content/comment`;
+const successUrl = `/success`;
 
 //Views
 const loginView = `user_login`;
@@ -99,6 +100,7 @@ const writeProductImageView = `writeProductImage`;
 const writeContentView = `writeContent`;
 const writeContentImageView = `writeContentImage`;
 const commentView = `comment`;
+const successView = `success`;
 
 //etc
 const defaultOwnerImage = `/iconmonstr-shop-13-120.png`;
@@ -682,7 +684,7 @@ router.post(storeProfileImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
+          res.render(successView, {
             success: storeMainUrl
           });
         });

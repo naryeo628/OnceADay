@@ -61,7 +61,9 @@
       </tr>
       <tr id="content_text">
         <td>
-          <span><%=contents[i].content%></span>
+            <p> <span style="font-weight: bold;"><%= contents[i].owner_id %></span> <span style="font-size:0.8em"><%= contents[i].content %></span> </p>
+            <br>
+            <p>게시일: <%= contents[i].date %> </p>
         </td>
       </tr>
       <tr style="height: 50px">
