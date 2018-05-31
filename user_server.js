@@ -826,19 +826,6 @@ router.post(userProfileImageUploadUrl, function(req, res) {
       });
     }
   ];
-  //사용자에게 알려줌
-  async.waterfall(tasks, function(err, result) {
-    if (!err) {
-      //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect(mainUserInfoUrl);
-    } else {
-      res.json({
-        success: false,
-        msg: '실패',
-        err: err
-      })
-    }
-  });
 });
 
 router.listen(80, function() {

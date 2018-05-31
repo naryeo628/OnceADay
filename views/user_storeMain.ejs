@@ -162,9 +162,30 @@
     }
 	
   </script>
+
+  <%if(isOwner == 1){
+  <script>
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+    function onDeviceReady() {
+       document.addEventListener("backbutton", onBackKey, false);
+    }
+    function onBackKey() {
+        navigator.notification.confirm('종료하시겠습니까?', onBackKeyResult, '종료','취소,종료');
+        //무반응으로 만들려면 위를 주석처리.onBackKeyDownMsg를 써야 하나?
+    }
+    function onBackKeyResult(index) {
+        if(index == 2) {
+          navigator.app.exitApp();
+        }
+    }
+  </script>
+  }%>
+
 </head>
 
-<body id="body" onload="setSize(this, 1, 1, 1, 1)">
+<body id="body" onload="setSize(this, 1, 1, 1, 1)" <%if(isOwner == 1){onload="onLoad()"}%>>
   <table>
     <%if(isOwner == 1){%>
     <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">

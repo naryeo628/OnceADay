@@ -194,20 +194,25 @@
   <title>user_login</title>
 
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
-
-
-
-
-
-
-
-
-
-
-</script>
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+    function onDeviceReady() {
+       document.addEventListener("backbutton", onBackKey, false);
+    }
+    function onBackKey() {
+        navigator.notification.confirm('종료하시겠습니까?', onBackKeyResult, '종료','취소,종료');
+        //무반응으로 만들려면 위를 주석처리.onBackKeyDownMsg를 써야 하나?
+    }
+    function onBackKeyResult(index) {
+        if(index == 2) {
+          navigator.app.exitApp();
+        }
+    }
+  </script>
 </head>
 
-<body>
+<body onload="onLoad()">
 
   <form action="<%=loginPostUrl%>" method="post">
     <table>
@@ -237,9 +242,9 @@
           <td>
             <div class="input-button">
               <input type="submit" value="로그인" />
-             
 
- 
+
+
 <div class="ripple-container"></div>
             </div>
           </td>

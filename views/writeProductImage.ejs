@@ -7,11 +7,7 @@
 </head>
 
 <style>
-  html,
-  form,
-  table,
-  tbody,
-  body {
+  html, form, table, tbody, body {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -198,6 +194,7 @@
   .form-profile-image {
     position: absolute;
     width: 95%;
+    border: 2px dotted black;
   }
 
   .input-file {
@@ -245,8 +242,8 @@
         var img = new Image();
         img.src = event.target.result;
         // note: no onload required since we've got the dataurl...I think! :)
-        if (img.width > window.innerWidth) { // holder width
-          img.width = window.innerWidth + 'px';
+        if (img.style.width > window.innerWidth) { // holder width
+          img.style.width = window.innerWidth + 'px';
         }
         holder.innerHTML = '';
         holder.appendChild(img);
