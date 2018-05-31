@@ -685,9 +685,6 @@ router.post(storeProfileImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(successView, {
-            success: storeMainUrl
-          });
         });
       });
     }
@@ -732,9 +729,6 @@ router.post(writeProductImageUrl + '/:number', function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: productUrl
-          });
         });
       });
     }
@@ -779,9 +773,6 @@ router.post(writeContentImageUrl + '/:number', function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: storeMainUrl
-          });
         });
       });
     }
@@ -826,9 +817,6 @@ router.post(writeProductImageUrl, function(req, res) {
           } else {
             // console.log(rows);
           }
-          res.render(success, {
-            success: storeMainUrl
-          });
         });
       });
     }
