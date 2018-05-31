@@ -219,7 +219,7 @@
       <div class="input-button" style="position: absolute; bottom: 20%; left: 35%;">
         <input type="submit" value="취소" onclick=location.href="<%=productUrl%>">
       </div>
-    <div id="holder" style="width: 100%; height: 250px;"></div>
+    <div id="holder"></div>
   </article>
   <script>
     var upload = document.getElementsByTagName('input')[0],
@@ -242,10 +242,9 @@
         var img = new Image();
         img.src = event.target.result;
         // note: no onload required since we've got the dataurl...I think! :)
-        //if (img.style.width > window.innerWidth) { // holder width
-          //img.style.width = window.innerWidth + 'px';
-          img.width = 100 + '%';
-        //}
+        if (img.width > 300) { // holder width
+          img.width = 300;
+        }
         holder.innerHTML = '';
         holder.appendChild(img);
       };
