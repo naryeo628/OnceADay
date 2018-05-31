@@ -30,18 +30,10 @@ router.use(bodyParser.urlencoded({
   extended: false
 }));
 
+/*router.get('/face', function(req, res){
+res.render('face')});*/
 
 
-
-/*FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-});
-
-function checkLoginState() {
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-}*/
 
 //URLs
 const loginUrl = `/user/login`;
@@ -106,28 +98,12 @@ const defaultUserImage = `/iconmonstr-user-20-48.png`;
 const isOwner = 0;
 
 
-/*router.get(
-  facebookLoginUrl,
-  passport.authenticate(
-    'facebook'
-  )
-);
-router.get(
-  facebookLoginCallbackUrl,
-  passport.authenticate(
-    'facebook',
-    {
-      successRedirect: mainUrl,
-      failureRedirect: loginUrl
-    }
-  )
-);
 
 
 
 
 
-
+/*
 router.get(
   facebookLoginUrl,
   passport.authenticate(
