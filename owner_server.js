@@ -74,6 +74,9 @@ const productUrl = `/owner/main/store/product`;
 const productDetailUrl = `/owner/main/store/product/detail`;
 const writeProductUrl = `/owner/main/store/product/write`;
 const writeProductImageUrl = `/owner/main/store/product/write/image`;
+const writeBargain = `/owner/main/store/product/write/bargain`;
+const deleteBargain = `/owner/main/store/product/delete/bargain`;
+const commentUrl = `/owner/content/comment`;
 
 //Views
 const loginView = `user_login`;
@@ -95,6 +98,7 @@ const writeProductView = `writeProduct`;
 const writeProductImageView = `writeProductImage`;
 const writeContentView = `writeContent`;
 const writeContentImageView = `writeContentImage`;
+const commentView = `comment`;
 
 //etc
 const defaultOwnerImage = `/iconmonstr-shop-13-120.png`;
@@ -248,6 +252,7 @@ router.get(storeMainUrl, function(req, res) {
         const info = results[0];
         console.log('3, before render');
         res.render(storeMainView, {
+          storeMainUrl: storeMainUrl,
           storeProfileUrl: storeProfileUrl,
           storeProfileImageUrl: storeProfileImageUrl,
           writeContentUrl: writeContentUrl,
@@ -277,6 +282,7 @@ router.get(storeProfileUrl, function(req, res) {
               WHERE owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
     res.render(storeProfileView, {
+      storeMainUrl: storeMainUrl,
       storeProfileUrl: storeProfileUrl,
       contents: results,
       logoutUrl: logoutUrl,
@@ -363,6 +369,7 @@ router.post(writeContentUrl, function(req, res) {
     var date = time.getFullYear() + month + day + hour + min + sec;
     console.log(date);
     var content = {
+      storeMainUrl: storeMainUrl,
       owner_auth: ownerAuth,
       number: number,
       content: req.body.content,
@@ -394,6 +401,7 @@ router.get(productUrl, function(req, res) {
                 WHERE owner_auth=` + mysql.escape(ownerAuth);
     connection.query(sql1, function(err, results1) {
       res.render(productView, {
+        storeMainUrl: storeMainUrl,
         store: results1[0].store,
         logoutUrl: logoutUrl,
         isOwner: 1,
@@ -411,6 +419,7 @@ router.get(writeProductUrl, function(req, res) {
               WHERE owner_auth=` + mysql.escape(ownerAuth);
   connection.query(sql, function(err, results) {
     res.render(writeProductView, {
+      storeMainUrl: storeMainUrl,
       contents: results,
       logoutUrl: logoutUrl,
       isOwner: 1,
@@ -449,7 +458,9 @@ router.post(writeProductUrl, function(req, res) {
         };
       } else {
         number = results1[0].number
-        var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(number) + ` AND owner_auth=` + mysql.escape(ownerAuth);
+        var sql = ` UPDATE product_info
+                    SET ?
+                    WHERE number=` + mysql.escape(number) + ` AND owner_auth=` + mysql.escape(ownerAuth);
         var product = {
           owner_auth: ownerAuth,
           product: req.body.product,
@@ -462,7 +473,7 @@ router.post(writeProductUrl, function(req, res) {
         //console.log(results);
         res.render(writeProductImageView, {
           logoutUrl: logoutUrl,
-          isOwner: 1,
+          isOwner: isOwner,
           writeProductImageUrl: writeProductImageUrl + '/' + number,
           productUrl: productUrl
         });
@@ -474,7 +485,6 @@ router.post(writeProductUrl, function(req, res) {
 
 router.get(productDetailUrl + '/:owner_auth/:number', function(req, res) {
   var ownerAuth = req.session.passport.user;
-  const userAuth = req.session.passport.user;
   var sql = ` SELECT product_info.*, owner.store
               FROM product_info
               JOIN owner
@@ -483,10 +493,39 @@ router.get(productDetailUrl + '/:owner_auth/:number', function(req, res) {
   connection.query(sql, function(err, results) {
     console.log(results);
     res.render(productDetailView, {
+      storeMainUrl: storeMainUrl,
+      writeBargain: writeBargain,
+      deleteBargain: deleteBargain,
       logoutUrl: logoutUrl,
       isOwner: 1,
       contents: results[0]
     });
+  });
+});
+router.post(writeBargain, function(req, res) {
+  var ownerAuth = req.session.passport.user;
+  console.log('req_body : ', req.body);
+  var sql = ` UPDATE product_info
+              SET ?
+              WHERE owner_auth=` + mysql.escape(ownerAuth) + ` and number=` + mysql.escape(req.body.number);
+  var product = {
+    sale: req.body.bargain
+  };
+  connection.query(sql, product, function(err, results) {
+    res.redirect(productUrl);
+  });
+});
+router.post(deleteBargain, function(req, res) {
+  var ownerAuth = req.session.passport.user;
+  console.log('req_body : ', req.body);
+  var sql = ` UPDATE product_info
+              SET ?
+              WHERE owner_auth=` + mysql.escape(ownerAuth) + ` and number=` + mysql.escape(req.body.number);
+  var product = {
+    sale: null
+  };
+  connection.query(sql, product, function(err, results) {
+    res.redirect(productUrl);
   });
 });
 
@@ -497,6 +536,7 @@ router.get(storeMainContentContainerUrl, function(req, res) {
   connection.query(sql + mysql.escape(ownerAuth), function(err, results) {
     //console.log(results);
     res.render(storeMainContentContainerView, {
+      storeMainUrl: storeMainUrl,
       owner_auth: ownerAuth,
       contents: results,
       storeMainContentDetailUrl: storeMainContentDetailUrl
@@ -506,12 +546,40 @@ router.get(storeMainContentContainerUrl, function(req, res) {
 router.get(storeMainContentDetailUrl + '/:number', function(req, res) {
   console.log('1, contentDetail');
   const ownerAuth = req.session.passport.user;
-  const sql = 'select * from content_list where owner_auth=' + mysql.escape(ownerAuth) + ' and number=' + mysql.escape(req.params.number);
+  const sql = ` SELECT *
+                FROM content_list
+                WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(req.params.number);
   connection.query(sql, function(err, results) {
     //console.log(results);
     res.render(storeMainContentDetailView, {
+      commentUrl: commentUrl + '/' + ownerAuth + '/' + results[0].number,
+      storeMainUrl: storeMainUrl,
       contents: results[0]
     });
+  });
+});
+
+router.get(commentUrl + '/:owner_auth/:number', function(req, res) {
+  const ownerAuth = req.params.owner_auth;
+  const number = req.params.number;
+  var sql = ` SELECT *
+              FROM comment_list
+              WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(number) + `
+              ORDER BY comment_list.date`;
+  connection.query(sql, function(err, results) {
+    res.render(commentView, {
+      commentUrl: commentUrl + '/' + ownerAuth + '/' + number,
+      contents: results
+    });
+  });
+});
+router.post(commentUrl + '/:owner_auth/:number', function(req, res){
+  const ownerAuth = req.params.owner_auth;
+  const number = req.params.number;
+  var sql = ` INSERT INTO
+              `;
+  connection.query(sql, function(err, results) {
+    res.redirect(commentUrl + '/' + ownerAuth + '/' + number);
   });
 });
 
@@ -529,15 +597,10 @@ router.get(storeMainFollowerUrl, function(req, res) {
   connection.query(sql + mysql.escape(req.session.passport.user), function(err, results) {
     console.log(results);
     res.render(storeMainFollowerView, {
+      storeMainUrl: storeMainUrl,
       follow: results
     });
   });
-});
-
-
-router.get(storeMainSaleUrl, function(req, res) {
-  console.log('1, sale');
-  res.render(storeMainSaleView);
 });
 
 //Review List
@@ -550,6 +613,7 @@ router.get(reviewListUrl, function(req, res) {
     //console.log(results);
     console.log('2, review list before render');
     res.render(reviewListView, {
+      storeMainUrl: storeMainUrl,
       logoutUrl: logoutUrl,
       isOwner: 1,
       owner_auth: ownerAuth,
@@ -604,6 +668,7 @@ router.get(reviewDetailUrl + '/:number', function(req, res) {
     console.log(results[reviewNumber]);
     console.log('2, review detail before render');
     res.render(reviewDetailView, {
+      storeMainUrl: storeMainUrl,
       logoutUrl: logoutUrl,
       contents: results[reviewNumber],
       isOwner: 1
@@ -614,150 +679,195 @@ router.get(reviewDetailUrl + '/:number', function(req, res) {
 });
 
 ///////
-Upload = require('./s3upload/uploadservice'),
-  router.post(writeProductImageUrl + '/:number', function(req, res) {
-    //var content=req.body.content;
-    console.log('1, upload');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        });
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          var ownerAuth = req.session.passport.user;
-          console.log('upload.s3');
-          //console.log(result);
-          callback(err, files);
-          var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
-          var params = result;
-          var image = {
-            product_imgUrl: params.Location
-          };
-          connection.query(sql, image, function(err, results) {
-            if (err) {
-              console.log(err);
-            } else {
-              // console.log(rows);
-            }
-            res.redirect(success, {
-              success: productUrl
-            });
+var Upload = require('./s3upload/uploadservice');
+router.post(storeProfileImageUrl, function(req, res) {
+  //var content=req.body.content;
+  console.log('1, upload');
+  var tasks = [
+    function(callback) {
+      Upload.formidable(req, function(err, files, field) {
+        callback(err, files);
+      });
+    },
+    function(files, callback) {
+      Upload.s3(files, function(err, result) {
+        var ownerAuth = req.session.passport.user;
+        console.log('upload.s3');
+        //console.log(result);
+        callback(err, files);
+        var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
+        var params = result;
+        var image = {
+          image_url: params.Location
+        };
+        connection.query(sql, image, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            // console.log(rows);
+          }
+          res.render(success, {
+            success: storeMainUrl
           });
         });
-      }
-    ];
-    //사용자에게 알려줌
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect(storeMainUrl);
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
+      });
+    }
+  ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
   });
-Upload = require('./s3upload/uploadservice'),
-  router.post(writeContentImageUrl + '/:number', function(req, res) {
-    //var content=req.body.content;
-    var ownerAuth = req.session.passport.user;
-    console.log('1, upload');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        });
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          console.log('upload.s3');
-          //console.log(result);
-          callback(err, files);
-          var sql = `UPDATE content_list SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
-          var params = result;
-          var image = {
-            url: params.Location
-          };
-          connection.query(sql, image, function(err, results) {
-            if (err) {
-              console.log(err);
-            } else {
-              // console.log(rows);
-            }
-            res.redirect(success, {
-              success: storeMainUrl
-            });
+});
+router.post(writeProductImageUrl + '/:number', function(req, res) {
+  //var content=req.body.content;
+  console.log('1, upload');
+  var tasks = [
+    function(callback) {
+      Upload.formidable(req, function(err, files, field) {
+        callback(err, files);
+      });
+    },
+    function(files, callback) {
+      Upload.s3(files, function(err, result) {
+        var ownerAuth = req.session.passport.user;
+        console.log('upload.s3');
+        //console.log(result);
+        callback(err, files);
+        var sql = `UPDATE product_info SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
+        var params = result;
+        var image = {
+          product_imgUrl: params.Location
+        };
+        connection.query(sql, image, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            // console.log(rows);
+          }
+          res.render(success, {
+            success: productUrl
           });
         });
-      }
-    ];
-    //사용자에게 알려줌
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect(storeMainUrl);
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
+      });
+    }
+  ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
   });
-Upload = require('./s3upload/uploadservice'),
-  router.post(writeProductImageUrl, function(req, res) {
-    //var content=req.body.content;
-    var ownerAuth = req.session.passport.user;
-    console.log('1, upload');
-    var tasks = [
-      function(callback) {
-        Upload.formidable(req, function(err, files, field) {
-          callback(err, files);
-        });
-      },
-      function(files, callback) {
-        Upload.s3(files, function(err, result) {
-          console.log('upload.s3');
-          //console.log(result);
-          callback(err, files);
-          var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
-          var params = result;
-          var image = {
-            image_url: params.Location
-          };
-          connection.query(sql, image, function(err, results) {
-            if (err) {
-              console.log(err);
-            } else {
-              // console.log(rows);
-            }
-            res.redirect(success, {
-              success: storeMainUrl
-            });
+});
+router.post(writeContentImageUrl + '/:number', function(req, res) {
+  //var content=req.body.content;
+  var ownerAuth = req.session.passport.user;
+  console.log('1, upload');
+  var tasks = [
+    function(callback) {
+      Upload.formidable(req, function(err, files, field) {
+        callback(err, files);
+      });
+    },
+    function(files, callback) {
+      Upload.s3(files, function(err, result) {
+        console.log('upload.s3');
+        //console.log(result);
+        callback(err, files);
+        var sql = `UPDATE content_list SET ? WHERE number=` + mysql.escape(req.params.number) + `AND owner_auth=` + mysql.escape(ownerAuth);
+        var params = result;
+        var image = {
+          url: params.Location
+        };
+        connection.query(sql, image, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            // console.log(rows);
+          }
+          res.render(success, {
+            success: storeMainUrl
           });
         });
-      }
-    ];
-    //사용자에게 알려줌
-    async.waterfall(tasks, function(err, result) {
-      if (!err) {
-        //res.json({success:true, msg:'업로드 성공'})
-        return res.redirect(storeMainUrl);
-      } else {
-        res.json({
-          success: false,
-          msg: '실패',
-          err: err
-        })
-      }
-    });
+      });
+    }
+  ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
   });
+});
+router.post(writeProductImageUrl, function(req, res) {
+  //var content=req.body.content;
+  var ownerAuth = req.session.passport.user;
+  console.log('1, upload');
+  var tasks = [
+    function(callback) {
+      Upload.formidable(req, function(err, files, field) {
+        callback(err, files);
+      });
+    },
+    function(files, callback) {
+      Upload.s3(files, function(err, result) {
+        console.log('upload.s3');
+        //console.log(result);
+        callback(err, files);
+        var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
+        var params = result;
+        var image = {
+          image_url: params.Location
+        };
+        connection.query(sql, image, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            // console.log(rows);
+          }
+          res.render(success, {
+            success: storeMainUrl
+          });
+        });
+      });
+    }
+  ];
+  //사용자에게 알려줌
+  async.waterfall(tasks, function(err, result) {
+    if (!err) {
+      //res.json({success:true, msg:'업로드 성공'})
+      return res.redirect(storeMainUrl);
+    } else {
+      res.json({
+        success: false,
+        msg: '실패',
+        err: err
+      })
+    }
+  });
+});
 
 router.listen(3000, function() {
   console.log('connect 3000 port owner server');

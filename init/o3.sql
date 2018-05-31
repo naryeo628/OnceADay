@@ -100,6 +100,7 @@ CREATE TABLE `comment_list` (
   `owner_auth` varchar(60) DEFAULT NULL,
   `number` int(11) DEFAULT NULL,
   `user_auth` varchar(60) DEFAULT NULL,
+  `date` bigint(20) DEFAULT NULL,
   `comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
