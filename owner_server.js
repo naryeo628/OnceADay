@@ -559,29 +559,29 @@ router.get(storeMainContentDetailUrl + '/:number', function(req, res) {
   });
 });
 
-router.get(commentUrl + '/:owner_auth/:number', function(req, res) {
-  const ownerAuth = req.params.owner_auth;
-  const number = req.params.number;
-  var sql = ` SELECT *
-              FROM comment_list
-              WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(number) + `
-              ORDER BY comment_list.date`;
-  connection.query(sql, function(err, results) {
-    res.render(commentView, {
-      commentUrl: commentUrl + '/' + ownerAuth + '/' + number,
-      contents: results
-    });
-  });
-});
-router.post(commentUrl + '/:owner_auth/:number', function(req, res){
-  const ownerAuth = req.params.owner_auth;
-  const number = req.params.number;
-  var sql = ` INSERT INTO
-              `;
-  connection.query(sql, function(err, results) {
-    res.redirect(commentUrl + '/' + ownerAuth + '/' + number);
-  });
-});
+// router.get(commentUrl + '/:owner_auth/:number', function(req, res) {
+//   const ownerAuth = req.params.owner_auth;
+//   const number = req.params.number;
+//   var sql = ` SELECT *
+//               FROM comment_list
+//               WHERE owner_auth=` + mysql.escape(ownerAuth) + ` AND number=` + mysql.escape(number) + `
+//               ORDER BY comment_list.date`;
+//   connection.query(sql, function(err, results) {
+//     res.render(commentView, {
+//       commentUrl: commentUrl + '/' + ownerAuth + '/' + number,
+//       contents: results
+//     });
+//   });
+// });
+// router.post(commentUrl + '/:owner_auth/:number', function(req, res){
+//   const ownerAuth = req.params.owner_auth;
+//   const number = req.params.number;
+//   var sql = ` INSERT INTO
+//               `;
+//   connection.query(sql, function(err, results) {
+//     res.redirect(commentUrl + '/' + ownerAuth + '/' + number);
+//   });
+// });
 
 router.get(storeMainContentUploadUrl, function(req, res) {
   console.log('1, contentUpload');
