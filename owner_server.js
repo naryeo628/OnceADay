@@ -682,15 +682,16 @@ router.post(storeProfileImageUrl, function(req, res) {
   var tasks = [
     function(callback) {
       Upload.formidable(req, function(err, files, field) {
-        callback(err, files);
+        if(err)
+          callback(err, files);
       });
-    },
-    function(files, callback) {
+    }, function(files, callback) {
       Upload.s3(files, function(err, result) {
-        var ownerAuth = req.session.passport.user;
         console.log('upload.s3');
         //console.log(result);
-        callback(err, files);
+        if(err)
+          callback(err, files);
+        var ownerAuth = req.session.passport.user;
         var sql = `UPDATE owner SET ? WHERE owner_auth=` + mysql.escape(ownerAuth);
         var params = result;
         var image = {
