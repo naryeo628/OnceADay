@@ -815,8 +815,7 @@ router.post(userProfileImageUploadUrl, function(req, res) {
       Upload.formidable(req, function(err, files, field) {
         callback(err, files);
       })
-    },
-    function(files, callback) {
+    }, function(files, callback) {
       Upload.s3(files, function(err, result) {
         // console.log(result);
         callback(err, files);
