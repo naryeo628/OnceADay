@@ -837,7 +837,7 @@ router.post(userProfileImageUploadUrl, function(req, res) {
   async.waterfall(tasks, function(err, result) {
     if (!err) {
       //res.json({success:true, msg:'업로드 성공'})
-      return res.redirect(mainUserInfoUrl);
+      res.redirect(mainUserInfoUrl);
     } else {
       res.redirect(mainUserInfoUrl);
     }
