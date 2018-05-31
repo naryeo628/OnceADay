@@ -331,14 +331,15 @@ router.post(writeContentUrl, function(req, res) {
   var sql2 = `SELECT MAX(number) AS maxNum
               FROM content_list
               WHERE owner_auth=` + mysql.escape(ownerAuth);
+  //console.log(sql2);
   connection.query(sql2, function(err, results2) {
-    console.log(results2);
+    //console.log(results2);
     if (results2[0].maxNum == null) {
       var number = 0;
     } else {
       var number = results2[0].maxNum;
     }
-    //console.log(number);
+    console.log(number);
     var sql = `INSERT INTO content_list SET ?`;
     number = number + 1;
     var time = new Date();
@@ -371,7 +372,6 @@ router.post(writeContentUrl, function(req, res) {
     var date = time.getFullYear() + month + day + hour + min + sec;
     console.log(date);
     var content = {
-      storeMainUrl: storeMainUrl,
       owner_auth: ownerAuth,
       number: number,
       content: req.body.content,
@@ -382,6 +382,7 @@ router.post(writeContentUrl, function(req, res) {
     connection.query(sql, content, function(err, results) {
       //console.log(results);
       res.render(writeContentImageView, {
+        storeMainUrl: storeMainUrl,
         logoutUrl: logoutUrl,
         isOwner: 1,
         writeContentImageUrl: writeContentImageUrl + '/' + number,
