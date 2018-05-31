@@ -401,7 +401,7 @@ router.get(mainTimelineUrl, function(req, res) {
           sql2 += ' or ';
         }
       }
-      sql2 += ` ORDER BY content_list.date ASC`;
+      sql2 += ` ORDER BY content_list.date`;
       // console.log('mainTimelineUrl.sql2 :', sql2);
       connection.query(sql2, function(err, results2) {
         //console.log(results2);
