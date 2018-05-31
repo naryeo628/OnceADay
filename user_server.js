@@ -839,11 +839,7 @@ router.post(userProfileImageUploadUrl, function(req, res) {
       //res.json({success:true, msg:'업로드 성공'})
       return res.redirect(mainUserInfoUrl);
     } else {
-      res.json({
-        success: false,
-        msg: '실패',
-        err: err
-      })
+      res.redirect(mainUserInfoUrl);
     }
   });
 });
