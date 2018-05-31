@@ -170,7 +170,7 @@
   <body>
     <%if(isOwner == 1){%>
     <div class="header">
-      <%=contents[0].store%>
+      <span onclick=location.href="<%=storeMainUrl%>"><%=contents[0].store%></span>
     </div>
     <img class="backBtn" id="backBtn" src="/iconmonstr-arrow-64-24.png" onclick="back();">
     <img class="logoutBtn" id="logoutBtn" src="/iconmonstr-log-out-9-24.png" onclick=location.href='<%=logoutUrl%>'>
@@ -198,7 +198,7 @@
         <tr>
           <td>
             <div class="floating-input">
-              <input required id="price" type="number" name="price" step="1000"/>
+              <input required id="price" type="number" name="price" step="10"/>
               <label for="price">가격</label>
             </div>
           </td>
