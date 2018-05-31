@@ -388,7 +388,7 @@ router.get(mainTimelineUrl, function(req, res) {
     //console.log('sql1 : ', sql1);
     if (results.length != 0) {
       let sql2 = `
-    SELECT DISTINCT content_list.*, owner.store, owner.image_url
+    SELECT DISTINCT content_list.*, owner.*
     FROM content_list, owner
     `;
       //console.log(results.length);
@@ -401,7 +401,7 @@ router.get(mainTimelineUrl, function(req, res) {
           sql2 += ' or ';
         }
       }
-      sql2 += ` ORDER BY content_list.date` DESC;
+      sql2 += ` ORDER BY content_list.date DESC`;
       // console.log('mainTimelineUrl.sql2 :', sql2);
       connection.query(sql2, function(err, results2) {
         //console.log(results2);
@@ -681,9 +681,12 @@ router.get(storeMainContentContainerUrl + '/:owner_auth', function(req, res) {
 router.get(storeMainContentDetailUrl + '/:owner_auth/:number', function(req, res) {
   console.log('1, contentDetail');
   const ownerAuth = req.params.owner_auth;
-  const sql1 = 'select * from content_list where owner_auth=';
-  const sql2 = 'and number='
-  connection.query(sql1 + mysql.escape(ownerAuth) + sql2 + mysql.escape(req.params.number), function(err, results) {
+  const sql = ` SELECT content_list.*, owner.*
+                FROM content_list
+                JOIN owner
+                ON content_list.owner_auth=owner.owner_auth
+                WHERE content_list.owner_auth=` + mysql.escape(ownerAuth) + ` AND content_list.number=` + mysql.escape(req.params.number);
+  connection.query(sql, function(err, results) {
     // console.log(results);
     res.render(storeMainContentDetailView, {
       contents: results[0]

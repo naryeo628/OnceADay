@@ -121,15 +121,8 @@
   }
 
   .button:after {
-    <%if(isFollow) {
-      %>color: #f94e66;
-      <%
-    }
-    else {
-      %>color: #e9e6e4;
-      <%
-    }
-    %>content: "";
+    color: #f94e66;
+    content: "";
     display: block;
     font-size: 30px;
     height: 30px;
@@ -142,7 +135,11 @@
 
 
   .heart:after {
+    <%if(isFollow) {%>
     content: "❤";
+    <%} else {%>
+    content: "";
+    <%}%>
     left: 10px;
     top: 7px;
   }
